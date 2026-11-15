@@ -38,8 +38,12 @@ export function compileFidelityReference(reference: any, audit?: any[]) {
 }
 /** `viewGap`: the candidate's views are not reviewed for its version, so no qualified
  * callback can be assessed (views/reviewed-versions.mjs). */
-export function fidelityOutcomes(reference: any, candidate: any, audit: any[], referenceAudit?: any[], options: { viewGap?: string } = {}) {
+export function fidelityOutcomes(reference: any, candidate: any, allAudit: any[], referenceAudit?: any[], options: { viewGap?: string } = {}) {
   const compiled = reference?.protocol === 'indexed-fidelity-reference-v1' ? reference : compileFidelityReference(reference, referenceAudit)
+  // Refusals during a file's module setup (runtime.ts SETUP_REFUSAL) are file records, not test audits.
+  const audit = allAudit.filter(row => row.protocol !== 'setup-refusal-v1')
+  const setupSources = new Map<string, string[]>()
+  for (const row of allAudit) if (row.protocol === 'setup-refusal-v1') setupSources.set(row.file + '\u0000' + row.reason, [...new Set([...(setupSources.get(row.file + '\u0000' + row.reason) ?? []), row.source])])
   const controls = compiled.controls, attempted = expandedTests(candidate)
   // A candidate file that failed to load on the candidate's own unsupported operation (a
   // radar spec whose module-level setup parses radar, for a candidate with no radar
@@ -122,7 +126,8 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
       status,
       ...(unsupportedKind ? { unsupportedKind } : {}),
       ...surfaces,
-      ...(unsupportedKind === 'native' && evidence?.refusedSources?.length ? { refusedSources: evidence.refusedSources } : {}),
+      ...(unsupportedKind === 'native' && evidence?.refusedSources?.length ? { refusedSources: evidence.refusedSources }
+        : unsupportedKind === 'native' && !result && setupSources.has(control.file + '\u0000' + unsupportedFiles.get(control.file)) ? { refusedSources: setupSources.get(control.file + '\u0000' + unsupportedFiles.get(control.file)) } : {}),
       ...(status === 'unsupported' && result && evidence?.unsupported?.length ? { unsupportedVerdicts: [...new Set<string>(evidence.unsupported)] } : {}),
       calls: evidence?.calls ?? 0,
       rejections: evidence?.rejections ?? 0,

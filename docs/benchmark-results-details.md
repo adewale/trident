@@ -102,7 +102,7 @@ for Zombie Mermaid, XMermaid, OpenCode Merman, VitePress Plugin Diagram, DSH Mer
 GB SVG and MermaidTUI), those tests are recorded as unsupported, an operation the
 candidate does not offer; current scoring counts them as known nonpasses only where
 a recorded review confirmed the absence (below). Across all applicable candidates,
-<!-- fact:fidelity-gaps -->2,405<!-- /fact --> tests remain unassessed. Some candidates are called in-process through
+<!-- fact:fidelity-gaps -->1,495<!-- /fact --> tests remain unassessed. Some candidates are called in-process through
 their JavaScript modules (generic native bindings, native model schema views and
 the Frankenmermaid WASM binding). The others run through parser bridges, one per
 project, registered in `unified/mermaid-fidelity/bridge-registry.ts`: JavaScript

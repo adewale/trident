@@ -43,6 +43,10 @@ let active: { protocol: string; expectedFailure: boolean; id: string; file: stri
  * detection pipeline. Recorded where the binding is reached, whether or not this
  * candidate binds it, so the record describes the test rather than the candidate. */
 export type Surface = 'database-api' | 'parser-protocol' | 'helper-import' | 'host-config' | 'renderer' | 'pipeline'
+/** The test file whose module setup is running, and the last source a candidate parsed
+ * outside any test: a refusal during setup is recorded with them (setup-refusal-v1). */
+let loadingFile: string | undefined, setupSource: string | undefined
+export const SETUP_REFUSAL = 'setup-refusal-v1'
 function touch(surface: Surface | undefined) {
   if (surface && active?.surfaces && !failureReport()) active.surfaces.add(surface)
 }
@@ -124,6 +128,10 @@ function unsupportedOperation(reason: string, provenance: UnsupportedProvenance 
     active.calls++
     recordUnsupported(reason, provenance)
   }
+  // A refusal during a file's module setup fails the whole file before any test audit
+  // exists; keep its source so the refusal can be checked against Mermaid's own parse.
+  if (!active && loadingFile && setupSource !== undefined && unsupportedKind(reason, provenance) === 'native')
+    appendFileSync(auditFile, JSON.stringify({ protocol: SETUP_REFUSAL, file: loadingFile, reason, source: setupSource }) + '\n')
   throw Error('Unsupported candidate operation: ' + reason)
 }
 /**
@@ -437,6 +445,7 @@ function transportable(value: unknown): boolean {
 function nativeParse(family: string, source: string) {
   active && active.calls++
   if (active) active.source = source
+  else setupSource = source
   // A shared test asks for Mermaid's cross-family detection, not a family parser.
   if (family === '<shared>') touch('pipeline')
   const config = configuredCall()
@@ -686,7 +695,16 @@ function context(family: string) {
     // header-only diagram has no empty model, and such reads stay gaps.
     // A candidate that does not parse the family at all says so for the header-only
     // diagram too; reading that database is then its unsupported operation.
-    let empty: { raw?: any; unsupported?: string; native?: boolean } | null | undefined, parsed = false
+    let empty: { raw?: any; unsupported?: string; native?: boolean; source?: string } | null | undefined, parsed = false
+    // The candidate's refusal of the header-only diagram, reported in the test reading the
+    // empty database, with the source it refused (the probe ran outside the test's audit).
+    const emptyRefusal = (model: { unsupported?: string; native?: boolean; source?: string }) => {
+      if (model.source !== undefined) {
+        if (active) active.source = model.source
+        else setupSource = model.source
+      }
+      return unsupportedOperation(model.unsupported!, model.native ? 'native' : 'trident')
+    }
     const emptyModel = () => {
       if (empty !== undefined) return empty
       const header = (examples[family] ?? '').split('\n')[0]
@@ -696,7 +714,7 @@ function context(family: string) {
       try {
         empty = header ? { raw: nativeParse(family, header) } : null
       } catch {
-        empty = probe.unsupported.length ? { unsupported: String(probe.unsupported[0]), native: probe.unsupportedKinds[0] === 'native' } : null
+        empty = probe.unsupported.length ? { unsupported: String(probe.unsupported[0]), native: probe.unsupportedKinds[0] === 'native', source: header } : null
       } finally {
         active = caseAudit
       }
@@ -752,7 +770,7 @@ function context(family: string) {
     const callBridged = (key: string, args: any[]) => {
       if (!history.length) {
         const model = emptyModel()
-        if (model?.unsupported) return unsupportedOperation(model.unsupported, model.native ? 'native' : 'trident')
+        if (model?.unsupported) return emptyRefusal(model)
         history = [{ new: (examples[family] ?? '').split('\n')[0] }]
       }
       if (!transportable(args)) return gap(`${family} database ${key}: an argument is not a JSON value the bridge receives unchanged`)
@@ -815,7 +833,7 @@ function context(family: string) {
         if (typeof key === 'string' && bridged?.members.has(key)) return (...args: any[]) => callBridged(key, args)
         if (!parsed && raw === undefined && !(key in view) && typeof key === 'string') {
           const model = emptyModel()
-          if (model?.unsupported) return unsupportedOperation(model.unsupported, model.native ? 'native' : 'trident')
+          if (model?.unsupported) return emptyRefusal(model)
           if (model && /^get[A-Z]/.test(key)) {
             raw = model.raw
             try {
@@ -937,6 +955,7 @@ export function importFor(family: string, source: string | undefined, file: stri
   return moduleFor(family, source, file, {}, true)
 }
 export function moduleFor(family: string, source: string, file: string, locals: Record<string, string> = {}, namespace = false): any {
+  loadingFile = file
   // All families imported by a file share its import-availability audit, while
   // their parsers and database state stay independent.
   if (!contexts.has(file)) {

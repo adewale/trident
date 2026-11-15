@@ -1,8 +1,8 @@
 {
   "protocol": "dom-free-qualification-v3",
-  "qualifierSha256": "1e751031a65ff8bad95a4d02ee473ea0a855adb5dc0a81167561c19121782b9a",
+  "qualifierSha256": "6f9499b1a36b35f489981645489454f1abb55920f6cbd5cd5d5e01b498ca52fd",
   "commit": "2086904e76c692331e34a45d7cc3bc30860d040e",
-  "controlIdentity": "bdd4e7db62b641044553a9204a8932395420f9e2648123f1a0f75b2c7d4a5c21",
+  "controlIdentity": "01af674570275a5546f51884049ef395ea08439abc2d1e996b1b033a767a8e76",
   "targets": {
     "1jehuang/mermaid-rs-renderer": "23247d2ae374ff1552886e18ed12c5770b502c154a027afcb353361d44ca317b",
     "adewale/agentic-mermaid": "4537383bc77b93dfb7c6aac558be10aaa7df16cd69e7eab3980d74f5ff2acfa3",
@@ -810,8 +810,8 @@
         "node": "431e342139143ab19a6778e50f7e652dfb63f37e6b1b295210bc209f59b18ab6"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "6af2943ca6f8fe68d459307df02005d7759128900edff85179c15d1b170bfbb1",
-        "node": "6af2943ca6f8fe68d459307df02005d7759128900edff85179c15d1b170bfbb1"
+        "jsdom": "1ebe170e3408507cae556a2cb70219fc56a37e25fe1a244568d0cc5dec32dba4",
+        "node": "1ebe170e3408507cae556a2cb70219fc56a37e25fe1a244568d0cc5dec32dba4"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "ffd6b0ab27e737ac4d1cd45fd5ee56241396a5a334907b516e896d15b3b330b6",
@@ -902,8 +902,8 @@
         "node": "e40c8502f266e497cb847365496b825860f59b897395471f9d58eef631585731"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "763ddcf7c3cbd8cd5ad7abebb371f283b1e53b5a8e08f89e1a1acb9f3d3cb047",
-        "node": "763ddcf7c3cbd8cd5ad7abebb371f283b1e53b5a8e08f89e1a1acb9f3d3cb047"
+        "jsdom": "7fbc10611b93ceccc6103af917f9d1664279c0f8a96060d3a8cfc800249a0944",
+        "node": "7fbc10611b93ceccc6103af917f9d1664279c0f8a96060d3a8cfc800249a0944"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "f9b475dfcfa47cb021b361df64beaeb11eb6c92f88ede2570688f7e295aa2dff",
@@ -926,8 +926,8 @@
         "node": "1a06fa49e0faa86c537e5aae88e88292b1733a8db5702b867d783a10f23c01d2"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "03da0930989b365a25eb10669bba3b40d594081e0ee3fcdd0510814e4012e958",
-        "node": "03da0930989b365a25eb10669bba3b40d594081e0ee3fcdd0510814e4012e958"
+        "jsdom": "5f203ab14ebcd5a2da8684842790a02d8e5212a82d736c03e651b4d6f608b143",
+        "node": "5f203ab14ebcd5a2da8684842790a02d8e5212a82d736c03e651b4d6f608b143"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "4f100f2d6d6e14d86a987b58e5abdaa72e347e363db43044fe96660a6f5c4ca8",
@@ -1034,8 +1034,8 @@
         "node": "96d4d0232475643bea0a6b87995ae792a2c98aee173f704984205a9fc4008a4c"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "cb3cd86ddc630d174368badebe8f17f09f87a6ceb5ea9fc0f922f95ebeaa5d75",
-        "node": "cb3cd86ddc630d174368badebe8f17f09f87a6ceb5ea9fc0f922f95ebeaa5d75"
+        "jsdom": "064e4bff2db70fe7eec87dbe252f567783632d9c72ada7eaed0f560ac841c11f",
+        "node": "064e4bff2db70fe7eec87dbe252f567783632d9c72ada7eaed0f560ac841c11f"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
         "jsdom": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535",
@@ -1246,8 +1246,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "367a2c14df709edb6e23c3268d51d1e0eedad99ca544ce28249630de4b627f82",
-        "node": "367a2c14df709edb6e23c3268d51d1e0eedad99ca544ce28249630de4b627f82"
+        "jsdom": "f2c37801125d493c6fd86345ee5554989bd9db5ae0dd47eafed27da9bc8ab376",
+        "node": "f2c37801125d493c6fd86345ee5554989bd9db5ae0dd47eafed27da9bc8ab376"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -1370,8 +1370,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "47da934487699c5e7de81e0fa4fb1e3ad8648ab13b8c4b53a7fc9af253e08a07",
-        "node": "47da934487699c5e7de81e0fa4fb1e3ad8648ab13b8c4b53a7fc9af253e08a07"
+        "jsdom": "60cff60e15c87b239bf95f0b40d51f41975ecb6db48f3ec537cda26a1f2b9eb3",
+        "node": "60cff60e15c87b239bf95f0b40d51f41975ecb6db48f3ec537cda26a1f2b9eb3"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -1410,12 +1410,12 @@
         "node": "2317a39c01a9f033254dac8bbc3c410cad33d074d2fbb846bccc6896fe0a1e89"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "187840803b99ad4d71b3d27927d05d07fe37015790f4b7a9ca1eff6371a2b107",
-        "node": "187840803b99ad4d71b3d27927d05d07fe37015790f4b7a9ca1eff6371a2b107"
+        "jsdom": "87022c03eef613b2f2399d1b58135809990c1154d7580caf0bd219cf5909c484",
+        "node": "87022c03eef613b2f2399d1b58135809990c1154d7580caf0bd219cf5909c484"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "8da550dc5233a8b7b6e0073b64008aaca56522895e27c3b4ecea1a52bbfb2ac4",
-        "node": "8da550dc5233a8b7b6e0073b64008aaca56522895e27c3b4ecea1a52bbfb2ac4"
+        "jsdom": "e0358c121d15278e4fc916f29bf84696ed9df9560c2c1aa9d921db8647f6b178",
+        "node": "e0358c121d15278e4fc916f29bf84696ed9df9560c2c1aa9d921db8647f6b178"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -2046,8 +2046,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "23f81e638e53e5afb4f037b02e14236bbdaa86c71385167d24f4d9206ef9e943",
-        "node": "23f81e638e53e5afb4f037b02e14236bbdaa86c71385167d24f4d9206ef9e943"
+        "jsdom": "af45e03128f4886e5dbb198c5e22edb70d8bc592f8d067acf6fa5250f3bec7d3",
+        "node": "af45e03128f4886e5dbb198c5e22edb70d8bc592f8d067acf6fa5250f3bec7d3"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -2220,8 +2220,8 @@
         "node": "0fea995e7ffbcd55192c4d1972726fd53420828b3f854948481cd473d530d709"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "4b174810d5a676ee699cd5a5f81047b8bf3853d99736f90bc10f1a5e778b5874",
-        "node": "4b174810d5a676ee699cd5a5f81047b8bf3853d99736f90bc10f1a5e778b5874"
+        "jsdom": "da965027edeba0d76e68a14fd03bec7c50cf001b78d8f6658ffa75d1a9f520f4",
+        "node": "da965027edeba0d76e68a14fd03bec7c50cf001b78d8f6658ffa75d1a9f520f4"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "9f2ea05b3461975cac21e8a4de2ee7df723e3b2a8cf30a37318402ee4aa08865",
@@ -2312,8 +2312,8 @@
         "node": "0dbb4123ee8d14e4bc42e299a937f0e43bcd3fc0ea80c17327a1b42a311aa169"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "61e7be53e60b18a8ee314706d58146a7bef31bf852417a7417ab932cc186cb68",
-        "node": "61e7be53e60b18a8ee314706d58146a7bef31bf852417a7417ab932cc186cb68"
+        "jsdom": "da668bed93eabb8d3055ed8668c778b39abe02ea05efde15eb0863a1b66cca18",
+        "node": "da668bed93eabb8d3055ed8668c778b39abe02ea05efde15eb0863a1b66cca18"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "00c4621a2ec9cd159ffea0143b1f3d5b8796dfab8610e491d760af0b301eac2b",
@@ -2336,8 +2336,8 @@
         "node": "163dbd82d30867d896674fc1e7de18f073cd11d3ae5ae3d0cc1809f90e4a6915"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "0ffa9e4a00e4756e2858809ab3ae8a5531beeabcc631bca566200aea5a3ddc10",
-        "node": "0ffa9e4a00e4756e2858809ab3ae8a5531beeabcc631bca566200aea5a3ddc10"
+        "jsdom": "368bf90bae2831a68b5d5fcc2e302f49a5695bb697ce7845181ac39031cd3ba3",
+        "node": "368bf90bae2831a68b5d5fcc2e302f49a5695bb697ce7845181ac39031cd3ba3"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "3cd33d4cb7c8e6d6dd9a109d102c8546fb24ee2df6233403798cf99c9f1340da",
@@ -2364,8 +2364,8 @@
         "node": "cff38def89f53260dbd3ef391ef1b3e63f7dc23cadf7380ce0da8b78c150b5a6"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "d722ce93ff411864e33ddd19d523f66a89d23037490a46c35674a85aeb55f889",
-        "node": "d722ce93ff411864e33ddd19d523f66a89d23037490a46c35674a85aeb55f889"
+        "jsdom": "13f1857caa6d94ada86914fecca4879644e8c667541d3ab15eceec22be5ee136",
+        "node": "13f1857caa6d94ada86914fecca4879644e8c667541d3ab15eceec22be5ee136"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -2444,8 +2444,8 @@
         "node": "a84de7a8af5016ec5e3c29b693f3683bb5422eefb2828718daf4b640c4dbe1b1"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "557ec2a8d3e764a6401e6120a2275eb107c03657c96a6c45d477ff2aacf49be6",
-        "node": "557ec2a8d3e764a6401e6120a2275eb107c03657c96a6c45d477ff2aacf49be6"
+        "jsdom": "3c356477d70a40dae3ed484f9d1b0b0b9c65c50223bfa8c97425c0d31eb98649",
+        "node": "3c356477d70a40dae3ed484f9d1b0b0b9c65c50223bfa8c97425c0d31eb98649"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
         "jsdom": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535",
@@ -2656,8 +2656,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "e39ffc3b41b680ba7539d2d449fe1d36a4707021ec78cdd25b924c6106ac8c4f",
-        "node": "e39ffc3b41b680ba7539d2d449fe1d36a4707021ec78cdd25b924c6106ac8c4f"
+        "jsdom": "49c341c42bd8702812bc1504f79718b7f03867a7d225ae930aa709e2fb3a1c9c",
+        "node": "49c341c42bd8702812bc1504f79718b7f03867a7d225ae930aa709e2fb3a1c9c"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -2780,8 +2780,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "d6111d1ddea02c1db0e9c7aa2a6ff086b9bdb9c9b2ee3c81232fd8cd84a4469a",
-        "node": "d6111d1ddea02c1db0e9c7aa2a6ff086b9bdb9c9b2ee3c81232fd8cd84a4469a"
+        "jsdom": "554d161d7868f8d8c9678976e2c27f0da5aa0423739375f4aa586a7ff8dd3a12",
+        "node": "554d161d7868f8d8c9678976e2c27f0da5aa0423739375f4aa586a7ff8dd3a12"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -2820,12 +2820,12 @@
         "node": "849efcdab0bdfa8109513b811234b570326b432c3e2a1a39faed9890293da904"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "56f5310869dd5b967843abdba43204f1873d6a908ccbc530e09021bb9d63bd32",
-        "node": "56f5310869dd5b967843abdba43204f1873d6a908ccbc530e09021bb9d63bd32"
+        "jsdom": "aa751ff054fb28b021f2e52ef7413c47c492a82fce9dcc1739080621ba47d720",
+        "node": "aa751ff054fb28b021f2e52ef7413c47c492a82fce9dcc1739080621ba47d720"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "195dff84b2959f312619cd67f653ac8873b56889c85d8bc03c1b2443f9a956e6",
-        "node": "195dff84b2959f312619cd67f653ac8873b56889c85d8bc03c1b2443f9a956e6"
+        "jsdom": "b58e4bb3f3d5e7aa272f388edd5e3d31792bc5721b18084e8af38f8da100f751",
+        "node": "b58e4bb3f3d5e7aa272f388edd5e3d31792bc5721b18084e8af38f8da100f751"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -3456,8 +3456,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "ccc1fd19c8892be3c2cf3786b0558a76b9d7bd5480d3a15b19aca639daa00252",
-        "node": "ccc1fd19c8892be3c2cf3786b0558a76b9d7bd5480d3a15b19aca639daa00252"
+        "jsdom": "83bed5e3f84e1d58133644f3dd7f2fdceff989b3487b3ae727decea22013f39e",
+        "node": "83bed5e3f84e1d58133644f3dd7f2fdceff989b3487b3ae727decea22013f39e"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -3630,8 +3630,8 @@
         "node": "a68122a7ce66cdd80233d296417bccea811d31b3ec68d393e4a937b60703aa67"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "e5a77c242bc32953279fa760f0220736ca375eaa50a9f70cf8b616df926588aa",
-        "node": "e5a77c242bc32953279fa760f0220736ca375eaa50a9f70cf8b616df926588aa"
+        "jsdom": "70068ec8df186d5e2ee0ba1c495150054124f33298bc030d4ddda6c0d26a6a2d",
+        "node": "70068ec8df186d5e2ee0ba1c495150054124f33298bc030d4ddda6c0d26a6a2d"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "08dd965b23bdcb6010c077c10fb78b80684b6e6151a0088bfac9f82dade1dab0",
@@ -3722,8 +3722,8 @@
         "node": "9f0ff772d5146442bbdca37f313616bef16ea879b8ba0748e9de7a445d4661cc"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "80bb489711320e71cb5e7f2f3701b8c7360487cda8dffaf21ec3af5f99c55cd7",
-        "node": "80bb489711320e71cb5e7f2f3701b8c7360487cda8dffaf21ec3af5f99c55cd7"
+        "jsdom": "b1ff2bbe273549b5b5ce0bb3ff014999e85f9de75c58adb4017fd7bb14cbb1cb",
+        "node": "b1ff2bbe273549b5b5ce0bb3ff014999e85f9de75c58adb4017fd7bb14cbb1cb"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "99750304465f99225f7b659219296157e2f5c9707335206310e55e90d2895e06",
@@ -3746,8 +3746,8 @@
         "node": "fa8cbd5933c09052460dc8c5730159ea93bd6648ca7cf9571039ba91c68fb348"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "6d4cfdb822b0ebd85a7f93b46864503a8810d8a32b29463ff780aa0cf4e383ff",
-        "node": "6d4cfdb822b0ebd85a7f93b46864503a8810d8a32b29463ff780aa0cf4e383ff"
+        "jsdom": "932da36fbd58951524a9f3366e7f20f4a00eb85897b981de3f5cf7b551f2d2a6",
+        "node": "932da36fbd58951524a9f3366e7f20f4a00eb85897b981de3f5cf7b551f2d2a6"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "26c9acffbc5c3dd70c4191ed4be8d5ab1600ddfaca9f8757da13ad1fcee3f77c",
@@ -3758,8 +3758,8 @@
         "node": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a"
       },
       "packages/mermaid/src/diagrams/architecture/architecture.spec.ts": {
-        "jsdom": "4181fa5d1528fffd61f2f1a4d0284d14cd0484b17522ff8a23d5fd2251f3c0f3",
-        "node": "4181fa5d1528fffd61f2f1a4d0284d14cd0484b17522ff8a23d5fd2251f3c0f3"
+        "jsdom": "b6fcbe9ecd392307517b6660dc8ffa77035bde659b0768dbcffce71d04e6efad",
+        "node": "b6fcbe9ecd392307517b6660dc8ffa77035bde659b0768dbcffce71d04e6efad"
       },
       "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts": {
         "jsdom": "784f4efe4a5bc4b16a391b536083353ae2cee1fea4fbe1aec6b040b6939137f0",
@@ -3774,8 +3774,8 @@
         "node": "3138791e2b12d78065859c75fea0c49ab4a97b3cf1199418fec825dc260f7a28"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "19891461c3ade555d3ce42d8c8e3a416cc9ab8b11c7c1cff4dd8d60bc4e404f8",
-        "node": "19891461c3ade555d3ce42d8c8e3a416cc9ab8b11c7c1cff4dd8d60bc4e404f8"
+        "jsdom": "13f63bf4dc3d11d67711129d427d4378aed759ba24962ee6a8f2ae32e22381d9",
+        "node": "13f63bf4dc3d11d67711129d427d4378aed759ba24962ee6a8f2ae32e22381d9"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -3818,8 +3818,8 @@
         "node": "3db5538336b46859804a9a8a5898072186e18d8a22a283f660febc84d0723244"
       },
       "packages/mermaid/src/diagrams/class/classDiagram-colorIndex.spec.ts": {
-        "jsdom": "04991d4fb1a329256237ce2247f94e17472ff413e6177eebc21f7369a4097773",
-        "node": "04991d4fb1a329256237ce2247f94e17472ff413e6177eebc21f7369a4097773"
+        "jsdom": "39b8e14649e86ba81940b3ec9ed3edd43bef6856b28a4fb5af473ad2c7a99540",
+        "node": "39b8e14649e86ba81940b3ec9ed3edd43bef6856b28a4fb5af473ad2c7a99540"
       },
       "packages/mermaid/src/diagrams/class/classDiagram-styles.spec.js": {
         "jsdom": "4dabe199261ed95e619219fb2cc56054e2cd0ede2b362b7cbb50cc14482dc8fd",
@@ -3854,8 +3854,8 @@
         "node": "75c05784546d0a9094cbcc8505b7f53720f18001b12c61694641ace077cce36a"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "bebcc0f2704ca86f310e9c9c212258ee28d1f23980f628ab36bef8b179e4697b",
-        "node": "bebcc0f2704ca86f310e9c9c212258ee28d1f23980f628ab36bef8b179e4697b"
+        "jsdom": "0ab29548051d6d92df0a93f9a3d4af0af2d3b0365acdfcc3e154131d71c2e6c6",
+        "node": "0ab29548051d6d92df0a93f9a3d4af0af2d3b0365acdfcc3e154131d71c2e6c6"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
         "jsdom": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535",
@@ -3966,16 +3966,16 @@
         "node": "f8321bb1e7ef9602a56872279b7f5eaa1a7c8b88892caa5ef14ed713a8e86e06"
       },
       "packages/mermaid/src/diagrams/gantt/ganttDb.spec.ts": {
-        "jsdom": "9af5d3b6dbfe2c99cbef70a67f050aa5aa7ae0ce28b3a00b9f68735aa9fa4615",
-        "node": "9af5d3b6dbfe2c99cbef70a67f050aa5aa7ae0ce28b3a00b9f68735aa9fa4615"
+        "jsdom": "24bec19aa64f37e38c3cb3f0fd46a32562b0be9b50719a67dfbe7742eee6d9db",
+        "node": "24bec19aa64f37e38c3cb3f0fd46a32562b0be9b50719a67dfbe7742eee6d9db"
       },
       "packages/mermaid/src/diagrams/gantt/parser/gantt.spec.js": {
         "jsdom": "264c443227a2348bd3618853c7c77a501037b2ae865b1a224f710a97c2d4420a",
         "node": "264c443227a2348bd3618853c7c77a501037b2ae865b1a224f710a97c2d4420a"
       },
       "packages/mermaid/src/diagrams/git/gitGraph.spec.ts": {
-        "jsdom": "2655340a7a080ccbbf2ad0e493191dc47d37531d0a88f7a2197a481e26b18061",
-        "node": "2655340a7a080ccbbf2ad0e493191dc47d37531d0a88f7a2197a481e26b18061"
+        "jsdom": "b3347800289011336410cc7c0d365e0318d627a95dc2e81a2bc2a3b81274476a",
+        "node": "b3347800289011336410cc7c0d365e0318d627a95dc2e81a2bc2a3b81274476a"
       },
       "packages/mermaid/src/diagrams/info/info.spec.ts": {
         "jsdom": "2478b8f54b9cfa6e0e014cdbf9274239d9e88f6707540c74297be8d023e1a449",
@@ -3998,8 +3998,8 @@
         "node": "a17e0e7af929d07d6e58a5090d42dbb5ddd3971068743c946a9d447f420f241d"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts": {
-        "jsdom": "a34be68b8e7a42834c3b5c596df8a4df0d8a95c31f68099db51e11daa42ea029",
-        "node": "a34be68b8e7a42834c3b5c596df8a4df0d8a95c31f68099db51e11daa42ea029"
+        "jsdom": "f6dcfcade90313640c047a3656609b07dbe717321555ca6df303bf6038384dc4",
+        "node": "f6dcfcade90313640c047a3656609b07dbe717321555ca6df303bf6038384dc4"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapLayout.spec.ts": {
         "jsdom": "02e9993c81fea2d3a522a73547f0ca3ac588866cb2a758cd098441ca10938246",
@@ -4018,8 +4018,8 @@
         "node": "4a3305708450194978bb4856fa27b9a32a0e59be27659e6e81e9af44d8723617"
       },
       "packages/mermaid/src/diagrams/pie/pie.spec.ts": {
-        "jsdom": "a0d1354caca7e245c13a487f0fea3cabc64e3a4a72e0270ad5c249cb41597252",
-        "node": "a0d1354caca7e245c13a487f0fea3cabc64e3a4a72e0270ad5c249cb41597252"
+        "jsdom": "5479cf11cc2fda3af813a8a65ec4392f96c26a3d2ad97e1a776e867dbb3049aa",
+        "node": "5479cf11cc2fda3af813a8a65ec4392f96c26a3d2ad97e1a776e867dbb3049aa"
       },
       "packages/mermaid/src/diagrams/pie/pieRenderer.spec.ts": {
         "jsdom": "ae29f17cdb280b1351ee45bebfaca8bfaa526f212caa3340fd483e846a07b0aa",
@@ -4030,8 +4030,8 @@
         "node": "71b99b8fee99ef2017b9868286281f20117df0441b507d738311ab3f7706eec9"
       },
       "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts": {
-        "jsdom": "8687f52d71f55a324fce676489b2a73e634ff47320baa9fc79f612e4746ee516",
-        "node": "8687f52d71f55a324fce676489b2a73e634ff47320baa9fc79f612e4746ee516"
+        "jsdom": "c3b5ece397f3c0160b8ac10fab1a9b6ee44e375795415ba237b5bc6a75e7f271",
+        "node": "c3b5ece397f3c0160b8ac10fab1a9b6ee44e375795415ba237b5bc6a75e7f271"
       },
       "packages/mermaid/src/diagrams/radar/radar.spec.ts": {
         "jsdom": "7e20c9fce33250e10600cef0d5a4000706fea76a081664306e9c6a299e2f58c3",
@@ -4066,8 +4066,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "cd91d96f0dc333f6e124735d4b060b22b780e1394bcd1ccc8c10295bb1653551",
-        "node": "cd91d96f0dc333f6e124735d4b060b22b780e1394bcd1ccc8c10295bb1653551"
+        "jsdom": "03a448549790569a72cabd4e865f7309d2ef0e292dba94d62746747eca8ab00b",
+        "node": "03a448549790569a72cabd4e865f7309d2ef0e292dba94d62746747eca8ab00b"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -4086,8 +4086,8 @@
         "node": "6a4db88f6811f51366d07b48c1b5b60728fbd7830eb01e32d23a022375699c38"
       },
       "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts": {
-        "jsdom": "ade19f2eac7024bcd5088fc385b2fc5c25edd6689e2f65dc7898038a666a9fb7",
-        "node": "ade19f2eac7024bcd5088fc385b2fc5c25edd6689e2f65dc7898038a666a9fb7"
+        "jsdom": "96b34b4db26d3cbf4d1007aa5ece9a8c26506e8bcaef5521a684dbfd8c9c312e",
+        "node": "96b34b4db26d3cbf4d1007aa5ece9a8c26506e8bcaef5521a684dbfd8c9c312e"
       },
       "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts": {
         "jsdom": "a9e41bd9160d52b2e37dca78b53f87da13e34c6df85a553e202527c4123002d9",
@@ -4142,8 +4142,8 @@
         "node": "ec4678eb9215f82c8d4114214cb496db5fcdfdb1a83bc15a0d990d0697c0e1ae"
       },
       "packages/mermaid/src/diagrams/state/stateDb.spec.js": {
-        "jsdom": "fab1ef1a1b22b58003e9743b9f47f9e9a66b39a811279cd88878f6cf25a3581e",
-        "node": "fab1ef1a1b22b58003e9743b9f47f9e9a66b39a811279cd88878f6cf25a3581e"
+        "jsdom": "f337739ef1e223ce27faf179cbaf3d6a54943ec4a9bb6e7884ee2f1eaa3b1866",
+        "node": "f337739ef1e223ce27faf179cbaf3d6a54943ec4a9bb6e7884ee2f1eaa3b1866"
       },
       "packages/mermaid/src/diagrams/state/stateDiagram-colorIndex.spec.ts": {
         "jsdom": "ce748fd72ce642b639ea39adcd6597b18d0684bd00960039b905552a7265d37a",
@@ -4154,8 +4154,8 @@
         "node": "776160faad4ff81684c3dd48ef539405e08503ee8cd01a2a46b866c4c60dad27"
       },
       "packages/mermaid/src/diagrams/state/stateDiagram.spec.js": {
-        "jsdom": "25e1249906fe83e21138bfafec54fa9c2ebbbfd25effd90e3402e78f48b73d17",
-        "node": "25e1249906fe83e21138bfafec54fa9c2ebbbfd25effd90e3402e78f48b73d17"
+        "jsdom": "b29b1a4b51fdfb9630b4e2e3eef3b0279092bf567704e79e5b73964aef8e9362",
+        "node": "b29b1a4b51fdfb9630b4e2e3eef3b0279092bf567704e79e5b73964aef8e9362"
       },
       "packages/mermaid/src/diagrams/state/stateNoteEdge.spec.ts": {
         "jsdom": "a3c979b647a0feed02fe2316e40bbb004c21eb423c53175ddfe8d12d61d92a58",
@@ -4166,7 +4166,7 @@
         "node": "d3c31fbe789b871a9ddf9290ffa01a91d3c162b94b594f99dea14662325ef257"
       },
       "packages/mermaid/src/diagrams/state/stateRenderer-v3-unified.spec.js": {
-        "jsdom": "f5e581b3cd610d0de47f9a8b65a4c99947cc04b423d41bff19b5e306ee88b67e",
+        "jsdom": "edc44618f0a1db4d63f0cc0a73283a083a81ddefd40d8313b11d2233cfe8019d",
         "node": "d7b86a2b8900decc0f518489575a7e1e58ccd8979b66ff6e1a123d9ffe8c70bc"
       },
       "packages/mermaid/src/diagrams/state/stateRenderer.spec.js": {
@@ -4190,8 +4190,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "f1b9ad71fea8c14e338dd2b628bee15b0322f1034b9a9e3ad221e6df87d106de",
-        "node": "f1b9ad71fea8c14e338dd2b628bee15b0322f1034b9a9e3ad221e6df87d106de"
+        "jsdom": "3da570640745388e00abfab4251579b2c7e97e3a8fe36096735367016aec8fa3",
+        "node": "3da570640745388e00abfab4251579b2c7e97e3a8fe36096735367016aec8fa3"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -4230,12 +4230,12 @@
         "node": "d9b26fca3c6a316afd2b24649d532254228dba6224923bade464bc4af1bb954f"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "0db805b79d808dd19ff3073b954c22543e6029ef5003b27e79225b92ccaad89c",
-        "node": "0db805b79d808dd19ff3073b954c22543e6029ef5003b27e79225b92ccaad89c"
+        "jsdom": "6769c6cfc1b23a8c71bc6a54caa7dc1af3db389980ae846539ff79dc88c0b122",
+        "node": "6769c6cfc1b23a8c71bc6a54caa7dc1af3db389980ae846539ff79dc88c0b122"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "a3b55b9969158a381549aa24750624c294751a6f3267f43013935982ecf78346",
-        "node": "a3b55b9969158a381549aa24750624c294751a6f3267f43013935982ecf78346"
+        "jsdom": "a5ef795f72e537919325a916342d46e43a1fbd037b1c5c598cac4bc71365fc31",
+        "node": "a5ef795f72e537919325a916342d46e43a1fbd037b1c5c598cac4bc71365fc31"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -4246,8 +4246,8 @@
         "node": "5c5bcd8998970aad1e599e1d5245ae2e9c920a042b4e581e36d20a73c1a8bf8d"
       },
       "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js": {
-        "jsdom": "24e579cc040164ff29a3576ee0f9813ecfbbcec14e520c8dbe3683210d2b21bc",
-        "node": "24e579cc040164ff29a3576ee0f9813ecfbbcec14e520c8dbe3683210d2b21bc"
+        "jsdom": "c2436803c0eb17d0c14cd404b94e4f0ecf65c7ca3868762f58150653eb0442ef",
+        "node": "c2436803c0eb17d0c14cd404b94e4f0ecf65c7ca3868762f58150653eb0442ef"
       },
       "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js": {
         "jsdom": "7cfa36db7175d045f5c096b345b23c3b7e8093d876984577e4cdbc900fc8e34b",
@@ -4290,8 +4290,8 @@
         "node": "33471036e52fd0f194153eece36af54ee897e2f1a26d600e2ba5b95364eea2d6"
       },
       "packages/mermaid/src/diagrams/xychart/xychartDb.spec.ts": {
-        "jsdom": "46fb315c98ba337ec4b8f204f4de064d8cf12e3b05524295eb534e54927d8d28",
-        "node": "46fb315c98ba337ec4b8f204f4de064d8cf12e3b05524295eb534e54927d8d28"
+        "jsdom": "1ea9cee1177634eb8f330d24f2f02ecd973574b10f9b629377ac3d315f3e8b47",
+        "node": "1ea9cee1177634eb8f330d24f2f02ecd973574b10f9b629377ac3d315f3e8b47"
       },
       "packages/mermaid/src/docs/.vitepress/betaDiagrams.spec.ts": {
         "jsdom": "9b9d337e8e32bd8d1a661a36d1174750b59519d3c5e81d80ec1a85ac9985667d",
@@ -4866,8 +4866,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "e7360103dfd25383ab9562386c5314311efe113f2e937c87f2fd164e82c55388",
-        "node": "e7360103dfd25383ab9562386c5314311efe113f2e937c87f2fd164e82c55388"
+        "jsdom": "65122345b62707325c5816669f0a7e6566f2cb026e709328acf4d582d59aa996",
+        "node": "65122345b62707325c5816669f0a7e6566f2cb026e709328acf4d582d59aa996"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -5040,8 +5040,8 @@
         "node": "22b771060180839256caa4d88e16de2e0dbd8c7dfcbc266da7fe252acbc787bc"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "b0d0385431e2784ae318474d8b74723cd6663acbe25608fa4f8268cfd570f834",
-        "node": "b0d0385431e2784ae318474d8b74723cd6663acbe25608fa4f8268cfd570f834"
+        "jsdom": "7f57d8e6894f7e365b65ee09bd87fab1f81b6894363385f109a3784b70d2ca13",
+        "node": "7f57d8e6894f7e365b65ee09bd87fab1f81b6894363385f109a3784b70d2ca13"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "dc0430a2eac9f410e15a06261709005afba63af971854832dbdf9979760de5b2",
@@ -5132,8 +5132,8 @@
         "node": "78e49b92886fc19235938875e1b9e8a6728b4a640a67280db2659c709ff4b300"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "0725cd3b774efad68f0bcf8168fa5692f03ac79446d28c654125fb1e5469b01d",
-        "node": "0725cd3b774efad68f0bcf8168fa5692f03ac79446d28c654125fb1e5469b01d"
+        "jsdom": "f4cb603e6b86dbfdadbe9b4f33747d9a2645b54d138f050954856de198053423",
+        "node": "f4cb603e6b86dbfdadbe9b4f33747d9a2645b54d138f050954856de198053423"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "a8f37b09c6326d1718c18c2c8fc6d63034973527d384fcc7490aab4396321fde",
@@ -5156,8 +5156,8 @@
         "node": "1944565daa6aa5d20ec0d7892f45cb5a1adf10dcf61af3f9e85a7d2676cc7b32"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "f125a4e443d964eaab1cf6bf3fbcc5efd26fa27274d1314e8d661e9e541a49da",
-        "node": "f125a4e443d964eaab1cf6bf3fbcc5efd26fa27274d1314e8d661e9e541a49da"
+        "jsdom": "16a8b7a63aade123751f1fc4a985e536e6de966d50413f4a34c589abb4cf7570",
+        "node": "16a8b7a63aade123751f1fc4a985e536e6de966d50413f4a34c589abb4cf7570"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "54b38b39226ab3f39a633b2ad85e1a415323e23777e5501b9e245f913733b935",
@@ -5168,8 +5168,8 @@
         "node": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a"
       },
       "packages/mermaid/src/diagrams/architecture/architecture.spec.ts": {
-        "jsdom": "7ac7dd0c412d0c5d97675c0ee3439a79efd55b538e0411f019d3761e681d7781",
-        "node": "7ac7dd0c412d0c5d97675c0ee3439a79efd55b538e0411f019d3761e681d7781"
+        "jsdom": "bfa855bda945a2d5ccd70db8463ba236ba60309b8377f42c57034730ef8d6cdf",
+        "node": "bfa855bda945a2d5ccd70db8463ba236ba60309b8377f42c57034730ef8d6cdf"
       },
       "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts": {
         "jsdom": "784f4efe4a5bc4b16a391b536083353ae2cee1fea4fbe1aec6b040b6939137f0",
@@ -5184,8 +5184,8 @@
         "node": "f4fa06d956aa9ef027ea594d6f46123d0f414cd8cbdaae25697565d4296f5169"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "1f5f9aa30cde44e93682749772a2acb3665f9736fe96b136342812f33ece4edb",
-        "node": "1f5f9aa30cde44e93682749772a2acb3665f9736fe96b136342812f33ece4edb"
+        "jsdom": "2abf66cc980a9271e716bb8e48dc8b19e24d06c6998596f7e8567ffbbfc440d1",
+        "node": "2abf66cc980a9271e716bb8e48dc8b19e24d06c6998596f7e8567ffbbfc440d1"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -5228,8 +5228,8 @@
         "node": "a60168b78a3823b936a486166489466346adf75172372eb19c8b8c4ec5f851ca"
       },
       "packages/mermaid/src/diagrams/class/classDiagram-colorIndex.spec.ts": {
-        "jsdom": "b0aa7b4bbfbb5e4df59fa3154a147246bb5c7fb48439d58c8b42b991bdba122c",
-        "node": "b0aa7b4bbfbb5e4df59fa3154a147246bb5c7fb48439d58c8b42b991bdba122c"
+        "jsdom": "f5ed463650cc1d8f3d19acf198dea75d3ab45d00ffc1b71a430c1922155c2ac4",
+        "node": "f5ed463650cc1d8f3d19acf198dea75d3ab45d00ffc1b71a430c1922155c2ac4"
       },
       "packages/mermaid/src/diagrams/class/classDiagram-styles.spec.js": {
         "jsdom": "21f62f4676f1347ea28aebf1b98a18f83337f74b2a7c672ef2e499c7bf3b39d3",
@@ -5264,12 +5264,12 @@
         "node": "2906c2ec0cf42ecf4580b5d9cc15aed5c4e51a7a66ce74bb1a05ab0055d632ae"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "1455cf5d739f89a2100f808983522616268d1d13ce8ab56808654a7b02ff9593",
-        "node": "1455cf5d739f89a2100f808983522616268d1d13ce8ab56808654a7b02ff9593"
+        "jsdom": "b091414a6bf49f81d06c0b8e914b280017de0587cc423e6f2dbd183ff49548e0",
+        "node": "b091414a6bf49f81d06c0b8e914b280017de0587cc423e6f2dbd183ff49548e0"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
-        "jsdom": "3ac2f5b998b6b106d2df55af50c0f1f31093bce8719a2aae1d1ebd14ac4877e9",
-        "node": "3ac2f5b998b6b106d2df55af50c0f1f31093bce8719a2aae1d1ebd14ac4877e9"
+        "jsdom": "37c53cc8ccd51836b76d5cec7716fbbdf251db21e675ac536e654c724df8d17f",
+        "node": "37c53cc8ccd51836b76d5cec7716fbbdf251db21e675ac536e654c724df8d17f"
       },
       "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js": {
         "jsdom": "0e2ad68fdd2ab4432d319429cee3d721207fee595824bf235129cd26b3e5ca8d",
@@ -5408,8 +5408,8 @@
         "node": "a17e0e7af929d07d6e58a5090d42dbb5ddd3971068743c946a9d447f420f241d"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts": {
-        "jsdom": "d02cdbde32b53988e2740ee6306e4c21252f798b856f5f8385e358b5b3dfbec1",
-        "node": "d02cdbde32b53988e2740ee6306e4c21252f798b856f5f8385e358b5b3dfbec1"
+        "jsdom": "9094bd88f875654b9c9fc1df5e774fd1350a458855d268010238c72f54a2f36e",
+        "node": "9094bd88f875654b9c9fc1df5e774fd1350a458855d268010238c72f54a2f36e"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapLayout.spec.ts": {
         "jsdom": "02e9993c81fea2d3a522a73547f0ca3ac588866cb2a758cd098441ca10938246",
@@ -5428,8 +5428,8 @@
         "node": "4a3305708450194978bb4856fa27b9a32a0e59be27659e6e81e9af44d8723617"
       },
       "packages/mermaid/src/diagrams/pie/pie.spec.ts": {
-        "jsdom": "89dc8c56bf17ba485e2cb03e30f646dab9163828dc7b1530e493356b11a62acc",
-        "node": "89dc8c56bf17ba485e2cb03e30f646dab9163828dc7b1530e493356b11a62acc"
+        "jsdom": "b42bc3c0c56b37d898d8367f366963f03531cb13d72cad1d231fb53eb3a53cc6",
+        "node": "b42bc3c0c56b37d898d8367f366963f03531cb13d72cad1d231fb53eb3a53cc6"
       },
       "packages/mermaid/src/diagrams/pie/pieRenderer.spec.ts": {
         "jsdom": "04ceb1e01a995560de38e48cf0d3af990f5b3bbaafe72ecdabc0f9dfeabbf127",
@@ -5440,8 +5440,8 @@
         "node": "67e3c0eaae117d9848da8bc55801ce738a0df218c52ae016115182e7f4def7f5"
       },
       "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts": {
-        "jsdom": "488500405120c08ef823cedfa6366f38ffb62c8780d2ec2b38c283fa5ee2d5c8",
-        "node": "488500405120c08ef823cedfa6366f38ffb62c8780d2ec2b38c283fa5ee2d5c8"
+        "jsdom": "ff1df61c5fe5fde4c04d96b9d45edef6224224868117db456fb1fa3cc838311f",
+        "node": "ff1df61c5fe5fde4c04d96b9d45edef6224224868117db456fb1fa3cc838311f"
       },
       "packages/mermaid/src/diagrams/radar/radar.spec.ts": {
         "jsdom": "a5595ed745a71cf47e6beca99f75348b62f263dcf27960fc2ecd5ccca738472c",
@@ -5476,8 +5476,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "13116775978ebc31e4c5eb788cda851d493993ba5796320b0a33fd466f2315fd",
-        "node": "13116775978ebc31e4c5eb788cda851d493993ba5796320b0a33fd466f2315fd"
+        "jsdom": "f31eb1682fc0cd6c82771a8666030688fe63371c5eff76ca848b0539141a2ea4",
+        "node": "f31eb1682fc0cd6c82771a8666030688fe63371c5eff76ca848b0539141a2ea4"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -5496,8 +5496,8 @@
         "node": "fcaf111919d61cbc7cbe611f27de63bbc4f228fa07bc712c0d526c95cd07b87b"
       },
       "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts": {
-        "jsdom": "d362ad86612cb550dbb1b7f4be2edac8a9e69cc8542342b00bb61f6958b2bcb1",
-        "node": "d362ad86612cb550dbb1b7f4be2edac8a9e69cc8542342b00bb61f6958b2bcb1"
+        "jsdom": "ba1c7c765970070e14608f76bd89c463bf2ac52bc9b2258ebb4e43f38de716e0",
+        "node": "ba1c7c765970070e14608f76bd89c463bf2ac52bc9b2258ebb4e43f38de716e0"
       },
       "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts": {
         "jsdom": "a9e41bd9160d52b2e37dca78b53f87da13e34c6df85a553e202527c4123002d9",
@@ -5600,8 +5600,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "8ff3a3b97cb5e48830f934a6c789308046b1b60b109ff89f47bcb0c23ca835de",
-        "node": "8ff3a3b97cb5e48830f934a6c789308046b1b60b109ff89f47bcb0c23ca835de"
+        "jsdom": "b198d24baf428b1dc9033dbce6f15b8748686ed473e3abcd8486dd11833c8e47",
+        "node": "b198d24baf428b1dc9033dbce6f15b8748686ed473e3abcd8486dd11833c8e47"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -5640,12 +5640,12 @@
         "node": "d568bfca3ac19c20d86df21b941018b9ee50381b4787e043122dab20bbb48689"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "4679c119ab4a8caf467a09ffc1eb8e8abdb4d620ecfade0091571f4fdcc7c051",
-        "node": "4679c119ab4a8caf467a09ffc1eb8e8abdb4d620ecfade0091571f4fdcc7c051"
+        "jsdom": "5c0d6c81c49c63a882e3309b4b6dd1584fbee839a96464bc6e8122bd4c14cd5b",
+        "node": "5c0d6c81c49c63a882e3309b4b6dd1584fbee839a96464bc6e8122bd4c14cd5b"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "be3624ec42e9edf854ceacbd872c64c3dbcd9625b82e2b81cf7969df357ff50a",
-        "node": "be3624ec42e9edf854ceacbd872c64c3dbcd9625b82e2b81cf7969df357ff50a"
+        "jsdom": "3f0f0d1f8f81b06c9251bb1e301cc71232254f67fb98fdb9c04cc6d10caba951",
+        "node": "3f0f0d1f8f81b06c9251bb1e301cc71232254f67fb98fdb9c04cc6d10caba951"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -5656,8 +5656,8 @@
         "node": "5c5bcd8998970aad1e599e1d5245ae2e9c920a042b4e581e36d20a73c1a8bf8d"
       },
       "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js": {
-        "jsdom": "8fcf4bc5e084c383c5a01a83dabbe071913ad8c272a47f17407d3d21f7e4bf7c",
-        "node": "8fcf4bc5e084c383c5a01a83dabbe071913ad8c272a47f17407d3d21f7e4bf7c"
+        "jsdom": "8523f413687de4bd8b14227db04faafb8ca3dafc7e61f46be2f8a862fcf0ce10",
+        "node": "8523f413687de4bd8b14227db04faafb8ca3dafc7e61f46be2f8a862fcf0ce10"
       },
       "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js": {
         "jsdom": "000ae7ec7248e954a939b641a836651b30a1d17fb7542db61c636328289bf9bf",
@@ -5700,8 +5700,8 @@
         "node": "a05d1977604e1d4d67fd03b61a94de33682912afb664e99c9c6acc1345592342"
       },
       "packages/mermaid/src/diagrams/xychart/xychartDb.spec.ts": {
-        "jsdom": "ce2c59389ea762c47176a09d33793d560aeb5638269a0dd875387392baaa9e63",
-        "node": "ce2c59389ea762c47176a09d33793d560aeb5638269a0dd875387392baaa9e63"
+        "jsdom": "6337f2feda96fae2b611fd31415d62dd77237738fdb04350a0bee59a6ff63ab9",
+        "node": "6337f2feda96fae2b611fd31415d62dd77237738fdb04350a0bee59a6ff63ab9"
       },
       "packages/mermaid/src/docs/.vitepress/betaDiagrams.spec.ts": {
         "jsdom": "9b9d337e8e32bd8d1a661a36d1174750b59519d3c5e81d80ec1a85ac9985667d",
@@ -6276,8 +6276,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "88da8c2ef454de4f27a77cad12d50c12b92e806c7f7a4db942a1152c91b6c9d3",
-        "node": "88da8c2ef454de4f27a77cad12d50c12b92e806c7f7a4db942a1152c91b6c9d3"
+        "jsdom": "a4b2f98f2135e816da66cc7b1ce9d9348cdc6dba5ec8b8283858674144ab3a14",
+        "node": "a4b2f98f2135e816da66cc7b1ce9d9348cdc6dba5ec8b8283858674144ab3a14"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -7860,8 +7860,8 @@
         "node": "0397f8bda4f2ec0a21b3c95db0c0b5fb8b415fe956144af1021ac7ffd6517c3b"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "b175aee73636373b6f3abbdbc28832650374487280a62dba685890f12f9bb40b",
-        "node": "b175aee73636373b6f3abbdbc28832650374487280a62dba685890f12f9bb40b"
+        "jsdom": "df23ab79d6259ce15fc8ad3ade3c24c32581b16794d81f4931a128408e021f9e",
+        "node": "df23ab79d6259ce15fc8ad3ade3c24c32581b16794d81f4931a128408e021f9e"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "6bbd036f7ec4d67b6d32c82b5d56ea0826dd02fe76c43bb9d2ba1de349fd0420",
@@ -7952,8 +7952,8 @@
         "node": "288e3101a54db5c5efff90f32823af4145ef6b2edca73b7ba22636997af0b9f4"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "9a978963a0f3e278a1d21fa7903b677776df1e11c07a33ed5141174d1df1c218",
-        "node": "9a978963a0f3e278a1d21fa7903b677776df1e11c07a33ed5141174d1df1c218"
+        "jsdom": "adacbe4e73ef0522bb18af34c0543f35998be0cc5a2d4a5d25eca1319eca85f2",
+        "node": "adacbe4e73ef0522bb18af34c0543f35998be0cc5a2d4a5d25eca1319eca85f2"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "0e6c26ae44ec7d787f443fc589f0b9e21347061e427f1165ee399a65b98fbbe7",
@@ -7976,8 +7976,8 @@
         "node": "fe18bcc7ce95e43ec0094a93ed7bb9e1134a359b39c74fbda9bd274a3bfa6101"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "8477217b685f350eb5d7706cfdff32feb8ef62f86c3cefc5b60b36fcbfb60bcf",
-        "node": "8477217b685f350eb5d7706cfdff32feb8ef62f86c3cefc5b60b36fcbfb60bcf"
+        "jsdom": "177d7c5b567ac4b34ccf2d4ed2a115429b7f52f4e2657e23ca214568de44d590",
+        "node": "177d7c5b567ac4b34ccf2d4ed2a115429b7f52f4e2657e23ca214568de44d590"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "ddc31241b06408503087b22f8ef0464c1d4ffdd1025e4d51e58150054f447c50",
@@ -7988,8 +7988,8 @@
         "node": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a"
       },
       "packages/mermaid/src/diagrams/architecture/architecture.spec.ts": {
-        "jsdom": "9a07b5635b5d9fefe7d3f2898b00bdc33241b62e4b0dc991514ea1a1010ae7a1",
-        "node": "9a07b5635b5d9fefe7d3f2898b00bdc33241b62e4b0dc991514ea1a1010ae7a1"
+        "jsdom": "b5083559592235cd2c0456beda0ec300dcad1c29a30e70d6ec62da15f627c2d3",
+        "node": "b5083559592235cd2c0456beda0ec300dcad1c29a30e70d6ec62da15f627c2d3"
       },
       "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts": {
         "jsdom": "784f4efe4a5bc4b16a391b536083353ae2cee1fea4fbe1aec6b040b6939137f0",
@@ -8004,8 +8004,8 @@
         "node": "fed2ecd3b92db72962088dbc78196914e6cc70c15c93e1fa27963fbc8b1af585"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "6dffd35814459fce9fac03983d12384551ada36687121597f23ffc7fb2ee7abf",
-        "node": "6dffd35814459fce9fac03983d12384551ada36687121597f23ffc7fb2ee7abf"
+        "jsdom": "45fc23f7bce95f6a606efe52f1f452551aa2933a66ef7fa3146833777a006dbd",
+        "node": "45fc23f7bce95f6a606efe52f1f452551aa2933a66ef7fa3146833777a006dbd"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -8084,8 +8084,8 @@
         "node": "ae571228a8d686cd99ffcb8629bdcc6f281c2e90c8c186d790aa0c503bb399ad"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "fffa379b0a414f901d18ffc57cf0e52bd724be6a9b2d0e4894488c508507b3bf",
-        "node": "fffa379b0a414f901d18ffc57cf0e52bd724be6a9b2d0e4894488c508507b3bf"
+        "jsdom": "d51378ce6d9976e4856db201c69eedf15e4843318ff1d8f2ab4ece9cec9a6c84",
+        "node": "d51378ce6d9976e4856db201c69eedf15e4843318ff1d8f2ab4ece9cec9a6c84"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
         "jsdom": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535",
@@ -8204,8 +8204,8 @@
         "node": "796a879d2c46596e338746e0bd49736da5b323fd1e6ae1e4239a7c0ea39e6612"
       },
       "packages/mermaid/src/diagrams/git/gitGraph.spec.ts": {
-        "jsdom": "7b1bd7680bf6db2d30769ef4dc517319ef023216c48247d8518e20f2f5338d71",
-        "node": "7b1bd7680bf6db2d30769ef4dc517319ef023216c48247d8518e20f2f5338d71"
+        "jsdom": "aeab62cc562592d37fafb6940f60c31016b097db8877088d9c7fdface8a4faff",
+        "node": "aeab62cc562592d37fafb6940f60c31016b097db8877088d9c7fdface8a4faff"
       },
       "packages/mermaid/src/diagrams/info/info.spec.ts": {
         "jsdom": "685233a176aa2c28a74ac1adbdff0df7dfeb7d33b94873b1bedcbe8e416331d8",
@@ -8248,8 +8248,8 @@
         "node": "4a3305708450194978bb4856fa27b9a32a0e59be27659e6e81e9af44d8723617"
       },
       "packages/mermaid/src/diagrams/pie/pie.spec.ts": {
-        "jsdom": "b0db61c92135e6941b425aa07c36aee1e5a3bc4506e2862bf777cfb09d1440d5",
-        "node": "b0db61c92135e6941b425aa07c36aee1e5a3bc4506e2862bf777cfb09d1440d5"
+        "jsdom": "e42f95e35b83a801883f9061553134168707b428ac26b4417bbe24c86d94a378",
+        "node": "e42f95e35b83a801883f9061553134168707b428ac26b4417bbe24c86d94a378"
       },
       "packages/mermaid/src/diagrams/pie/pieRenderer.spec.ts": {
         "jsdom": "6144dbc39b95d3ccbe8825f0c7975d9cca743be874cbc8adeb05a7313aacd721",
@@ -8260,8 +8260,8 @@
         "node": "436bc6006e156307749b5c774c61039febec98e0c03778fb7bdbb5a4ce51b73a"
       },
       "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts": {
-        "jsdom": "5f6c3a07f9c9309ae349022d8dc4baa4cbb74bc9b3971f5c7ea095898a6485fd",
-        "node": "5f6c3a07f9c9309ae349022d8dc4baa4cbb74bc9b3971f5c7ea095898a6485fd"
+        "jsdom": "f24bc20c7c3df7fd907cfd670baa4e8f2acaf4f01b49cc0e436a3d43fe0ffdeb",
+        "node": "f24bc20c7c3df7fd907cfd670baa4e8f2acaf4f01b49cc0e436a3d43fe0ffdeb"
       },
       "packages/mermaid/src/diagrams/radar/radar.spec.ts": {
         "jsdom": "8113f224640b54f13abd5dec7e6dec3b47a02cd12452a58ba1edde388f925919",
@@ -8296,8 +8296,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "545362270de9683b00a0044098eee503d692710eeb555723e18af13c73f5b722",
-        "node": "545362270de9683b00a0044098eee503d692710eeb555723e18af13c73f5b722"
+        "jsdom": "5d41244ebace71d9dda68ea2302587f85bf3936821e707246c01c6078057a7d0",
+        "node": "5d41244ebace71d9dda68ea2302587f85bf3936821e707246c01c6078057a7d0"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -8316,8 +8316,8 @@
         "node": "e9d589a4b06de5c0d169b2b6b1c24428e274990da06f3e4174aa6d6e4ad6884b"
       },
       "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts": {
-        "jsdom": "9926987645fcc37e9e36fa2878ef10dca69312fa5a9b632e65e69ccc39fe1a6f",
-        "node": "9926987645fcc37e9e36fa2878ef10dca69312fa5a9b632e65e69ccc39fe1a6f"
+        "jsdom": "74b0b37f1ab485c3540538c444c2a9f52c9bc91533096e2d22487ff143ad9d75",
+        "node": "74b0b37f1ab485c3540538c444c2a9f52c9bc91533096e2d22487ff143ad9d75"
       },
       "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts": {
         "jsdom": "a9e41bd9160d52b2e37dca78b53f87da13e34c6df85a553e202527c4123002d9",
@@ -8372,8 +8372,8 @@
         "node": "589abe2f69d8ac83a730ac287e4d1ab0b8dbd434106929e8324a142fbe66f70a"
       },
       "packages/mermaid/src/diagrams/state/stateDb.spec.js": {
-        "jsdom": "ac5acece975455d5bcdaa9a53692c6d36b220ad7c4159f24614a445364b3b12c",
-        "node": "ac5acece975455d5bcdaa9a53692c6d36b220ad7c4159f24614a445364b3b12c"
+        "jsdom": "53e747af7d0210cd2bf011f8e81a47b21090506c65ded90f1df43eb2d26460f1",
+        "node": "53e747af7d0210cd2bf011f8e81a47b21090506c65ded90f1df43eb2d26460f1"
       },
       "packages/mermaid/src/diagrams/state/stateDiagram-colorIndex.spec.ts": {
         "jsdom": "be5dba73d46e4188bc460debda566ec8d7614efa2d7ac8b8cfd6fa0cc692e79b",
@@ -8384,8 +8384,8 @@
         "node": "c88d904bd8a328170716c1ec93275959cd37261f2159ce6db043b944f2dca30d"
       },
       "packages/mermaid/src/diagrams/state/stateDiagram.spec.js": {
-        "jsdom": "7d6f9b19a888dc877261562963d348525d408194ab214b7ca887dc832058d7a3",
-        "node": "7d6f9b19a888dc877261562963d348525d408194ab214b7ca887dc832058d7a3"
+        "jsdom": "bc87c585b74ddf714f8de843b0fe8efb2430fb79237b3789ff7131929037b913",
+        "node": "bc87c585b74ddf714f8de843b0fe8efb2430fb79237b3789ff7131929037b913"
       },
       "packages/mermaid/src/diagrams/state/stateNoteEdge.spec.ts": {
         "jsdom": "0bcc10022e0c4599541b520d4186c7472a859641f12ebc23a6f3d99d3350bf66",
@@ -8396,7 +8396,7 @@
         "node": "291af48d95737c0772105bc7384c2f22a81fe27f4417bffd110004a7ffe6b00d"
       },
       "packages/mermaid/src/diagrams/state/stateRenderer-v3-unified.spec.js": {
-        "jsdom": "058c1399d1abdcfd502c62743b7ffeafa5099f3a609e5a57ab5b6bc7aa0a5219",
+        "jsdom": "f9325b250e3e91ca425da4dc3a984ef820c2b530082762c0f4f6cad5312f3cc9",
         "node": "d7b86a2b8900decc0f518489575a7e1e58ccd8979b66ff6e1a123d9ffe8c70bc"
       },
       "packages/mermaid/src/diagrams/state/stateRenderer.spec.js": {
@@ -8420,8 +8420,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "36c19da2861f8fcaac9ba052fb151434a19d6e256f65be390ca824c0a3a91ea8",
-        "node": "36c19da2861f8fcaac9ba052fb151434a19d6e256f65be390ca824c0a3a91ea8"
+        "jsdom": "4fc3b2da558225d8417c4cc5fb60a3d5b58e038a8eaed826b0243c082fa7ed7e",
+        "node": "4fc3b2da558225d8417c4cc5fb60a3d5b58e038a8eaed826b0243c082fa7ed7e"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -8460,12 +8460,12 @@
         "node": "6d183f2a8f99cf7801ece9fae6e019ee91176ffeae04217643e1527550faae60"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "b645dece6ed671481f3236a313e5305130433dbfeae0936cb5051bfd47f27653",
-        "node": "b645dece6ed671481f3236a313e5305130433dbfeae0936cb5051bfd47f27653"
+        "jsdom": "32c6663821d6418d1ffdfac4827b202e3671b3750775670e7b302239b763a94f",
+        "node": "32c6663821d6418d1ffdfac4827b202e3671b3750775670e7b302239b763a94f"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "d158b37bf2255fe471425f111a740c3cc881991042a881320576d23d2b7410fc",
-        "node": "d158b37bf2255fe471425f111a740c3cc881991042a881320576d23d2b7410fc"
+        "jsdom": "fa693d7592e8088f8b1b68e83b479e4927973ca156fdbd4b15ef70fcef2f2ff7",
+        "node": "fa693d7592e8088f8b1b68e83b479e4927973ca156fdbd4b15ef70fcef2f2ff7"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -8476,8 +8476,8 @@
         "node": "5c5bcd8998970aad1e599e1d5245ae2e9c920a042b4e581e36d20a73c1a8bf8d"
       },
       "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js": {
-        "jsdom": "c0cd1bc0523b5c706e657a83556b09d104ada0bd7efa4d34a2658b039806f1f7",
-        "node": "c0cd1bc0523b5c706e657a83556b09d104ada0bd7efa4d34a2658b039806f1f7"
+        "jsdom": "6023e6faa2b96aea58e857071c90d95a8769735240c9b5ba54b8d5ad9ecc855f",
+        "node": "6023e6faa2b96aea58e857071c90d95a8769735240c9b5ba54b8d5ad9ecc855f"
       },
       "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js": {
         "jsdom": "014c760476fa019771299026db26cbb1577a79ff8fa0622bff08857375cc1ce6",
@@ -8520,8 +8520,8 @@
         "node": "22444d2ced392a560831629c2a894b705edd038205486ba573c16a76d48401dc"
       },
       "packages/mermaid/src/diagrams/xychart/xychartDb.spec.ts": {
-        "jsdom": "7eee79f28c601aad58cf5f8c5570bc93abc32b6f5140e99df1d510203b54adef",
-        "node": "7eee79f28c601aad58cf5f8c5570bc93abc32b6f5140e99df1d510203b54adef"
+        "jsdom": "cda515093ef94e68105b6f49dc3cddf98939fbef2812eb7cf89b77b6ef99fe8b",
+        "node": "cda515093ef94e68105b6f49dc3cddf98939fbef2812eb7cf89b77b6ef99fe8b"
       },
       "packages/mermaid/src/docs/.vitepress/betaDiagrams.spec.ts": {
         "jsdom": "9b9d337e8e32bd8d1a661a36d1174750b59519d3c5e81d80ec1a85ac9985667d",
@@ -9096,8 +9096,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "61fd76e88763c3271d3532786303ac62462563715a92ed024ee1cb6ccf83d448",
-        "node": "61fd76e88763c3271d3532786303ac62462563715a92ed024ee1cb6ccf83d448"
+        "jsdom": "49fee9c3672df7bf056eed007639f0834f7da2eceda4f8bd750b2259dab9def2",
+        "node": "49fee9c3672df7bf056eed007639f0834f7da2eceda4f8bd750b2259dab9def2"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -9270,8 +9270,8 @@
         "node": "14b80ac410a3e1003b7e87e23e3c9bedf792f328e1a50220ac9384761edc7224"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "d3cc99b92ddb097816f84d4cf3dcb08c19659544c3d0ca99180845f1fbbba046",
-        "node": "d3cc99b92ddb097816f84d4cf3dcb08c19659544c3d0ca99180845f1fbbba046"
+        "jsdom": "89fe7b34aa344b3324debcd8fd7b316289454524f8203686593b498415cfa5f5",
+        "node": "89fe7b34aa344b3324debcd8fd7b316289454524f8203686593b498415cfa5f5"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "e79295fce53f9235e0447f512d367938dec35f3aaafd7af8e5793f5c780b722e",
@@ -9362,8 +9362,8 @@
         "node": "3942ed07ceabe1b8f1a78ab274bcb775770e0b5a00607d5d88fb79e8908467f2"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "3bce4dd27ee1ced05084478b3362307f98031efa52389b51a6da07aba0236505",
-        "node": "3bce4dd27ee1ced05084478b3362307f98031efa52389b51a6da07aba0236505"
+        "jsdom": "874835c8c3e6b2baf858127d07aa2f283e7889a5e60ef3cf85dd75af4e5aee54",
+        "node": "874835c8c3e6b2baf858127d07aa2f283e7889a5e60ef3cf85dd75af4e5aee54"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "44275c96174fac18473aad3680360e3c695f92a4c83ff33ef3989002e8dd51a4",
@@ -9386,8 +9386,8 @@
         "node": "a96bf7e4e6c4be4b757f873721fc07c844e5476dd17755e26c10f680a3fe0cc5"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "8031927d6b7b27c0a7b866f47ec80109e89d5e9662376f89ccf5db62862d6ace",
-        "node": "8031927d6b7b27c0a7b866f47ec80109e89d5e9662376f89ccf5db62862d6ace"
+        "jsdom": "904cb9fff021a727478b85638229cab41edd4c56ccc4aa8d6bed3e52dd57c2fa",
+        "node": "904cb9fff021a727478b85638229cab41edd4c56ccc4aa8d6bed3e52dd57c2fa"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "d8479ebdfd02a8d5c50eec8cdc4690d7cb893e138ae3668a0d519350a52ae4c6",
@@ -9414,8 +9414,8 @@
         "node": "b9decab6ad31da4a951aa828e0abd10462d61d67eef7ba1ed6d4b8c35b0223e4"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "36706620932398b8897eb53f9df600aa77ed19a05d3d33074869b57d37df4b7a",
-        "node": "36706620932398b8897eb53f9df600aa77ed19a05d3d33074869b57d37df4b7a"
+        "jsdom": "4cc644b42846cc0221a8d8983d646f2f20e40fb71bd1612dca654b0388264ae5",
+        "node": "4cc644b42846cc0221a8d8983d646f2f20e40fb71bd1612dca654b0388264ae5"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -9494,8 +9494,8 @@
         "node": "15be8b54098af2b7bbf06c8d098d9ad459843a72af95e68967624ae1ab9f176c"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "6e8657da2aa10e5aeed5a12d08aa2dbdc239d5843c4dcf46a45fa1ffeaf28dda",
-        "node": "6e8657da2aa10e5aeed5a12d08aa2dbdc239d5843c4dcf46a45fa1ffeaf28dda"
+        "jsdom": "fc632bf34e414ec3567e694f77705ad0d23c422841c76744c337150e36dcc003",
+        "node": "fc632bf34e414ec3567e694f77705ad0d23c422841c76744c337150e36dcc003"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
         "jsdom": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535",
@@ -9706,8 +9706,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "7f292b81f3db9cbafda9870e1555cfdc63728f0c359d45aca7be69cc47b4e926",
-        "node": "7f292b81f3db9cbafda9870e1555cfdc63728f0c359d45aca7be69cc47b4e926"
+        "jsdom": "03bcae39a06fa74d59431f56d50babcd92bea249d0816436ffbd433e8121495d",
+        "node": "03bcae39a06fa74d59431f56d50babcd92bea249d0816436ffbd433e8121495d"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -9830,8 +9830,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "66e4c65f97eb1c3aa9783b508f53e2fce4db8c41dc93257f6d7ba24a84671a69",
-        "node": "66e4c65f97eb1c3aa9783b508f53e2fce4db8c41dc93257f6d7ba24a84671a69"
+        "jsdom": "a2fd0488f27851b707945f6b8de990998ebf61c17dca5d86d85e749280e2df88",
+        "node": "a2fd0488f27851b707945f6b8de990998ebf61c17dca5d86d85e749280e2df88"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -9870,12 +9870,12 @@
         "node": "77e24459249337fc1b8b489dde4235d4dd55ac964ce165851b72cdeacb654e30"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "30ae71374f9b12a3389d5af283d101f3d2c91646ab32cf08c4e5fc6458210b5e",
-        "node": "30ae71374f9b12a3389d5af283d101f3d2c91646ab32cf08c4e5fc6458210b5e"
+        "jsdom": "46553a9df56fbeeaa6e17fa730dd58a7153933fcabb2627ed47097676dbc9f8d",
+        "node": "46553a9df56fbeeaa6e17fa730dd58a7153933fcabb2627ed47097676dbc9f8d"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "ed8553ff2ca74e24af2a47c98b00f56f6ac18459870e1fbc6845db40d7710a1e",
-        "node": "ed8553ff2ca74e24af2a47c98b00f56f6ac18459870e1fbc6845db40d7710a1e"
+        "jsdom": "9af0a7d308ee22b148ced90bf65d8ae53edc3aba68c9d300aec1b82b5b4c95f6",
+        "node": "9af0a7d308ee22b148ced90bf65d8ae53edc3aba68c9d300aec1b82b5b4c95f6"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -10506,8 +10506,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "b81070ec300975449d282df302bd6f42032d9e470b7155aed125b7cd1dfaa359",
-        "node": "b81070ec300975449d282df302bd6f42032d9e470b7155aed125b7cd1dfaa359"
+        "jsdom": "c6109ba4e5d21da4f438a89533a730f1e8feb1f237fb17cfd0e8aa40957eb649",
+        "node": "c6109ba4e5d21da4f438a89533a730f1e8feb1f237fb17cfd0e8aa40957eb649"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -12090,8 +12090,8 @@
         "node": "6abac3a75d5e01c0861c4ddef08d510d1854b0efcfc36c95e5be9412e6209d8e"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "13a02e8209836a9b37384899abbfb2cab2eb2198066cfe83929a0a893e14d3fd",
-        "node": "13a02e8209836a9b37384899abbfb2cab2eb2198066cfe83929a0a893e14d3fd"
+        "jsdom": "2bea877a9a9d22ac3b12c22072178ff7c11187ddf67eb0c01167579db4c284aa",
+        "node": "2bea877a9a9d22ac3b12c22072178ff7c11187ddf67eb0c01167579db4c284aa"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "ae60190d18a3622ea17d6724cc1ad815373d057da6a77fefffe433d9745ffa8b",
@@ -12182,8 +12182,8 @@
         "node": "bd6e14f8b54f60c15b7cc0357036073e025573010c85680ab48aa5ac8c5495ff"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "4785a6c35f0e3e008353236ce6ce88ad5a116dba632b55672d7378489e25bded",
-        "node": "4785a6c35f0e3e008353236ce6ce88ad5a116dba632b55672d7378489e25bded"
+        "jsdom": "b4fbed7f4d3f5fc46c13f052a64b32772f94c321b5f280db3441cf917d09b8ea",
+        "node": "b4fbed7f4d3f5fc46c13f052a64b32772f94c321b5f280db3441cf917d09b8ea"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "52188905aaa3a25ac4afee9e58d6a7dd8be92a210badf80dd3485c4ef2ecfcde",
@@ -12206,8 +12206,8 @@
         "node": "adb41e1ac62ffa9c45f4d2d863a3c4f3b8a602c72bf6cf6f81671d8b51979dd0"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "877b171250f5f392613b397ae7fd80c94207a6aa8cc6b28cd8ee40ca41242145",
-        "node": "877b171250f5f392613b397ae7fd80c94207a6aa8cc6b28cd8ee40ca41242145"
+        "jsdom": "095a379529f0dff294017051b222e95649f42163fe25d0e18a7921b60d838314",
+        "node": "095a379529f0dff294017051b222e95649f42163fe25d0e18a7921b60d838314"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "6eaab2c837849d15921b97813f04973ed75bb04d04f7daa76162566e1f1025fd",
@@ -12234,8 +12234,8 @@
         "node": "ca1419c97ce29850c55c954431c2d7bcef3f24e77cb0df9903e5580bf4fc82e9"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "45542bd909900fddcb7e4d48fba771bfc9c642c486cf25c2cae226d8727cc99e",
-        "node": "45542bd909900fddcb7e4d48fba771bfc9c642c486cf25c2cae226d8727cc99e"
+        "jsdom": "0736c65315e0b3e105bdfc42dd25ebded4380d580c30b30568ce33c184f3f02f",
+        "node": "0736c65315e0b3e105bdfc42dd25ebded4380d580c30b30568ce33c184f3f02f"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -12314,8 +12314,8 @@
         "node": "efad30cb5fffec43311ded3ff5a5797f18e90c42a1aff74a1815f181b4d9b0a2"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "fd1bb8952d0fbb93c31ed545fb8b39f02a9f9b46d65867d50c7a65aadc45825e",
-        "node": "fd1bb8952d0fbb93c31ed545fb8b39f02a9f9b46d65867d50c7a65aadc45825e"
+        "jsdom": "88688428643becc7b2558450eaea2267cfc5b9d4ffc8998fbb2f625b2c29f6f7",
+        "node": "88688428643becc7b2558450eaea2267cfc5b9d4ffc8998fbb2f625b2c29f6f7"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
         "jsdom": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535",
@@ -12526,8 +12526,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "45a62e02d2aef7965aa69acc81e8285354751668e6a3cd28a0a636f2d5398606",
-        "node": "45a62e02d2aef7965aa69acc81e8285354751668e6a3cd28a0a636f2d5398606"
+        "jsdom": "7f6836d8120bcde22236e724cfae513151b03a0e33776ac4c2588020316be15f",
+        "node": "7f6836d8120bcde22236e724cfae513151b03a0e33776ac4c2588020316be15f"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -12546,8 +12546,8 @@
         "node": "5e6328397aa63feab2bed90bdd4da965968e3ac2c138d7a1771cc4ae17784abc"
       },
       "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts": {
-        "jsdom": "bc8c1f5c82861259193a0d3bb4bdd9e71e5c3cabdfe43a88276ea54eca444feb",
-        "node": "bc8c1f5c82861259193a0d3bb4bdd9e71e5c3cabdfe43a88276ea54eca444feb"
+        "jsdom": "2fccafdd3a4490a5e7c5377bc622045416c89932d1fa22713d93fc55ec9322c9",
+        "node": "2fccafdd3a4490a5e7c5377bc622045416c89932d1fa22713d93fc55ec9322c9"
       },
       "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts": {
         "jsdom": "a9e41bd9160d52b2e37dca78b53f87da13e34c6df85a553e202527c4123002d9",
@@ -12650,8 +12650,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "dcb2abf7d330bc0efa29e77157e18b193e4c1ac30d081371fd7fb60fd5d5b493",
-        "node": "dcb2abf7d330bc0efa29e77157e18b193e4c1ac30d081371fd7fb60fd5d5b493"
+        "jsdom": "30163e6d81fc607b225631979776bbb40f31b58e2e9781feb55b7edb2b327fdd",
+        "node": "30163e6d81fc607b225631979776bbb40f31b58e2e9781feb55b7edb2b327fdd"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -12690,12 +12690,12 @@
         "node": "3f723b12c5adc0fe1be1c62edad3219e761dd44a8f500aa203a3a63e7cd020c4"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "35630aff33ff2c141590f7d597dca61538c3838ad5599c039d6b0d7b25068b2f",
-        "node": "35630aff33ff2c141590f7d597dca61538c3838ad5599c039d6b0d7b25068b2f"
+        "jsdom": "a2b32f204f66a4e96c78220acbd16f541ac1e7387ccbc86665d5dc7d63106626",
+        "node": "a2b32f204f66a4e96c78220acbd16f541ac1e7387ccbc86665d5dc7d63106626"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "fbacdb1968ff1ec008e64c745ea2c9982d13d6c1f8bcd89e187835289c0fa323",
-        "node": "fbacdb1968ff1ec008e64c745ea2c9982d13d6c1f8bcd89e187835289c0fa323"
+        "jsdom": "2005eb97e27b40d0c31a7d2f9f5fb7efe7578e082376dca3940560858fee7d4e",
+        "node": "2005eb97e27b40d0c31a7d2f9f5fb7efe7578e082376dca3940560858fee7d4e"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -12750,8 +12750,8 @@
         "node": "29cf2a17018feed745141619666c432367d9c427b3febc11f69062c6780a3211"
       },
       "packages/mermaid/src/diagrams/xychart/xychartDb.spec.ts": {
-        "jsdom": "434e87aefba300f422aa932c9fe5c495dccff4892739b864168f1b328cbbf08f",
-        "node": "434e87aefba300f422aa932c9fe5c495dccff4892739b864168f1b328cbbf08f"
+        "jsdom": "13f7a48b2ea87953054bf0e2b8746339275ba6b08e4e22efb223f23e35990262",
+        "node": "13f7a48b2ea87953054bf0e2b8746339275ba6b08e4e22efb223f23e35990262"
       },
       "packages/mermaid/src/docs/.vitepress/betaDiagrams.spec.ts": {
         "jsdom": "9b9d337e8e32bd8d1a661a36d1174750b59519d3c5e81d80ec1a85ac9985667d",
@@ -13326,8 +13326,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "cda4aa8847c668d0169cb05d32344fd4cb046fb28e01d0a2b950794c392009b5",
-        "node": "cda4aa8847c668d0169cb05d32344fd4cb046fb28e01d0a2b950794c392009b5"
+        "jsdom": "61d631ce4e871cddf6b0491c264db490b4d3ac4004bbba21920b63d4718cfc9d",
+        "node": "61d631ce4e871cddf6b0491c264db490b4d3ac4004bbba21920b63d4718cfc9d"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -14910,8 +14910,8 @@
         "node": "97acc9fbdd62ff2889a34ad319e67f69ffe2047a4d05c1ced0d666017ce39577"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "ce61d4bd8a3d0f8b75d34f9e8a11ece746fb1fae6b067121abb1659f26a61f19",
-        "node": "ce61d4bd8a3d0f8b75d34f9e8a11ece746fb1fae6b067121abb1659f26a61f19"
+        "jsdom": "171c34e9e6ee890c6479d34193534bd4963b1e2205018245091652d4a1984a52",
+        "node": "171c34e9e6ee890c6479d34193534bd4963b1e2205018245091652d4a1984a52"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "cbcb0b2595173c717af2dc385dd6cb6b117c88a05ea3fb8dd1a9ceae76f5b135",
@@ -15002,8 +15002,8 @@
         "node": "5c3dd2f66a94bc491129247d69233ee378577336e5cd9337305270201de8bed0"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "9aa3cd5c3ebfcfb4c598cc7f01167da62e5c0d0b19c914f92d1413e3b8944629",
-        "node": "9aa3cd5c3ebfcfb4c598cc7f01167da62e5c0d0b19c914f92d1413e3b8944629"
+        "jsdom": "e5a0fb8349d18d588fdd6a01800e81a5092de2c403110c514b7d5745961da002",
+        "node": "e5a0fb8349d18d588fdd6a01800e81a5092de2c403110c514b7d5745961da002"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "2c1be592ad80028ecba0aa6d8202237749a61d3bedda8125e0dce661a6a34010",
@@ -15026,8 +15026,8 @@
         "node": "addd17e643b1018405aa3b55d993b8c214e87818b8866c7d1f6dda0cb5bda4f3"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "c80115939a3c2ff99bd53aaedb9426bf9b7d6f719985df3a91b5b759050b37b7",
-        "node": "c80115939a3c2ff99bd53aaedb9426bf9b7d6f719985df3a91b5b759050b37b7"
+        "jsdom": "5706c57eed975258e3d0ae13d44d0edba449a1f8d5c8e51b27f3dbfa6a23c5e3",
+        "node": "5706c57eed975258e3d0ae13d44d0edba449a1f8d5c8e51b27f3dbfa6a23c5e3"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "1f38b9ef5ad289d2e8fe780c0a179ce7b36a74657ff89dc9e9c0b2ebca28d7f9",
@@ -15134,8 +15134,8 @@
         "node": "0cfd099189b01548e0d4a0a0e0257a62dcaed6699c51d11554297a92cb2f3f48"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "e4721da6ec3b6debee91a06ee1e7ba48d5a65b1f3068e7d6b4fe7d58b9d0abaa",
-        "node": "e4721da6ec3b6debee91a06ee1e7ba48d5a65b1f3068e7d6b4fe7d58b9d0abaa"
+        "jsdom": "f2282818ff9f96f80936a8c73d44d76ff57550cc7703b91938388d9198e7cfae",
+        "node": "f2282818ff9f96f80936a8c73d44d76ff57550cc7703b91938388d9198e7cfae"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
         "jsdom": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535",
@@ -15346,8 +15346,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "f6dc946bfdf55106b1a259e92368b16035cc48351c0c52fcf6847882b00cf7d8",
-        "node": "f6dc946bfdf55106b1a259e92368b16035cc48351c0c52fcf6847882b00cf7d8"
+        "jsdom": "5adfcd5557c531df1e9f2881144b8614fcc83f9673f6ef5ace5d2ed1a3d19b54",
+        "node": "5adfcd5557c531df1e9f2881144b8614fcc83f9673f6ef5ace5d2ed1a3d19b54"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -15366,8 +15366,8 @@
         "node": "272874c85c8a02f65279219b67691ddeea834d015985a975a26f2844a8be6db4"
       },
       "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts": {
-        "jsdom": "9c56b2afff63313364588b7b1c9f9abe69b2db57c5d20a9f1ec2064dbe70986e",
-        "node": "9c56b2afff63313364588b7b1c9f9abe69b2db57c5d20a9f1ec2064dbe70986e"
+        "jsdom": "0d8a2f161bee291f0a1a11839a3d41ceac48a035debba6227130bbf6c719fc38",
+        "node": "0d8a2f161bee291f0a1a11839a3d41ceac48a035debba6227130bbf6c719fc38"
       },
       "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts": {
         "jsdom": "a9e41bd9160d52b2e37dca78b53f87da13e34c6df85a553e202527c4123002d9",
@@ -15470,8 +15470,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "09a9f28de1bcb5510d6f4c832f0a73830ae0a83da7a8e9e7761a5f8008e7b490",
-        "node": "09a9f28de1bcb5510d6f4c832f0a73830ae0a83da7a8e9e7761a5f8008e7b490"
+        "jsdom": "e33415618a86980ddac986576789d078affda5188c24a6fd3d0497ab91277d50",
+        "node": "e33415618a86980ddac986576789d078affda5188c24a6fd3d0497ab91277d50"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -15510,12 +15510,12 @@
         "node": "6970d0e55fa5706903e6bc5838d3a453bfc49c2b62099df904094079412492ad"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "5e29ad7c71cce2b97017210c9da436ac8ea332b1e53235eb3459e861e56456cf",
-        "node": "5e29ad7c71cce2b97017210c9da436ac8ea332b1e53235eb3459e861e56456cf"
+        "jsdom": "4a9a3dcc81805130b00269d8c3b09c167ca9d65a3af45688b76cab9e7c7d2f9a",
+        "node": "4a9a3dcc81805130b00269d8c3b09c167ca9d65a3af45688b76cab9e7c7d2f9a"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "21e24116af972631b880bb752db1eef167b5198d6f6459724819155a0c491fbf",
-        "node": "21e24116af972631b880bb752db1eef167b5198d6f6459724819155a0c491fbf"
+        "jsdom": "23860c2a3ddfefbc4584dd83ea181a053e6ac0391ef3ac46ea95edeae7c5a4bd",
+        "node": "23860c2a3ddfefbc4584dd83ea181a053e6ac0391ef3ac46ea95edeae7c5a4bd"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -16146,8 +16146,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "0da5ba81a121791cd7d3ece9c5b3cb7aca9d8a9a8018b0764fe0bfdbddda88b6",
-        "node": "0da5ba81a121791cd7d3ece9c5b3cb7aca9d8a9a8018b0764fe0bfdbddda88b6"
+        "jsdom": "9734d745cce913ac7ef87fcb5e9df02feab37eed98a2f68b5ca143c3226ade10",
+        "node": "9734d745cce913ac7ef87fcb5e9df02feab37eed98a2f68b5ca143c3226ade10"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -16320,8 +16320,8 @@
         "node": "79fbf576dbe7cc42c8a2efbf9721b6851bbf174fae4b8ca711b2014ced3ae06f"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "263042b54b159929220d647ef7895e09ce34b74a27935c434a12784ef3ece0ec",
-        "node": "263042b54b159929220d647ef7895e09ce34b74a27935c434a12784ef3ece0ec"
+        "jsdom": "75290430b03b79924f9151df2dcb48df72485ad2e3edb8700a2af18d07ed5e40",
+        "node": "75290430b03b79924f9151df2dcb48df72485ad2e3edb8700a2af18d07ed5e40"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "a5e4c425aa8f8e30e9d665310a8df7b2a1fd1fccf9e1e5d0a1dc3c2f81a96b7b",
@@ -16412,8 +16412,8 @@
         "node": "de12c19ce48190af7e329d77d7e77a2992cea6d0772203ff31f2d6e7084e1b44"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "f7ba99ab4a1b0a774ca7114e7bdd0736e310a89069106b4bd9007d3b127ee438",
-        "node": "f7ba99ab4a1b0a774ca7114e7bdd0736e310a89069106b4bd9007d3b127ee438"
+        "jsdom": "90ac3537448a058f6e425e374052b484286a0327c54f94f9855efa74000d6ff0",
+        "node": "90ac3537448a058f6e425e374052b484286a0327c54f94f9855efa74000d6ff0"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "363af053b1dfa65b8d15587c6a19445fd5a6816816189fbb91a1df3dfd30ec77",
@@ -16436,8 +16436,8 @@
         "node": "ea655598cfbfd2988297ea6e8e90cd90e31f2e226662ca2f974fc25d364d993d"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "649897ec3a36cae1aa928090ca898066d3192590be1420dc0388c79ddfd03ffe",
-        "node": "649897ec3a36cae1aa928090ca898066d3192590be1420dc0388c79ddfd03ffe"
+        "jsdom": "346c38a898006e0b77aeee06e4256efca1a020b6ce493f059f878fcf286845d8",
+        "node": "346c38a898006e0b77aeee06e4256efca1a020b6ce493f059f878fcf286845d8"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "fac51599f50c9c5e5cdec4589a83093990dadc4bdb81aef8023d099665c63753",
@@ -16448,8 +16448,8 @@
         "node": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a"
       },
       "packages/mermaid/src/diagrams/architecture/architecture.spec.ts": {
-        "jsdom": "850a49791ec6e3edbe9b54ec4d6a17671f68fa7fc0ccb582eddfc2b05e94d64c",
-        "node": "850a49791ec6e3edbe9b54ec4d6a17671f68fa7fc0ccb582eddfc2b05e94d64c"
+        "jsdom": "2ec76761d1fbfb9dbc8d74ef58eb84fd1b7931ec2130fb12034d8bb74ba0c883",
+        "node": "2ec76761d1fbfb9dbc8d74ef58eb84fd1b7931ec2130fb12034d8bb74ba0c883"
       },
       "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts": {
         "jsdom": "784f4efe4a5bc4b16a391b536083353ae2cee1fea4fbe1aec6b040b6939137f0",
@@ -16464,8 +16464,8 @@
         "node": "0fe050dc9eabca376e8f444090e2db620806fa7a8854cb68c2feda9209a1cc22"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "3e7c89fc156f12b42b1a2ac910ca50ffa8413b4fa438380fd97f02fe179e229b",
-        "node": "3e7c89fc156f12b42b1a2ac910ca50ffa8413b4fa438380fd97f02fe179e229b"
+        "jsdom": "d2cccc7a1479ad12252e7299c8fbb60dfd799b1029f8d6759d2a0839aea842ee",
+        "node": "d2cccc7a1479ad12252e7299c8fbb60dfd799b1029f8d6759d2a0839aea842ee"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -16544,8 +16544,8 @@
         "node": "6fae4183ebba980af1735ce78802f72f0ee771a4188bcb28a2132f39739b271f"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "ab269e4e2072f1c46d8422390145d9565e849d9f28cf07e909d4669f12e57cb6",
-        "node": "ab269e4e2072f1c46d8422390145d9565e849d9f28cf07e909d4669f12e57cb6"
+        "jsdom": "82672edad9b147f3bab96b46d9cdda1f5a4447571944e62776c1e79b11accefc",
+        "node": "82672edad9b147f3bab96b46d9cdda1f5a4447571944e62776c1e79b11accefc"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
         "jsdom": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535",
@@ -16664,8 +16664,8 @@
         "node": "f9acf83e1d3dfcd13649c7a7eb071974155a5db23c3d840b44ec70887e5294a1"
       },
       "packages/mermaid/src/diagrams/git/gitGraph.spec.ts": {
-        "jsdom": "ac22c1b77e7e519bdb38c8bc318622d35cfbeacb3fe3565fd9ecac686db1e25f",
-        "node": "ac22c1b77e7e519bdb38c8bc318622d35cfbeacb3fe3565fd9ecac686db1e25f"
+        "jsdom": "5a5215cf6bf9175ebb511c715f5d8162bfb20d0ee885c39d80c31d24635f6139",
+        "node": "5a5215cf6bf9175ebb511c715f5d8162bfb20d0ee885c39d80c31d24635f6139"
       },
       "packages/mermaid/src/diagrams/info/info.spec.ts": {
         "jsdom": "0718c9b3312e72fa421d30db1b5d2747eb33fb9041f14933cbf01f2de7b160d1",
@@ -16688,8 +16688,8 @@
         "node": "a17e0e7af929d07d6e58a5090d42dbb5ddd3971068743c946a9d447f420f241d"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts": {
-        "jsdom": "a8769577be6540cdd693027951a4fae8f90aa9a8f4e71f740d29a54b7b0ebf8b",
-        "node": "a8769577be6540cdd693027951a4fae8f90aa9a8f4e71f740d29a54b7b0ebf8b"
+        "jsdom": "51ef52073338a1a9eb239a8877ffea3ae430ce6e4da79f4a26992b964d35c22b",
+        "node": "51ef52073338a1a9eb239a8877ffea3ae430ce6e4da79f4a26992b964d35c22b"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapLayout.spec.ts": {
         "jsdom": "02e9993c81fea2d3a522a73547f0ca3ac588866cb2a758cd098441ca10938246",
@@ -16720,8 +16720,8 @@
         "node": "1f209976cb8d8b14e1311b3325fde7397d3336ce1fa3c6c3c17883bd31a74f14"
       },
       "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts": {
-        "jsdom": "e0e2b86fd4bbf301021a264d5b4d14b61159cdc318501d4810c07c4e15461963",
-        "node": "e0e2b86fd4bbf301021a264d5b4d14b61159cdc318501d4810c07c4e15461963"
+        "jsdom": "a8780064a0b52e4f56a216d75c8c7cabfc16162f7544a74b66d1ab9787a9a9cd",
+        "node": "a8780064a0b52e4f56a216d75c8c7cabfc16162f7544a74b66d1ab9787a9a9cd"
       },
       "packages/mermaid/src/diagrams/radar/radar.spec.ts": {
         "jsdom": "c63628ca1a8d0b94bb12e05d4778b66a40fe82233a80caf054d551b3d8c62dc8",
@@ -16756,8 +16756,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "518543a23c404d247d0a881843be0be601772095c25d673e26f331e8bc0d1754",
-        "node": "518543a23c404d247d0a881843be0be601772095c25d673e26f331e8bc0d1754"
+        "jsdom": "8e0d7e14e46d8f3f82646b575bf23d1076d0d842b673f837c70c04b73f217e84",
+        "node": "8e0d7e14e46d8f3f82646b575bf23d1076d0d842b673f837c70c04b73f217e84"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -16776,8 +16776,8 @@
         "node": "432ee3be9800e2b7a81afe0c2b7903ae74024d9a901f8f510fac04994ca64dcf"
       },
       "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts": {
-        "jsdom": "31ea9f77fc07228d9a075d0712e49f6e65fa93403613bc3bb6a298c7a6461810",
-        "node": "31ea9f77fc07228d9a075d0712e49f6e65fa93403613bc3bb6a298c7a6461810"
+        "jsdom": "d256a3ff8e95569224bc77b3f661cc463b42d2db1d8a7790d57da9963e5a504b",
+        "node": "d256a3ff8e95569224bc77b3f661cc463b42d2db1d8a7790d57da9963e5a504b"
       },
       "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts": {
         "jsdom": "a9e41bd9160d52b2e37dca78b53f87da13e34c6df85a553e202527c4123002d9",
@@ -16880,8 +16880,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "8e2e733038fc7fa9fecc6808ef5f8b49fe0e041062bf5a2bea4b958be7f2e8a1",
-        "node": "8e2e733038fc7fa9fecc6808ef5f8b49fe0e041062bf5a2bea4b958be7f2e8a1"
+        "jsdom": "ed07a9d98e2cb7201a73c8d548429d7197626b384cb3c204e4ef1fec939b289a",
+        "node": "ed07a9d98e2cb7201a73c8d548429d7197626b384cb3c204e4ef1fec939b289a"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -16920,12 +16920,12 @@
         "node": "8fe9016c49abe83d6d875c8c02454ff5cd6032ec750ed977a16daa83375337fb"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "90e335cfeeaf2bdfb87f4de56560e1bdc6aceb9fa830764e0b8944ab0b776bbd",
-        "node": "90e335cfeeaf2bdfb87f4de56560e1bdc6aceb9fa830764e0b8944ab0b776bbd"
+        "jsdom": "f7213e184b1726004bd8ab51db94e9daaab982d6de48790dc698e4006a3d51b7",
+        "node": "f7213e184b1726004bd8ab51db94e9daaab982d6de48790dc698e4006a3d51b7"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "7d7cce0675bb737fb863fe8d6fb1265617cd36e085879cb174912d71c47e1e69",
-        "node": "7d7cce0675bb737fb863fe8d6fb1265617cd36e085879cb174912d71c47e1e69"
+        "jsdom": "dd530c4a3df535b89131728f0f6a8e21394448caed91f11178bd9d1723f9c20e",
+        "node": "dd530c4a3df535b89131728f0f6a8e21394448caed91f11178bd9d1723f9c20e"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -16936,8 +16936,8 @@
         "node": "5c5bcd8998970aad1e599e1d5245ae2e9c920a042b4e581e36d20a73c1a8bf8d"
       },
       "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js": {
-        "jsdom": "d31df333b6060317e31377de5cbed48ba063f9fb4a0527c814cf0184c276a48d",
-        "node": "d31df333b6060317e31377de5cbed48ba063f9fb4a0527c814cf0184c276a48d"
+        "jsdom": "7fbe9b362313c1d31934d3a322c5228be905ab6c75afb16739e9f10b0023e8de",
+        "node": "7fbe9b362313c1d31934d3a322c5228be905ab6c75afb16739e9f10b0023e8de"
       },
       "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js": {
         "jsdom": "292c8a60c38ddd3313d171c05993f3046a8be4ab081f6b2afcf86d8afcbb9e2c",
@@ -16980,8 +16980,8 @@
         "node": "2af972856b7d210646548f8188a0ddb95fe27c2f43da657aa04ec41431c47657"
       },
       "packages/mermaid/src/diagrams/xychart/xychartDb.spec.ts": {
-        "jsdom": "c87646dbdbe8a3bd059275a9c991019d21b655af14b81f3b6f7212afb896950c",
-        "node": "c87646dbdbe8a3bd059275a9c991019d21b655af14b81f3b6f7212afb896950c"
+        "jsdom": "ce5d9146cd38d117ecf88f7f611dec65abd0a0c14302d5d985960b110df249bc",
+        "node": "ce5d9146cd38d117ecf88f7f611dec65abd0a0c14302d5d985960b110df249bc"
       },
       "packages/mermaid/src/docs/.vitepress/betaDiagrams.spec.ts": {
         "jsdom": "9b9d337e8e32bd8d1a661a36d1174750b59519d3c5e81d80ec1a85ac9985667d",
@@ -17556,8 +17556,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "d921bd0c57676593b9fb7a173e4255064b497fa1c7b7ee6beda3c2a20b7e135c",
-        "node": "d921bd0c57676593b9fb7a173e4255064b497fa1c7b7ee6beda3c2a20b7e135c"
+        "jsdom": "025f02bc22fc2f722b5514b04cbc0dd81a0bb13e49cde8f2de6a6c83ca355a06",
+        "node": "025f02bc22fc2f722b5514b04cbc0dd81a0bb13e49cde8f2de6a6c83ca355a06"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -17730,8 +17730,8 @@
         "node": "6ba3c95b3de23b509be40edab4ac25e2df34be093578fe959f59a58726e74be3"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "23c2621327a57f535aa209dc9290615b118736fa251a6be93b5af494b9b225ba",
-        "node": "23c2621327a57f535aa209dc9290615b118736fa251a6be93b5af494b9b225ba"
+        "jsdom": "cc2d46d475fa7f18b23985c3aee46fae9009d84955f247af85f1e88bb73631af",
+        "node": "cc2d46d475fa7f18b23985c3aee46fae9009d84955f247af85f1e88bb73631af"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "4c354bba244c4f0895bd259264b2850fea9e7a534f001f43b00d4ebc5c5ae0bb",
@@ -17822,8 +17822,8 @@
         "node": "caf2ebd2721c7bcf9cca10c980902d1954cf5a0a55309dac6af92810b5a88462"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "bcce98ffc2421494ee2a48c112cb9f6f90434c74196564a667f9900c95cb33fc",
-        "node": "bcce98ffc2421494ee2a48c112cb9f6f90434c74196564a667f9900c95cb33fc"
+        "jsdom": "67f0160bec5cfb8fbbe825149f10ba26015e936da20635746f9ce0b8520a64b9",
+        "node": "67f0160bec5cfb8fbbe825149f10ba26015e936da20635746f9ce0b8520a64b9"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "05304e07104194aabdb6aa2c7404298be8541fb19330143c26ba2b721076d6a0",
@@ -17846,8 +17846,8 @@
         "node": "8c87a6bce6a915f5888b6b02001b95b14aec19c0a1b9777553e2ceda99b2ef9d"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "a454086a863b5739b835906985b995e9e6815ac7622de9659d66516a69aed769",
-        "node": "a454086a863b5739b835906985b995e9e6815ac7622de9659d66516a69aed769"
+        "jsdom": "248dbc1d54978761abfd485fb33c84cf6a6b1365eeba0630d794dbbd7cb76ecb",
+        "node": "248dbc1d54978761abfd485fb33c84cf6a6b1365eeba0630d794dbbd7cb76ecb"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "44e1ed8f2d3ada242b5cff85547bf00ac5f4b3fbad0496ced4d5ff8e1df55edd",
@@ -17858,8 +17858,8 @@
         "node": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a"
       },
       "packages/mermaid/src/diagrams/architecture/architecture.spec.ts": {
-        "jsdom": "399e927df6b08216c9bef36d6f8a22bbde794c3ae2da6b717ab84c8aa9f1887f",
-        "node": "399e927df6b08216c9bef36d6f8a22bbde794c3ae2da6b717ab84c8aa9f1887f"
+        "jsdom": "932c6bd7cc5cf40694d0ae99efa07fda492291ca00f2ef1a438e5ce80f0accdd",
+        "node": "932c6bd7cc5cf40694d0ae99efa07fda492291ca00f2ef1a438e5ce80f0accdd"
       },
       "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts": {
         "jsdom": "784f4efe4a5bc4b16a391b536083353ae2cee1fea4fbe1aec6b040b6939137f0",
@@ -17874,8 +17874,8 @@
         "node": "690fc89e312e5e1571afe2936e8062c321c2f67fb43f45cd55fb8f918a8237ce"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "b794485dbf7efa358d961cae87c8cbb43ba1fe00d2ce47cd95e654649fbe04aa",
-        "node": "b794485dbf7efa358d961cae87c8cbb43ba1fe00d2ce47cd95e654649fbe04aa"
+        "jsdom": "e31fd07395a965808d2bc9f3e3f387cd46c019ecfff5641ea6f2696eff839524",
+        "node": "e31fd07395a965808d2bc9f3e3f387cd46c019ecfff5641ea6f2696eff839524"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -17918,8 +17918,8 @@
         "node": "37888e36107485c1f1e268e2e297a0286badee2cd4a8cae29c555b6515b388e4"
       },
       "packages/mermaid/src/diagrams/class/classDiagram-colorIndex.spec.ts": {
-        "jsdom": "ede9e1c6deb6a9f04a1379fad3bbe418abcd01b6812923e92c9d7e614eac100c",
-        "node": "ede9e1c6deb6a9f04a1379fad3bbe418abcd01b6812923e92c9d7e614eac100c"
+        "jsdom": "2015c4642fd3f415c04f388d05779b39e84ad45e90096225c5191e30f60662b8",
+        "node": "2015c4642fd3f415c04f388d05779b39e84ad45e90096225c5191e30f60662b8"
       },
       "packages/mermaid/src/diagrams/class/classDiagram-styles.spec.js": {
         "jsdom": "826f39acb1f875e6263e75bfce25306b9953c63beb707106cb452a5c6dc16b07",
@@ -17954,12 +17954,12 @@
         "node": "94650f51bca28779f662cb7e54c2904b39f34dd1fc69211e647bcc29235e20da"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "382b1cf0e29a7e10f6ac5028b099ce77c50426b1ee75513edebf641de004debe",
-        "node": "382b1cf0e29a7e10f6ac5028b099ce77c50426b1ee75513edebf641de004debe"
+        "jsdom": "4736d93cfbfc43dccca840719ece0b19131a60860030ae38fe6ee6e34383e523",
+        "node": "4736d93cfbfc43dccca840719ece0b19131a60860030ae38fe6ee6e34383e523"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
-        "jsdom": "ecc405b117a8fb7a0bb65a41540bb03b0261dfd263e49e3fbc5ce2bb989d17d6",
-        "node": "ecc405b117a8fb7a0bb65a41540bb03b0261dfd263e49e3fbc5ce2bb989d17d6"
+        "jsdom": "9c554171701459e09ce88bba56cd970565d551341eeb526cbcaaed8f20d0b536",
+        "node": "9c554171701459e09ce88bba56cd970565d551341eeb526cbcaaed8f20d0b536"
       },
       "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js": {
         "jsdom": "13b234ffb454bcd3517a05d536f1c904d9a2997b68f13dc0b2f9d5f20d63a626",
@@ -18066,16 +18066,16 @@
         "node": "10cf8fc509ace07276a68c4ffaa3f3cd0034ff0f78227595d536652bfd97e65a"
       },
       "packages/mermaid/src/diagrams/gantt/ganttDb.spec.ts": {
-        "jsdom": "7f72b42a2c34b80fe3198f35e23df20d5a0dc4648e90a6ebe3a35f1f20f41963",
-        "node": "7f72b42a2c34b80fe3198f35e23df20d5a0dc4648e90a6ebe3a35f1f20f41963"
+        "jsdom": "eb245b61d0aeba221f2b5db05d4433fd691249a2e3fcab4b5e388c54c8c78cb6",
+        "node": "eb245b61d0aeba221f2b5db05d4433fd691249a2e3fcab4b5e388c54c8c78cb6"
       },
       "packages/mermaid/src/diagrams/gantt/parser/gantt.spec.js": {
         "jsdom": "abc815a4857945f4824d42abcd5563ef4b27abe80aff6058712782d47f795d2a",
         "node": "abc815a4857945f4824d42abcd5563ef4b27abe80aff6058712782d47f795d2a"
       },
       "packages/mermaid/src/diagrams/git/gitGraph.spec.ts": {
-        "jsdom": "eda3198dd7bb71d1871e912384b51f4c4204d25cbdc4a1b232e19e4e3534cf8f",
-        "node": "eda3198dd7bb71d1871e912384b51f4c4204d25cbdc4a1b232e19e4e3534cf8f"
+        "jsdom": "7e0ef4811dec38974d5b8ea4fd184d88c8c3e69b22238bd69f0b324d4b9df1ce",
+        "node": "7e0ef4811dec38974d5b8ea4fd184d88c8c3e69b22238bd69f0b324d4b9df1ce"
       },
       "packages/mermaid/src/diagrams/info/info.spec.ts": {
         "jsdom": "750aa73c5e32b29756da00e66728613b4c90f41b4421b9ae1f9a306de2c7f9f1",
@@ -18098,8 +18098,8 @@
         "node": "a17e0e7af929d07d6e58a5090d42dbb5ddd3971068743c946a9d447f420f241d"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts": {
-        "jsdom": "fdabb0f703c864a74d36dc45e00cd1c970b9dae08d369f60ef2800fac15f276d",
-        "node": "fdabb0f703c864a74d36dc45e00cd1c970b9dae08d369f60ef2800fac15f276d"
+        "jsdom": "8018fd64019b867297ad1e6f407db7c18b9b6ba8af41024564d5f2e6e3434eb2",
+        "node": "8018fd64019b867297ad1e6f407db7c18b9b6ba8af41024564d5f2e6e3434eb2"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapLayout.spec.ts": {
         "jsdom": "02e9993c81fea2d3a522a73547f0ca3ac588866cb2a758cd098441ca10938246",
@@ -18118,8 +18118,8 @@
         "node": "4a3305708450194978bb4856fa27b9a32a0e59be27659e6e81e9af44d8723617"
       },
       "packages/mermaid/src/diagrams/pie/pie.spec.ts": {
-        "jsdom": "adb818b0cbbb5fa9e7f38ab24d30e4ab4adeb7c9072455eddb99ea33a148ef79",
-        "node": "adb818b0cbbb5fa9e7f38ab24d30e4ab4adeb7c9072455eddb99ea33a148ef79"
+        "jsdom": "d8104fdef2c39423040728fe5695f8dd91992139fbb01a775a9b7a4a7604be63",
+        "node": "d8104fdef2c39423040728fe5695f8dd91992139fbb01a775a9b7a4a7604be63"
       },
       "packages/mermaid/src/diagrams/pie/pieRenderer.spec.ts": {
         "jsdom": "fd74aae7a645974478df7b209273ba4f225d9c27b60f21b5c0baeb4da5cdeaa3",
@@ -18130,8 +18130,8 @@
         "node": "5eb8d4cd0ecf0e787403dec801b4714f2448c2e76e7b9a61a635e0626a8e5aa4"
       },
       "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts": {
-        "jsdom": "19c556d330fd73b232b544ef989d545b757ab9b5a512baf8699183ccd928007f",
-        "node": "19c556d330fd73b232b544ef989d545b757ab9b5a512baf8699183ccd928007f"
+        "jsdom": "1220a601f847f9b666a293dec15da82908b40a19130871d3fbe874adf872c7aa",
+        "node": "1220a601f847f9b666a293dec15da82908b40a19130871d3fbe874adf872c7aa"
       },
       "packages/mermaid/src/diagrams/radar/radar.spec.ts": {
         "jsdom": "7293b11e534a83e2ac5e6922b3b7b0d938b77c6d4136361e9e39c44c3741a1e1",
@@ -18166,8 +18166,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "4de13413375835ffb38141fea7616619187ace19589043de76a25f033e0b0832",
-        "node": "4de13413375835ffb38141fea7616619187ace19589043de76a25f033e0b0832"
+        "jsdom": "327d8ecee9d17361bed161c85e8fffbddcb852452a70edf543dd5372d91975dd",
+        "node": "327d8ecee9d17361bed161c85e8fffbddcb852452a70edf543dd5372d91975dd"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -18186,8 +18186,8 @@
         "node": "0f874db78302c0b1de8019e572a4c700a5a91aa787b08d9e428fd2ae823575c7"
       },
       "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts": {
-        "jsdom": "99667fd70a523e5e1a15b93592d824817c69e682a05b1e0c1d7bcfd7b1514d78",
-        "node": "99667fd70a523e5e1a15b93592d824817c69e682a05b1e0c1d7bcfd7b1514d78"
+        "jsdom": "d749e1b8e3746de1f738cadb3e27a692a2f21bc8033c4555cdcbd7da65774f62",
+        "node": "d749e1b8e3746de1f738cadb3e27a692a2f21bc8033c4555cdcbd7da65774f62"
       },
       "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts": {
         "jsdom": "a9e41bd9160d52b2e37dca78b53f87da13e34c6df85a553e202527c4123002d9",
@@ -18290,8 +18290,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "3d737ea0f7952258f58b9b53b3abdff509a1f7b852416cf35c3e9a625f2b949f",
-        "node": "3d737ea0f7952258f58b9b53b3abdff509a1f7b852416cf35c3e9a625f2b949f"
+        "jsdom": "fa937a8a9afe868af110997df8428076758a073b5261422d0c24c3d01f1544c0",
+        "node": "fa937a8a9afe868af110997df8428076758a073b5261422d0c24c3d01f1544c0"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -18330,12 +18330,12 @@
         "node": "91954f4351bac31dee31843076d6b68a7c6c8cf4c4fc6097ec176942cdb84f00"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "7d861b99bc437aace5cd1bb76c322cde2840b5f6c4eca77d952533fb305503cd",
-        "node": "7d861b99bc437aace5cd1bb76c322cde2840b5f6c4eca77d952533fb305503cd"
+        "jsdom": "ad8b49ded37ea5d5c4bb00d4ae460b322e542f2e58fa7f7912a1d4dcc8a065ff",
+        "node": "ad8b49ded37ea5d5c4bb00d4ae460b322e542f2e58fa7f7912a1d4dcc8a065ff"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "df8b04059046f3bca729173fa939649567187b875d65817d495c8ba66f9186a2",
-        "node": "df8b04059046f3bca729173fa939649567187b875d65817d495c8ba66f9186a2"
+        "jsdom": "4af04360fdad97506e0a4aa57ce60ec278f13210f886ddaa06c879e4e336f18a",
+        "node": "4af04360fdad97506e0a4aa57ce60ec278f13210f886ddaa06c879e4e336f18a"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -18346,8 +18346,8 @@
         "node": "5c5bcd8998970aad1e599e1d5245ae2e9c920a042b4e581e36d20a73c1a8bf8d"
       },
       "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js": {
-        "jsdom": "7d4d676a19d80283fb3867c05c4bdf3a551aaffabb03bdf04f413c4a5cc99720",
-        "node": "7d4d676a19d80283fb3867c05c4bdf3a551aaffabb03bdf04f413c4a5cc99720"
+        "jsdom": "9bc5fa7c161d6b52c27c2078b3f9a066c8e92f6192aa9116c0aa109442d7ea21",
+        "node": "9bc5fa7c161d6b52c27c2078b3f9a066c8e92f6192aa9116c0aa109442d7ea21"
       },
       "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js": {
         "jsdom": "1b115cbebb891378d6b75586dc1d923afe9b29de2d97cabf959f7fd187bfbebc",
@@ -18390,8 +18390,8 @@
         "node": "1de9b3c477687cef38fb861574b5a72cde3089db26f8bd2896fc1f2b27429cc3"
       },
       "packages/mermaid/src/diagrams/xychart/xychartDb.spec.ts": {
-        "jsdom": "4fe0488f8268497a39335033175412cbc03ccda6947f7acc0834f2360b92fb2d",
-        "node": "4fe0488f8268497a39335033175412cbc03ccda6947f7acc0834f2360b92fb2d"
+        "jsdom": "8ef487ccca415108576ef3b2c509f39f8d1bd2a2e979c3709047032a21feeaa2",
+        "node": "8ef487ccca415108576ef3b2c509f39f8d1bd2a2e979c3709047032a21feeaa2"
       },
       "packages/mermaid/src/docs/.vitepress/betaDiagrams.spec.ts": {
         "jsdom": "9b9d337e8e32bd8d1a661a36d1174750b59519d3c5e81d80ec1a85ac9985667d",
@@ -18966,8 +18966,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "92487ec05d40d710cc1d73840e742c80131db5bd3a0f9854cf75b6551b7e4862",
-        "node": "92487ec05d40d710cc1d73840e742c80131db5bd3a0f9854cf75b6551b7e4862"
+        "jsdom": "90a38375f6fa91096582eb5b8ce3b90b69b30449a3b2fcddfc1f3e5653739bb2",
+        "node": "90a38375f6fa91096582eb5b8ce3b90b69b30449a3b2fcddfc1f3e5653739bb2"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -19140,8 +19140,8 @@
         "node": "012a36cb31404d6db0568054f7aa912f107d10219bc78319af14182f0f099c64"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "5b414913f6fe6b6aeb4b2101c0c52532d69feb4f243e159703b86ada45b71a1f",
-        "node": "5b414913f6fe6b6aeb4b2101c0c52532d69feb4f243e159703b86ada45b71a1f"
+        "jsdom": "3101c3f18c4c46fb0c067e46ded92f3d3a04c3ae8e2c50fcdd253a6b951c0788",
+        "node": "3101c3f18c4c46fb0c067e46ded92f3d3a04c3ae8e2c50fcdd253a6b951c0788"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "78c736eaec99c74ebcc7773177d6a8024a279ce6fe039cc916c98732fb76a565",
@@ -19232,8 +19232,8 @@
         "node": "1e2519957a8c906f6a9806e4f8bd2e5529b4ae873bcd3c5b1f4092d1317fcd5b"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "cb751cd48d546a5f70a663decf8d9bf55e399f48f62b43dfb30e8c0685c1d5a0",
-        "node": "cb751cd48d546a5f70a663decf8d9bf55e399f48f62b43dfb30e8c0685c1d5a0"
+        "jsdom": "18a46db85aad4f2c6cec621ef04dd59cec6ee7efd3e2b66f8c16b9fa7d3f1871",
+        "node": "18a46db85aad4f2c6cec621ef04dd59cec6ee7efd3e2b66f8c16b9fa7d3f1871"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "136892b1127f1d1e2ba8f135fb56a1418c012075ebc034c4dc3da5ed01f18b3c",
@@ -19256,8 +19256,8 @@
         "node": "8ee4b0e14ac38300c5f763a55b0fd46f530af4378b63149d441c7be18d829e5a"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "8aaa9bae611e78918654560db18baa079885fa0d6f2ee4e70f5bee791f6106df",
-        "node": "8aaa9bae611e78918654560db18baa079885fa0d6f2ee4e70f5bee791f6106df"
+        "jsdom": "d0ef44032b96411583cb90a193f181d02940dd57cd6a0eac9fc0fdba212a0d32",
+        "node": "d0ef44032b96411583cb90a193f181d02940dd57cd6a0eac9fc0fdba212a0d32"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "8f23f320d8ff4d366d5f401f8d533991a36dc0ae23c20136b1073db127dc3cf4",
@@ -19268,8 +19268,8 @@
         "node": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a"
       },
       "packages/mermaid/src/diagrams/architecture/architecture.spec.ts": {
-        "jsdom": "28a4f56a1e587a8761a9d6558ee345f7113f0408a2757a97f85e407c6b40a5fc",
-        "node": "28a4f56a1e587a8761a9d6558ee345f7113f0408a2757a97f85e407c6b40a5fc"
+        "jsdom": "80fc916f1c33768d7ca8eed3fceb2d9bedff7887ddb80d22e4d976c9a619904f",
+        "node": "80fc916f1c33768d7ca8eed3fceb2d9bedff7887ddb80d22e4d976c9a619904f"
       },
       "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts": {
         "jsdom": "784f4efe4a5bc4b16a391b536083353ae2cee1fea4fbe1aec6b040b6939137f0",
@@ -19284,8 +19284,8 @@
         "node": "5d881ccdbca94ea3a08ea7fc9694fba7ed58d7b2953870d08a61104814e64554"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "bd89b107d6a56a2658e1dc96fc402a80e017937f32d1edb53a6f4a29b1d0b23c",
-        "node": "bd89b107d6a56a2658e1dc96fc402a80e017937f32d1edb53a6f4a29b1d0b23c"
+        "jsdom": "b6b1ca62fe90f6cecc49498a452c970d8f891d4b695ba9aec940839ae9224c39",
+        "node": "b6b1ca62fe90f6cecc49498a452c970d8f891d4b695ba9aec940839ae9224c39"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -19364,12 +19364,12 @@
         "node": "b0d2e57c07d4aa635300526062b76289af2864e6b77cfe0a1cf148cf470a7921"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "ee89d9479711f81d8f56b423ed908e16ca93d294eacc7cd677125a05ac8fd6af",
-        "node": "ee89d9479711f81d8f56b423ed908e16ca93d294eacc7cd677125a05ac8fd6af"
+        "jsdom": "667a130496a80539997bd4fc2a7d473fabfb79765dbd7dd168d9d38f8963d068",
+        "node": "667a130496a80539997bd4fc2a7d473fabfb79765dbd7dd168d9d38f8963d068"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
-        "jsdom": "621ab7e1d11f26c4aaae1db71be0f46abcc213de161241f1c2b66145d571488c",
-        "node": "621ab7e1d11f26c4aaae1db71be0f46abcc213de161241f1c2b66145d571488c"
+        "jsdom": "f1eec618ebea71501c5854a44d861f1de85817474f9d8c0a577f609c6a2f56a0",
+        "node": "f1eec618ebea71501c5854a44d861f1de85817474f9d8c0a577f609c6a2f56a0"
       },
       "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js": {
         "jsdom": "a2e9dbe55a5f09040a429e871f8aa84cc16010f3a53024635047b01e076552b8",
@@ -19476,16 +19476,16 @@
         "node": "837f92133add62577f462c9e5bdc9956b55a0e0c10324e46cb626b8c2929750e"
       },
       "packages/mermaid/src/diagrams/gantt/ganttDb.spec.ts": {
-        "jsdom": "c433d04831b7948b36b27746f0760ae8abdeb5abe04d60105b37123f87a93681",
-        "node": "c433d04831b7948b36b27746f0760ae8abdeb5abe04d60105b37123f87a93681"
+        "jsdom": "2b88385841e0faa924c197e1ecb48a6ec7f25e2ed8b229d84a17d1c86a4dee78",
+        "node": "2b88385841e0faa924c197e1ecb48a6ec7f25e2ed8b229d84a17d1c86a4dee78"
       },
       "packages/mermaid/src/diagrams/gantt/parser/gantt.spec.js": {
         "jsdom": "14072a4231420558f3f04646c5b69c556a51ac0c55b9f97db4b1392ae561032d",
         "node": "14072a4231420558f3f04646c5b69c556a51ac0c55b9f97db4b1392ae561032d"
       },
       "packages/mermaid/src/diagrams/git/gitGraph.spec.ts": {
-        "jsdom": "4ff941536a46685fea2257fd5258e5a8cc68a79ca8ff2706cc7ca36d9e6dc2f6",
-        "node": "4ff941536a46685fea2257fd5258e5a8cc68a79ca8ff2706cc7ca36d9e6dc2f6"
+        "jsdom": "3972d6d11f1f11d1f72cd3b93ccd5a47eb5d5af1f296e16e3060e54a1b42277a",
+        "node": "3972d6d11f1f11d1f72cd3b93ccd5a47eb5d5af1f296e16e3060e54a1b42277a"
       },
       "packages/mermaid/src/diagrams/info/info.spec.ts": {
         "jsdom": "167f2c0b9a0064886431e7d808a16582a2f90c1013ec2b39ee1bbf3ce1c41cff",
@@ -19508,8 +19508,8 @@
         "node": "a17e0e7af929d07d6e58a5090d42dbb5ddd3971068743c946a9d447f420f241d"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts": {
-        "jsdom": "e964a33e2b17123e669e39be517d72efa6c85169a31b99d723fa563c07c0a2ad",
-        "node": "e964a33e2b17123e669e39be517d72efa6c85169a31b99d723fa563c07c0a2ad"
+        "jsdom": "f365c76c37f8018b23c6eca59c09112298d0f2c5ad5f71bcbf0c0f34717ae80b",
+        "node": "f365c76c37f8018b23c6eca59c09112298d0f2c5ad5f71bcbf0c0f34717ae80b"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapLayout.spec.ts": {
         "jsdom": "02e9993c81fea2d3a522a73547f0ca3ac588866cb2a758cd098441ca10938246",
@@ -19528,8 +19528,8 @@
         "node": "4a3305708450194978bb4856fa27b9a32a0e59be27659e6e81e9af44d8723617"
       },
       "packages/mermaid/src/diagrams/pie/pie.spec.ts": {
-        "jsdom": "c7797c58cd98cd1eb23665db53997dd164069e5644bf67991f538ceb24785a18",
-        "node": "c7797c58cd98cd1eb23665db53997dd164069e5644bf67991f538ceb24785a18"
+        "jsdom": "e49b8297068f61ab210d879b20447d46aa49f924358e94d21679b2883b0594b3",
+        "node": "e49b8297068f61ab210d879b20447d46aa49f924358e94d21679b2883b0594b3"
       },
       "packages/mermaid/src/diagrams/pie/pieRenderer.spec.ts": {
         "jsdom": "faa5483d1a3b007e1d837f8ae706324e951cad3230301476c4087c7cb55382b1",
@@ -19540,8 +19540,8 @@
         "node": "0c5edb2dde01d13510ddfa070751a80271615174f1fae3fb2370d174179192af"
       },
       "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts": {
-        "jsdom": "bcf01af08529a4f3a333c4283191229d61b3aeb398a8de5d3b7534109e6f88c6",
-        "node": "bcf01af08529a4f3a333c4283191229d61b3aeb398a8de5d3b7534109e6f88c6"
+        "jsdom": "40dfeeb0f47956e36834713799ee1d9c2239fe419ac6de22f577815fcf93f671",
+        "node": "40dfeeb0f47956e36834713799ee1d9c2239fe419ac6de22f577815fcf93f671"
       },
       "packages/mermaid/src/diagrams/radar/radar.spec.ts": {
         "jsdom": "5cc572ddbd028d4f409cf252ceb885cb38dc710eec1294ce57bbf165830ba963",
@@ -19576,8 +19576,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "828d1ceb509eed6772a4d23421f4550fba35a10e6c8a10e7485bf929d0f7b123",
-        "node": "828d1ceb509eed6772a4d23421f4550fba35a10e6c8a10e7485bf929d0f7b123"
+        "jsdom": "652b7db327caaa68fd584a6f2ed32867cdc4ede24a554cae67434104e3bb4ebc",
+        "node": "652b7db327caaa68fd584a6f2ed32867cdc4ede24a554cae67434104e3bb4ebc"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -19596,8 +19596,8 @@
         "node": "59111a4770a0150092ae98edfacbc4a8d5505c2d03c0d4c3d2f0954547fb9e08"
       },
       "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts": {
-        "jsdom": "537fcb1a47c591665754de21c49366075b94c4fbd101462893e2a5fbed53b883",
-        "node": "537fcb1a47c591665754de21c49366075b94c4fbd101462893e2a5fbed53b883"
+        "jsdom": "a9310bcfd3052cd67990a2c53fc17b1954db6840e3e699c57e9b227930551805",
+        "node": "a9310bcfd3052cd67990a2c53fc17b1954db6840e3e699c57e9b227930551805"
       },
       "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts": {
         "jsdom": "a9e41bd9160d52b2e37dca78b53f87da13e34c6df85a553e202527c4123002d9",
@@ -19652,8 +19652,8 @@
         "node": "10e06751aa7c754a7ffdaa07cc87ef6290d0353319d5bf955212221dbbc5892d"
       },
       "packages/mermaid/src/diagrams/state/stateDb.spec.js": {
-        "jsdom": "38f5855c1791d7148f458ba7b15dde276da453d70b8f1fa9b23a85176ebd5bbb",
-        "node": "38f5855c1791d7148f458ba7b15dde276da453d70b8f1fa9b23a85176ebd5bbb"
+        "jsdom": "7ae4a832d85c55f53affa67f6d979c235b2ee53df74caf77c8aaf761fe74dd69",
+        "node": "7ae4a832d85c55f53affa67f6d979c235b2ee53df74caf77c8aaf761fe74dd69"
       },
       "packages/mermaid/src/diagrams/state/stateDiagram-colorIndex.spec.ts": {
         "jsdom": "1cf223b4d45b8754f6da9855fdb1b68f5ad62107fa61cc13977a86695444e1dd",
@@ -19664,8 +19664,8 @@
         "node": "e16ef50fc2cc28708d7ff1c596bbdf600777e4a3e94b03f8a2f6222ca5bce43c"
       },
       "packages/mermaid/src/diagrams/state/stateDiagram.spec.js": {
-        "jsdom": "5fd7367683e848564dacb63eae4f5cf88e84e1f996416b0282b4cda10c974487",
-        "node": "5fd7367683e848564dacb63eae4f5cf88e84e1f996416b0282b4cda10c974487"
+        "jsdom": "8467fc07974861d7b2dd3c0d455333abe78aa83c297f300ca9868c8044cebd47",
+        "node": "8467fc07974861d7b2dd3c0d455333abe78aa83c297f300ca9868c8044cebd47"
       },
       "packages/mermaid/src/diagrams/state/stateNoteEdge.spec.ts": {
         "jsdom": "3e6c5e5cb713911c16d450cbf249e437d1ed2d3e263a906ab4eab60ae0f61659",
@@ -19676,7 +19676,7 @@
         "node": "52d4a871ea1186c23a81994b7a75008e96fa0f7540049825f2f0816f020cf872"
       },
       "packages/mermaid/src/diagrams/state/stateRenderer-v3-unified.spec.js": {
-        "jsdom": "1850b8c8662e609f46e3b07650a70da728aa27b65418791769eccf5510f1c94f",
+        "jsdom": "0dfd91ea6ddc9b7819043c22c4886e2b33006dbaca9ad9a4992a2bc1ab86007c",
         "node": "d7b86a2b8900decc0f518489575a7e1e58ccd8979b66ff6e1a123d9ffe8c70bc"
       },
       "packages/mermaid/src/diagrams/state/stateRenderer.spec.js": {
@@ -19700,8 +19700,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "34a09fa8cd00743a897085cf69b2c0dd654fca74eac4dc04c3f13bd1326ae37e",
-        "node": "34a09fa8cd00743a897085cf69b2c0dd654fca74eac4dc04c3f13bd1326ae37e"
+        "jsdom": "fbf6f3ff959d8dcb4acbc8c8ea760bced8eed46dc5bba018f8cee1a23b9acbfe",
+        "node": "fbf6f3ff959d8dcb4acbc8c8ea760bced8eed46dc5bba018f8cee1a23b9acbfe"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -19740,12 +19740,12 @@
         "node": "a0ca84004b65fb128f77f012c67e56230e0f948c588214d308ddf4d2fe00f04b"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "e0f4b6a4ebfbc287a9806cf311cfc4ee192b261b5854d182c7a17c922f67719c",
-        "node": "e0f4b6a4ebfbc287a9806cf311cfc4ee192b261b5854d182c7a17c922f67719c"
+        "jsdom": "0e7ebcbcae79baa4af6ddb281204d7d59d59ba17d9c2db51f06e14efdecc63f8",
+        "node": "0e7ebcbcae79baa4af6ddb281204d7d59d59ba17d9c2db51f06e14efdecc63f8"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "59bd73d80829c1e92c3d170e3ab181a4e95a61ce37c945969faf56d19c0a62da",
-        "node": "59bd73d80829c1e92c3d170e3ab181a4e95a61ce37c945969faf56d19c0a62da"
+        "jsdom": "de35d522faf6c837afe305d67902f68bbe0cd616c6b077578a438c11ede0b2d0",
+        "node": "de35d522faf6c837afe305d67902f68bbe0cd616c6b077578a438c11ede0b2d0"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -19756,8 +19756,8 @@
         "node": "5c5bcd8998970aad1e599e1d5245ae2e9c920a042b4e581e36d20a73c1a8bf8d"
       },
       "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js": {
-        "jsdom": "795a4bad793fa8ca686d28981ccc33ecab21949dabcc7f451946d2261bc28f13",
-        "node": "795a4bad793fa8ca686d28981ccc33ecab21949dabcc7f451946d2261bc28f13"
+        "jsdom": "c08cce4c8b03e99ac899ba744e4905c3d4305959e1256c610c5b6bb5f5115ee4",
+        "node": "c08cce4c8b03e99ac899ba744e4905c3d4305959e1256c610c5b6bb5f5115ee4"
       },
       "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js": {
         "jsdom": "aa0f7dec17eeb5f4de4d34ea3612e0ba7c7602545a934fa0279ef7a01c449ace",
@@ -19800,8 +19800,8 @@
         "node": "bc03c9a809caf35a7d74c50785605ef43c843bb34a5f5fb5bc0055764bbcb0c2"
       },
       "packages/mermaid/src/diagrams/xychart/xychartDb.spec.ts": {
-        "jsdom": "f2d28c9db9978fe886fc19a763995ea23c0fd4ba21a0a6209410061578c8a87d",
-        "node": "f2d28c9db9978fe886fc19a763995ea23c0fd4ba21a0a6209410061578c8a87d"
+        "jsdom": "253d07349e9b8d13556d4605716544f7480b5638874b28677611fb1703bbbf12",
+        "node": "253d07349e9b8d13556d4605716544f7480b5638874b28677611fb1703bbbf12"
       },
       "packages/mermaid/src/docs/.vitepress/betaDiagrams.spec.ts": {
         "jsdom": "9b9d337e8e32bd8d1a661a36d1174750b59519d3c5e81d80ec1a85ac9985667d",
@@ -20376,8 +20376,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "75fb33aabadcf335fc2c1d1864d633e3ad7c2b512dce6862397a0dce8cbe9b06",
-        "node": "75fb33aabadcf335fc2c1d1864d633e3ad7c2b512dce6862397a0dce8cbe9b06"
+        "jsdom": "a83f71dbfe2b8fd4b51681674f64a1081b26fb60d4770ecc0601267c67e16797",
+        "node": "a83f71dbfe2b8fd4b51681674f64a1081b26fb60d4770ecc0601267c67e16797"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -21960,8 +21960,8 @@
         "node": "1225de398d8e24e4e3bfecb03a050ab5fc78738693c439b9e8d80d60a5f5df0c"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "4ed8911562d80c9a379c78d985808e2e0c5754acd53477919cbeb100167bae30",
-        "node": "4ed8911562d80c9a379c78d985808e2e0c5754acd53477919cbeb100167bae30"
+        "jsdom": "e8713f9f4c97729b9c7e4fd1d2a0aae45c5c0201054b93eff30d8d7a0cd9283e",
+        "node": "e8713f9f4c97729b9c7e4fd1d2a0aae45c5c0201054b93eff30d8d7a0cd9283e"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "53a0eee0221ea01b8c5c5444bef039c5113ecf1e6aaaf48fbd349d83294d24b6",
@@ -22052,8 +22052,8 @@
         "node": "cac76cdaaf67301edd6ec1c9b3e3098f157d6e57762d41286a6af4d96bf7425a"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "68a578d2de9c79a2aaf0d2c68392e78a10dcccd9a16f740f3719652bf1017a8b",
-        "node": "68a578d2de9c79a2aaf0d2c68392e78a10dcccd9a16f740f3719652bf1017a8b"
+        "jsdom": "8294f58df15ad57d3a7dc310838387f41eecae98117fb76c717348cab413e134",
+        "node": "8294f58df15ad57d3a7dc310838387f41eecae98117fb76c717348cab413e134"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "692e3e3d21e4934b2e0585f29be38a434da177558eebe580d6050f7e68f22e52",
@@ -22076,8 +22076,8 @@
         "node": "433a58225b106833021bfec01e622e853706d65f07f1f4b9c8cdbbe995eff767"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "7071b61d65bef4b50d867da36f98f7028d061b19110735d608b94bc20a739224",
-        "node": "7071b61d65bef4b50d867da36f98f7028d061b19110735d608b94bc20a739224"
+        "jsdom": "54b702e08405f7576467d2bd35f40621ea0006703d907d63632affd94f9975d0",
+        "node": "54b702e08405f7576467d2bd35f40621ea0006703d907d63632affd94f9975d0"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "e6a7512a3d895f673fdfacaf0cc130f586e42204bf1eb7198cf48585ce06ab00",
@@ -22088,8 +22088,8 @@
         "node": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a"
       },
       "packages/mermaid/src/diagrams/architecture/architecture.spec.ts": {
-        "jsdom": "a762d7893acaf7343e83d92ebce3e79033780417716c1f04d3e1fa349f517e04",
-        "node": "a762d7893acaf7343e83d92ebce3e79033780417716c1f04d3e1fa349f517e04"
+        "jsdom": "0e274a8c7fdec7aac866c8bb4ba3bf871fbfd1f71a44d69338c605213c3f8bea",
+        "node": "0e274a8c7fdec7aac866c8bb4ba3bf871fbfd1f71a44d69338c605213c3f8bea"
       },
       "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts": {
         "jsdom": "784f4efe4a5bc4b16a391b536083353ae2cee1fea4fbe1aec6b040b6939137f0",
@@ -22104,8 +22104,8 @@
         "node": "ba910efbb3f687211bae0f8c11f477075828eafdb2fec8a8a1f23cf862f41341"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "8cd014dce7727200b30925400283b3d68ee6025c807aa5f9741b1de894f06355",
-        "node": "8cd014dce7727200b30925400283b3d68ee6025c807aa5f9741b1de894f06355"
+        "jsdom": "1624277b0d0c22ddde0a291e582767ada0204e7c324a36e41eedc2690149e6e9",
+        "node": "1624277b0d0c22ddde0a291e582767ada0204e7c324a36e41eedc2690149e6e9"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -22184,8 +22184,8 @@
         "node": "8a00a1aae3de6bb4fab393d60bf4e3a7120879adb34e57e7bdbbc2df661d9c96"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "bd3a9a39e8d358995f8b633e5ded37e842a16487d944945c36371595382f7435",
-        "node": "bd3a9a39e8d358995f8b633e5ded37e842a16487d944945c36371595382f7435"
+        "jsdom": "6890faca0b2644ffbad35dcdc622e60509c87d6884c3ee7838960ba2d00c0d0f",
+        "node": "6890faca0b2644ffbad35dcdc622e60509c87d6884c3ee7838960ba2d00c0d0f"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
         "jsdom": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535",
@@ -22296,16 +22296,16 @@
         "node": "5ccc469a33d652d88e56df7894255b53ed8a0f00f1d0a6bc6381f3f55da81fa1"
       },
       "packages/mermaid/src/diagrams/gantt/ganttDb.spec.ts": {
-        "jsdom": "31f7b13068476518085272af2f68d1af05ced952e7d2eaca9fb2a3b6da7ee0ae",
-        "node": "31f7b13068476518085272af2f68d1af05ced952e7d2eaca9fb2a3b6da7ee0ae"
+        "jsdom": "65b950e68c28c5bb367302240ff5ca988e49dbcc73741be6afa6f336486db94b",
+        "node": "65b950e68c28c5bb367302240ff5ca988e49dbcc73741be6afa6f336486db94b"
       },
       "packages/mermaid/src/diagrams/gantt/parser/gantt.spec.js": {
         "jsdom": "05ea9b82e5d78213f8f8dcccaf230438568288c59d0f6fe96f9621a00e61bf6d",
         "node": "05ea9b82e5d78213f8f8dcccaf230438568288c59d0f6fe96f9621a00e61bf6d"
       },
       "packages/mermaid/src/diagrams/git/gitGraph.spec.ts": {
-        "jsdom": "364cbcb8bcf5644852161943bb2a6b96d773f1c2dfee006fe6cc0242cc5ce556",
-        "node": "364cbcb8bcf5644852161943bb2a6b96d773f1c2dfee006fe6cc0242cc5ce556"
+        "jsdom": "180869e1d62521c3139848f63abfd1e48069a496ac21744e9761c8fb8c7d0141",
+        "node": "180869e1d62521c3139848f63abfd1e48069a496ac21744e9761c8fb8c7d0141"
       },
       "packages/mermaid/src/diagrams/info/info.spec.ts": {
         "jsdom": "edb0c4b13476944795e8973b5f77a425d165f9f7fc1e167a6240b1540a560abb",
@@ -22328,8 +22328,8 @@
         "node": "a17e0e7af929d07d6e58a5090d42dbb5ddd3971068743c946a9d447f420f241d"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts": {
-        "jsdom": "18419331622eb62eeb78a4413f26326eda555e5a85707fcc737f9f5b78172367",
-        "node": "18419331622eb62eeb78a4413f26326eda555e5a85707fcc737f9f5b78172367"
+        "jsdom": "e287081f932b80f6be8c515ec81cf60cbeee12d7a1f3955aa59f99951e7a7e66",
+        "node": "e287081f932b80f6be8c515ec81cf60cbeee12d7a1f3955aa59f99951e7a7e66"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapLayout.spec.ts": {
         "jsdom": "02e9993c81fea2d3a522a73547f0ca3ac588866cb2a758cd098441ca10938246",
@@ -22348,8 +22348,8 @@
         "node": "4a3305708450194978bb4856fa27b9a32a0e59be27659e6e81e9af44d8723617"
       },
       "packages/mermaid/src/diagrams/pie/pie.spec.ts": {
-        "jsdom": "8bb70260138f0aa155747035b245f638c9779777e5ec86e3b8c2232a2424f9c7",
-        "node": "8bb70260138f0aa155747035b245f638c9779777e5ec86e3b8c2232a2424f9c7"
+        "jsdom": "060d40cf5995d9c1d00702ec4624534bf29c830f48f7b48c2399d0dd49d6becb",
+        "node": "060d40cf5995d9c1d00702ec4624534bf29c830f48f7b48c2399d0dd49d6becb"
       },
       "packages/mermaid/src/diagrams/pie/pieRenderer.spec.ts": {
         "jsdom": "0ded9275fbcf6b41c07f4417a21a0a0926c2a982679513f274ee7478ff84d440",
@@ -22360,8 +22360,8 @@
         "node": "4e910929f6b03aa3a741617eab2cdc0ff4c20f04b63455698684a02f5289beaf"
       },
       "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts": {
-        "jsdom": "eb227a06bd90ec9bc8104d23b7be47c384ca3dea13342d29bace3e2c86ad7902",
-        "node": "eb227a06bd90ec9bc8104d23b7be47c384ca3dea13342d29bace3e2c86ad7902"
+        "jsdom": "62bd9b517433d3cf5fa6886f91d521e18ba3081223e0f9eb45a00dc6c78a8065",
+        "node": "62bd9b517433d3cf5fa6886f91d521e18ba3081223e0f9eb45a00dc6c78a8065"
       },
       "packages/mermaid/src/diagrams/radar/radar.spec.ts": {
         "jsdom": "7f4e383b94acfce24d6aa9426cb5e900ae4acf9a3737c1e971a48f6b1f7b7fe2",
@@ -22396,8 +22396,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "e2a79a370daae5aee81eb7853b99ae53bf790208ee890381a292312b158fe05a",
-        "node": "e2a79a370daae5aee81eb7853b99ae53bf790208ee890381a292312b158fe05a"
+        "jsdom": "9a64f258f70feba521a8b53184d1c00e4d02bd4c2441e6bac2909de932c89476",
+        "node": "9a64f258f70feba521a8b53184d1c00e4d02bd4c2441e6bac2909de932c89476"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -22416,8 +22416,8 @@
         "node": "75895b6e001b45e79ffa31cf451f2eccc046be27d454849cd821a85fd3b2b39a"
       },
       "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts": {
-        "jsdom": "f9a5a3e96b5e8983b3e34734958a7c5d8d377b246581bb806f321431517bcb51",
-        "node": "f9a5a3e96b5e8983b3e34734958a7c5d8d377b246581bb806f321431517bcb51"
+        "jsdom": "a9a4dd619d35b416aece6ab9e60b1f5c835e2d1dfe0e2e00685f80b57081614b",
+        "node": "a9a4dd619d35b416aece6ab9e60b1f5c835e2d1dfe0e2e00685f80b57081614b"
       },
       "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts": {
         "jsdom": "a9e41bd9160d52b2e37dca78b53f87da13e34c6df85a553e202527c4123002d9",
@@ -22520,8 +22520,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "aedf1c7a8f13cc7e7136ccaf151345ec4e12576c35839d863b077aa54bf4124a",
-        "node": "aedf1c7a8f13cc7e7136ccaf151345ec4e12576c35839d863b077aa54bf4124a"
+        "jsdom": "9540af72b108483882d1555d8495419a64b7875b7b220fa6d95f4a22fb700460",
+        "node": "9540af72b108483882d1555d8495419a64b7875b7b220fa6d95f4a22fb700460"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -22560,12 +22560,12 @@
         "node": "3eb8a3d7167a2afc8af32b21b0eda0dfa18e1e49a034467c218686c7feb57d14"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "4f52bc6c8c2df09c7606b80411aba3eca0f23ac01e0481832da0cea09efd38e2",
-        "node": "4f52bc6c8c2df09c7606b80411aba3eca0f23ac01e0481832da0cea09efd38e2"
+        "jsdom": "5413b0f87064b663c73bd17f56edce855a2a8c304f3cf0dc69fbcd0f3a27b0b9",
+        "node": "5413b0f87064b663c73bd17f56edce855a2a8c304f3cf0dc69fbcd0f3a27b0b9"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "eac0a656866223e5f6baa9fc89d7d096f0383807ccfcddabf3591e709ef9e02d",
-        "node": "eac0a656866223e5f6baa9fc89d7d096f0383807ccfcddabf3591e709ef9e02d"
+        "jsdom": "3411bcc76c6178cc225080035e470e3b11c7d69d576f8f3a458a9fb394c292d4",
+        "node": "3411bcc76c6178cc225080035e470e3b11c7d69d576f8f3a458a9fb394c292d4"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -22576,8 +22576,8 @@
         "node": "5c5bcd8998970aad1e599e1d5245ae2e9c920a042b4e581e36d20a73c1a8bf8d"
       },
       "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js": {
-        "jsdom": "5b4af51d45efa0ce7f18e1ede00b3c239bacdfe047f0ed96cbd866ac37f14f2b",
-        "node": "5b4af51d45efa0ce7f18e1ede00b3c239bacdfe047f0ed96cbd866ac37f14f2b"
+        "jsdom": "6635a86288e2f437274293900c95827dc6685ea99726a92aeb4d8a5c72386317",
+        "node": "6635a86288e2f437274293900c95827dc6685ea99726a92aeb4d8a5c72386317"
       },
       "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js": {
         "jsdom": "51117a93af05a3eadfe0f432c1eafec9a5f2428dba11ea372b745b866fe8343c",
@@ -23196,8 +23196,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "e989f06cdbb99882e32b979c0130701c0f4157c719b6411860d6ff0cd06c9414",
-        "node": "e989f06cdbb99882e32b979c0130701c0f4157c719b6411860d6ff0cd06c9414"
+        "jsdom": "a6d48ab2eb7d92810068d6bf9f2b22a432faf94a07f5ac471964837707bda745",
+        "node": "a6d48ab2eb7d92810068d6bf9f2b22a432faf94a07f5ac471964837707bda745"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -23370,8 +23370,8 @@
         "node": "1222ea08952fb228135abe4adf8a3a415123934e2b3e799c93cb3c239fcdf100"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "f093964936e32f8199f75585ccfa7a2c88be31bd363f025dbc6d745b64972559",
-        "node": "f093964936e32f8199f75585ccfa7a2c88be31bd363f025dbc6d745b64972559"
+        "jsdom": "fbc20b7cced15eca5625a27649ab9b02c28a16a6f87a6902c88a40e558ffbf93",
+        "node": "fbc20b7cced15eca5625a27649ab9b02c28a16a6f87a6902c88a40e558ffbf93"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "c8864e398b0ee923873e20c480b2478673c5457a071de3b30a0ecd5fba09a343",
@@ -23462,8 +23462,8 @@
         "node": "f53787f51f22abc565d36207746407470748db0e4524b8bc8ca31d7ca78577e9"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "952c03c84df9cc17d324747a42cac844547f64998c7de2f9334698138237f710",
-        "node": "952c03c84df9cc17d324747a42cac844547f64998c7de2f9334698138237f710"
+        "jsdom": "65a573c910e9cf4c6e9cf835d87061f68049ba3660a9df000c6fb04baadf0586",
+        "node": "65a573c910e9cf4c6e9cf835d87061f68049ba3660a9df000c6fb04baadf0586"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "dc305ddd07882640e6f301466318576abc84aad65f4f147abcd79626d0ad4811",
@@ -23486,8 +23486,8 @@
         "node": "834e84145f13165dacbb35958d02bf1653ef289266c36b35d95cd795da7dea89"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "9bbf94a18aa3dd61961f05e9353e3623368da98a4d24feee229e3d0cc48665ff",
-        "node": "9bbf94a18aa3dd61961f05e9353e3623368da98a4d24feee229e3d0cc48665ff"
+        "jsdom": "f9dcc484c0e46d2980b86499b3ccbe05824a4ed3bc151ff704d0173f8fc12f5b",
+        "node": "f9dcc484c0e46d2980b86499b3ccbe05824a4ed3bc151ff704d0173f8fc12f5b"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "cbbd4114935717868207f512ec0a6a0bc94e36fc66739709bce64e38b9eed32f",
@@ -23498,8 +23498,8 @@
         "node": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a"
       },
       "packages/mermaid/src/diagrams/architecture/architecture.spec.ts": {
-        "jsdom": "a6c499c007fe6aa8cece8e94522d5613596f3a976f6ddf41585a455f6bfc8ccf",
-        "node": "a6c499c007fe6aa8cece8e94522d5613596f3a976f6ddf41585a455f6bfc8ccf"
+        "jsdom": "1217ad667fb29cf3c21b86497b371c39deb10aa2e7fcbd28a252dab2f8f9b650",
+        "node": "1217ad667fb29cf3c21b86497b371c39deb10aa2e7fcbd28a252dab2f8f9b650"
       },
       "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts": {
         "jsdom": "784f4efe4a5bc4b16a391b536083353ae2cee1fea4fbe1aec6b040b6939137f0",
@@ -23514,8 +23514,8 @@
         "node": "a94f094f5ea4b584cdc0a4645a04a68db14fbe701b4607cb42cec63243ecb0a5"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "2e2dc8ebce15bccacba0916ce7ced5aabca895749cb6b19088a1384850b311af",
-        "node": "2e2dc8ebce15bccacba0916ce7ced5aabca895749cb6b19088a1384850b311af"
+        "jsdom": "aa510dc9023606f85cb62038c76b51fcf79c8f4b16c2ab8b0c644e77d5220d2a",
+        "node": "aa510dc9023606f85cb62038c76b51fcf79c8f4b16c2ab8b0c644e77d5220d2a"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -23594,12 +23594,12 @@
         "node": "60d790d68fba43bf066f2180ab0130b781632ca4e12086808fa1e1038efe440e"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "d02facfd9dd867fd36176669d2944a02f9474c26f67866206a8f682f85e3369a",
-        "node": "d02facfd9dd867fd36176669d2944a02f9474c26f67866206a8f682f85e3369a"
+        "jsdom": "2fcd9170855897c551b61b66a92736e6d69f86e45e3d98ae18bc380d94a94b85",
+        "node": "2fcd9170855897c551b61b66a92736e6d69f86e45e3d98ae18bc380d94a94b85"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
-        "jsdom": "3c3a482ec044cdc965bf8f6cdfa213fd8f4584f703e0a571dfbf104c950cc7cc",
-        "node": "3c3a482ec044cdc965bf8f6cdfa213fd8f4584f703e0a571dfbf104c950cc7cc"
+        "jsdom": "9a6a05a191d1770fcceb823760223995e742073ed2048425d0569c5b228751ea",
+        "node": "9a6a05a191d1770fcceb823760223995e742073ed2048425d0569c5b228751ea"
       },
       "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js": {
         "jsdom": "8ec2b0093c2acb1f4d67fb137c0915a09ef502d022526e04710e23cc3428ce85",
@@ -23706,8 +23706,8 @@
         "node": "adcc970f0472158ea5c824e91a15fbaea261361c5c8b06e0b0fc5bf7d46d00e8"
       },
       "packages/mermaid/src/diagrams/gantt/ganttDb.spec.ts": {
-        "jsdom": "8559b93b6a98ac0085cfdb1d0b5432a5202145d624af8ad411605a903596a6b4",
-        "node": "8559b93b6a98ac0085cfdb1d0b5432a5202145d624af8ad411605a903596a6b4"
+        "jsdom": "cdadaee01302bb4de5f3202485d57ed473c7c1b05459167b0b36e318fd5058e9",
+        "node": "cdadaee01302bb4de5f3202485d57ed473c7c1b05459167b0b36e318fd5058e9"
       },
       "packages/mermaid/src/diagrams/gantt/parser/gantt.spec.js": {
         "jsdom": "e36c2a09f42fda9f3a8b0c18b6e75e8857d9c0efe67c3ce1ac2408888bb90cd1",
@@ -23738,8 +23738,8 @@
         "node": "a17e0e7af929d07d6e58a5090d42dbb5ddd3971068743c946a9d447f420f241d"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts": {
-        "jsdom": "787c9b010f27b42743ca6a31ab2ca4059c1c26ae8bfe00f2a8f74363311ab5ab",
-        "node": "787c9b010f27b42743ca6a31ab2ca4059c1c26ae8bfe00f2a8f74363311ab5ab"
+        "jsdom": "8a0670a8e1960c576609dd422f850f8e40baae430a2d2483103a752c351b6646",
+        "node": "8a0670a8e1960c576609dd422f850f8e40baae430a2d2483103a752c351b6646"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapLayout.spec.ts": {
         "jsdom": "02e9993c81fea2d3a522a73547f0ca3ac588866cb2a758cd098441ca10938246",
@@ -23758,8 +23758,8 @@
         "node": "4a3305708450194978bb4856fa27b9a32a0e59be27659e6e81e9af44d8723617"
       },
       "packages/mermaid/src/diagrams/pie/pie.spec.ts": {
-        "jsdom": "e2bed69417c9b5658a63a1fc4691c214f959bf8209d637dd0fbd52a3f01e843b",
-        "node": "e2bed69417c9b5658a63a1fc4691c214f959bf8209d637dd0fbd52a3f01e843b"
+        "jsdom": "a39c73b5839ef683c55f7b7cbc45ea34beb3a0a45183d91ad18c99716c0da2d1",
+        "node": "a39c73b5839ef683c55f7b7cbc45ea34beb3a0a45183d91ad18c99716c0da2d1"
       },
       "packages/mermaid/src/diagrams/pie/pieRenderer.spec.ts": {
         "jsdom": "aac61198b350c09919d7c2593f67adba45042a7bfdbaad69de176e28694ff2ef",
@@ -23770,8 +23770,8 @@
         "node": "6967248266a7e78b97ce69e2dd37bf670f05a770c42fb3eefec36413a100e28a"
       },
       "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts": {
-        "jsdom": "d6e0986b292fdc6e6f01e16b2f425cc28524304741c44182e0bbe7fa0f29b665",
-        "node": "d6e0986b292fdc6e6f01e16b2f425cc28524304741c44182e0bbe7fa0f29b665"
+        "jsdom": "874906160be3e4fe837f48de5981d5fc906e9c6038bc02d8a76bce41e8ca5c40",
+        "node": "874906160be3e4fe837f48de5981d5fc906e9c6038bc02d8a76bce41e8ca5c40"
       },
       "packages/mermaid/src/diagrams/radar/radar.spec.ts": {
         "jsdom": "656d8d322add002cd03b7e3b46c2673ae80044ef7d3f6e537e89b66fca9e4516",
@@ -23806,8 +23806,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "c1086a9f0947b559f6b379f37abb56d50e83aca28e3970ddb22f1b56532c5af0",
-        "node": "c1086a9f0947b559f6b379f37abb56d50e83aca28e3970ddb22f1b56532c5af0"
+        "jsdom": "36e152615dfe0e20ed6eb1298913db018b8306d409c84752fd6fe1cbc3fde884",
+        "node": "36e152615dfe0e20ed6eb1298913db018b8306d409c84752fd6fe1cbc3fde884"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -23826,8 +23826,8 @@
         "node": "03f5d2b3054b89a1fb0117790d278deb959114649ef70c304ea21db7ddc44d1e"
       },
       "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts": {
-        "jsdom": "bd82fd42db71f72743a016261f17fd7a4e051818db2b4288335e290a471dd3b3",
-        "node": "bd82fd42db71f72743a016261f17fd7a4e051818db2b4288335e290a471dd3b3"
+        "jsdom": "c3a583aeab5a5589b9c24fc79dfc5e395b36c4f3d4c04207309c771067445f28",
+        "node": "c3a583aeab5a5589b9c24fc79dfc5e395b36c4f3d4c04207309c771067445f28"
       },
       "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts": {
         "jsdom": "a9e41bd9160d52b2e37dca78b53f87da13e34c6df85a553e202527c4123002d9",
@@ -23930,8 +23930,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "5e4eff35b64a8063635906a0d1670a94e1905f561b6b0c54a17d717eb31cdc12",
-        "node": "5e4eff35b64a8063635906a0d1670a94e1905f561b6b0c54a17d717eb31cdc12"
+        "jsdom": "66cc99b4062f200d64a792d537fde57532a240151495f14da23504e906c6cfe2",
+        "node": "66cc99b4062f200d64a792d537fde57532a240151495f14da23504e906c6cfe2"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -23970,12 +23970,12 @@
         "node": "efeeba466b014c47fdbed75605af86acaab015b3bc5b4710888f9fe440f8878d"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "8108be22d99a9229cf05df4b642dec69b0e1d892f1acf764065511130885f523",
-        "node": "8108be22d99a9229cf05df4b642dec69b0e1d892f1acf764065511130885f523"
+        "jsdom": "79ce30b5c2617aa9dfbbb381e71244ae4651e037eee8d9c46487ff4458eed6eb",
+        "node": "79ce30b5c2617aa9dfbbb381e71244ae4651e037eee8d9c46487ff4458eed6eb"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "0323e8f4adf07120d5e05b5e30e97b95cd00dc029694d9e8c452008076a6ef3f",
-        "node": "0323e8f4adf07120d5e05b5e30e97b95cd00dc029694d9e8c452008076a6ef3f"
+        "jsdom": "6285ce04d262429fe2f6c195a5ccc25fdf1158f3f0d69b9308cc167f80f45c8e",
+        "node": "6285ce04d262429fe2f6c195a5ccc25fdf1158f3f0d69b9308cc167f80f45c8e"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -23986,8 +23986,8 @@
         "node": "5c5bcd8998970aad1e599e1d5245ae2e9c920a042b4e581e36d20a73c1a8bf8d"
       },
       "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js": {
-        "jsdom": "afacae0e05696f0c6670a9bcdbc7e1ba8761b21367acbf22f2481940de05c40b",
-        "node": "afacae0e05696f0c6670a9bcdbc7e1ba8761b21367acbf22f2481940de05c40b"
+        "jsdom": "db7ee2e886b800330438e62c39b116a04e27bba7240ff6c0ffa2636cc402acc5",
+        "node": "db7ee2e886b800330438e62c39b116a04e27bba7240ff6c0ffa2636cc402acc5"
       },
       "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js": {
         "jsdom": "cd6ebd8f22e67e32a66f0d79a7ecdbf4874a81d1b909d04b31d6628716bfee9d",
@@ -24030,8 +24030,8 @@
         "node": "52097169cb52d49bdcdce8db5bf9885f5dbfb84dd963e1e612db5870422e4442"
       },
       "packages/mermaid/src/diagrams/xychart/xychartDb.spec.ts": {
-        "jsdom": "87314cffd976ea5e23c85a661cc9bef70441dc4f4a6598549c7b679998c7884f",
-        "node": "87314cffd976ea5e23c85a661cc9bef70441dc4f4a6598549c7b679998c7884f"
+        "jsdom": "8c9765aaeebb4f8d88bf34b0710dd37f28aa80a7d5d9e56481990fb28d9b1d32",
+        "node": "8c9765aaeebb4f8d88bf34b0710dd37f28aa80a7d5d9e56481990fb28d9b1d32"
       },
       "packages/mermaid/src/docs/.vitepress/betaDiagrams.spec.ts": {
         "jsdom": "9b9d337e8e32bd8d1a661a36d1174750b59519d3c5e81d80ec1a85ac9985667d",
@@ -24606,8 +24606,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "b6f3f40305c65376aa0a1f6e16b53914313a369d4da00c6970886c4594b42837",
-        "node": "b6f3f40305c65376aa0a1f6e16b53914313a369d4da00c6970886c4594b42837"
+        "jsdom": "d357688b6a5e4bfb7860c6ddc3c23996b9eb553b3a432c562488ecf28ca8f9a8",
+        "node": "d357688b6a5e4bfb7860c6ddc3c23996b9eb553b3a432c562488ecf28ca8f9a8"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -26190,8 +26190,8 @@
         "node": "7297fccfc55ecf4ab0c4a14ce6e1546796b6079e96c8ba2d0ff87126d1fc5c05"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "870575ca840ed4766a677a0f659d0a227cdb47233817baad3796a5f076d3a16d",
-        "node": "870575ca840ed4766a677a0f659d0a227cdb47233817baad3796a5f076d3a16d"
+        "jsdom": "88b025b245ed85ecdf907db71002122d4030b59a8c4504450032d55fc600d938",
+        "node": "88b025b245ed85ecdf907db71002122d4030b59a8c4504450032d55fc600d938"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "fc1ee7ddca22e321d48d1a1279890749c5d6682b1acd30925d7271906b439056",
@@ -26282,8 +26282,8 @@
         "node": "33039691c5c194ce04fcec747e89e5cb5281c0aff4fbd48628dbe423e031d8e7"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "884ac315cf29dde232b480acfcb83aa39b0f73c58f445fa5aa6af4f9bf900803",
-        "node": "884ac315cf29dde232b480acfcb83aa39b0f73c58f445fa5aa6af4f9bf900803"
+        "jsdom": "86fa5355604580e05ec09e2e57e3312cc09bdf27ffe12cbdc75f4abd19774c58",
+        "node": "86fa5355604580e05ec09e2e57e3312cc09bdf27ffe12cbdc75f4abd19774c58"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "5219af481fabecb0f7af3877813eae277f12529c44e6e7ba4a2ef7fc63942960",
@@ -26306,8 +26306,8 @@
         "node": "3beca4a22ee269c41dc041227c5376ce527462b74514bf2ae09bd23ede515672"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "f52eff57aeb8b18cbead4e038c2ec6a73190dcbc256d084b5eb5a709587c5c2e",
-        "node": "f52eff57aeb8b18cbead4e038c2ec6a73190dcbc256d084b5eb5a709587c5c2e"
+        "jsdom": "f911e7bd775704830f40cf1404a64d6ca3a56306075bcd692cd5bed7e9c450b8",
+        "node": "f911e7bd775704830f40cf1404a64d6ca3a56306075bcd692cd5bed7e9c450b8"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "eca309d24c606cc5e9ea65384de1a860fb685542916359cbd15db923e26a1861",
@@ -26318,8 +26318,8 @@
         "node": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a"
       },
       "packages/mermaid/src/diagrams/architecture/architecture.spec.ts": {
-        "jsdom": "c25aebb6ee357c0546d612643bbf7df4ea904b788f93454dfd61523dcfcd0d2a",
-        "node": "c25aebb6ee357c0546d612643bbf7df4ea904b788f93454dfd61523dcfcd0d2a"
+        "jsdom": "abc01db2d96b2d4a39d8e5263a460c3b3cca403c86b1f17115bbaa451e50ff37",
+        "node": "abc01db2d96b2d4a39d8e5263a460c3b3cca403c86b1f17115bbaa451e50ff37"
       },
       "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts": {
         "jsdom": "784f4efe4a5bc4b16a391b536083353ae2cee1fea4fbe1aec6b040b6939137f0",
@@ -26334,8 +26334,8 @@
         "node": "ecca4658389ca5c2785bc4cb19dd20fcce8339a37f82d23ea44288f6d936abd2"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "3bc2c606b45bf200e21b3a9ca3911ddf9e8ff6955e5707139e174ec6c26687d2",
-        "node": "3bc2c606b45bf200e21b3a9ca3911ddf9e8ff6955e5707139e174ec6c26687d2"
+        "jsdom": "d3ec181fee3b3e8fb9ca58dcdf62285f69381bd810f12603a910fe920361cbc1",
+        "node": "d3ec181fee3b3e8fb9ca58dcdf62285f69381bd810f12603a910fe920361cbc1"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -26414,8 +26414,8 @@
         "node": "6817c854b7cae82f8960bd6b3ade748321c6c554790245964ee67cdf75ba91e7"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "788e088a97b1a7c69622f3eb57827fe90c0c435afadc2a337ff82e7911923c1e",
-        "node": "788e088a97b1a7c69622f3eb57827fe90c0c435afadc2a337ff82e7911923c1e"
+        "jsdom": "ba5276c5127c515fe0851ac8fbeddd54e2e601ba06c47afde375a13667bb1b9f",
+        "node": "ba5276c5127c515fe0851ac8fbeddd54e2e601ba06c47afde375a13667bb1b9f"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
         "jsdom": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535",
@@ -26534,8 +26534,8 @@
         "node": "7e29f2aa1ad168116440815b25443291b3fb4da5baa9d31acd0e93ba8f3c4e4b"
       },
       "packages/mermaid/src/diagrams/git/gitGraph.spec.ts": {
-        "jsdom": "bd7e3496d73dd79d2a17321b987b4dfb3375c22124301821a7a2ed0f9af199b2",
-        "node": "bd7e3496d73dd79d2a17321b987b4dfb3375c22124301821a7a2ed0f9af199b2"
+        "jsdom": "4380ab0e51d215ffcc541014f3d2adb1febb783c932881039bff04d40f5702fc",
+        "node": "4380ab0e51d215ffcc541014f3d2adb1febb783c932881039bff04d40f5702fc"
       },
       "packages/mermaid/src/diagrams/info/info.spec.ts": {
         "jsdom": "1e80fc3c1a51a51aecf33a4ab159bda1372e852b60b75d69129d2308c4c999ea",
@@ -26626,8 +26626,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "54dab6ca8094133e29c006cfc018356c4b026e2c0eeb27be806723e6d03749df",
-        "node": "54dab6ca8094133e29c006cfc018356c4b026e2c0eeb27be806723e6d03749df"
+        "jsdom": "4f5c283b0210764a0a71b84baec4071e3c436f3b9f8463154472cd52fba68a43",
+        "node": "4f5c283b0210764a0a71b84baec4071e3c436f3b9f8463154472cd52fba68a43"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -26750,8 +26750,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "0ac160e435062a41bda93eba15baecc8c263b6d7d150e738c7b372e373368eb0",
-        "node": "0ac160e435062a41bda93eba15baecc8c263b6d7d150e738c7b372e373368eb0"
+        "jsdom": "110d3641aff0125c3ad10c636052d590bc8a7ddaffa2f1397b38aa419b42f09a",
+        "node": "110d3641aff0125c3ad10c636052d590bc8a7ddaffa2f1397b38aa419b42f09a"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -26790,12 +26790,12 @@
         "node": "dbab22646de78d78818fba0ff03b464205a0adc61d7d47c3f2692af7d1a2f2cf"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "b92760328bb3a99a7190c0ff1131d2bc31aca7c388e3abb12bedb5f0ba5d94d6",
-        "node": "b92760328bb3a99a7190c0ff1131d2bc31aca7c388e3abb12bedb5f0ba5d94d6"
+        "jsdom": "9236a66a5f7a67ebca48c44147fd1db3f75e217215af60575e0b1d4d64923622",
+        "node": "9236a66a5f7a67ebca48c44147fd1db3f75e217215af60575e0b1d4d64923622"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "e92bcca9229a8d7cfd25d478010d129a78f2d80a96c8e4b0003f96a38330e6b9",
-        "node": "e92bcca9229a8d7cfd25d478010d129a78f2d80a96c8e4b0003f96a38330e6b9"
+        "jsdom": "fb3e2005c4d95550689644950996448c64561b8d1c518858f273f8b5d8791c4a",
+        "node": "fb3e2005c4d95550689644950996448c64561b8d1c518858f273f8b5d8791c4a"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -27426,8 +27426,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "fa1ed8d054164fe5fd601761c9dbf06f43e48be911919046247d0c84c6ff3fb6",
-        "node": "fa1ed8d054164fe5fd601761c9dbf06f43e48be911919046247d0c84c6ff3fb6"
+        "jsdom": "de0b13bdd71ccd03c1fe31c75a5ebea46ea0fffc6ca5facf706c323dae934f8c",
+        "node": "de0b13bdd71ccd03c1fe31c75a5ebea46ea0fffc6ca5facf706c323dae934f8c"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -27600,8 +27600,8 @@
         "node": "7297fccfc55ecf4ab0c4a14ce6e1546796b6079e96c8ba2d0ff87126d1fc5c05"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "870575ca840ed4766a677a0f659d0a227cdb47233817baad3796a5f076d3a16d",
-        "node": "870575ca840ed4766a677a0f659d0a227cdb47233817baad3796a5f076d3a16d"
+        "jsdom": "88b025b245ed85ecdf907db71002122d4030b59a8c4504450032d55fc600d938",
+        "node": "88b025b245ed85ecdf907db71002122d4030b59a8c4504450032d55fc600d938"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "fc1ee7ddca22e321d48d1a1279890749c5d6682b1acd30925d7271906b439056",
@@ -27692,8 +27692,8 @@
         "node": "33039691c5c194ce04fcec747e89e5cb5281c0aff4fbd48628dbe423e031d8e7"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "884ac315cf29dde232b480acfcb83aa39b0f73c58f445fa5aa6af4f9bf900803",
-        "node": "884ac315cf29dde232b480acfcb83aa39b0f73c58f445fa5aa6af4f9bf900803"
+        "jsdom": "86fa5355604580e05ec09e2e57e3312cc09bdf27ffe12cbdc75f4abd19774c58",
+        "node": "86fa5355604580e05ec09e2e57e3312cc09bdf27ffe12cbdc75f4abd19774c58"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "5219af481fabecb0f7af3877813eae277f12529c44e6e7ba4a2ef7fc63942960",
@@ -27716,8 +27716,8 @@
         "node": "3beca4a22ee269c41dc041227c5376ce527462b74514bf2ae09bd23ede515672"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "f52eff57aeb8b18cbead4e038c2ec6a73190dcbc256d084b5eb5a709587c5c2e",
-        "node": "f52eff57aeb8b18cbead4e038c2ec6a73190dcbc256d084b5eb5a709587c5c2e"
+        "jsdom": "f911e7bd775704830f40cf1404a64d6ca3a56306075bcd692cd5bed7e9c450b8",
+        "node": "f911e7bd775704830f40cf1404a64d6ca3a56306075bcd692cd5bed7e9c450b8"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "eca309d24c606cc5e9ea65384de1a860fb685542916359cbd15db923e26a1861",
@@ -27728,8 +27728,8 @@
         "node": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a"
       },
       "packages/mermaid/src/diagrams/architecture/architecture.spec.ts": {
-        "jsdom": "c25aebb6ee357c0546d612643bbf7df4ea904b788f93454dfd61523dcfcd0d2a",
-        "node": "c25aebb6ee357c0546d612643bbf7df4ea904b788f93454dfd61523dcfcd0d2a"
+        "jsdom": "abc01db2d96b2d4a39d8e5263a460c3b3cca403c86b1f17115bbaa451e50ff37",
+        "node": "abc01db2d96b2d4a39d8e5263a460c3b3cca403c86b1f17115bbaa451e50ff37"
       },
       "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts": {
         "jsdom": "784f4efe4a5bc4b16a391b536083353ae2cee1fea4fbe1aec6b040b6939137f0",
@@ -27744,8 +27744,8 @@
         "node": "ecca4658389ca5c2785bc4cb19dd20fcce8339a37f82d23ea44288f6d936abd2"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "3bc2c606b45bf200e21b3a9ca3911ddf9e8ff6955e5707139e174ec6c26687d2",
-        "node": "3bc2c606b45bf200e21b3a9ca3911ddf9e8ff6955e5707139e174ec6c26687d2"
+        "jsdom": "d3ec181fee3b3e8fb9ca58dcdf62285f69381bd810f12603a910fe920361cbc1",
+        "node": "d3ec181fee3b3e8fb9ca58dcdf62285f69381bd810f12603a910fe920361cbc1"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -27824,8 +27824,8 @@
         "node": "6817c854b7cae82f8960bd6b3ade748321c6c554790245964ee67cdf75ba91e7"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "788e088a97b1a7c69622f3eb57827fe90c0c435afadc2a337ff82e7911923c1e",
-        "node": "788e088a97b1a7c69622f3eb57827fe90c0c435afadc2a337ff82e7911923c1e"
+        "jsdom": "ba5276c5127c515fe0851ac8fbeddd54e2e601ba06c47afde375a13667bb1b9f",
+        "node": "ba5276c5127c515fe0851ac8fbeddd54e2e601ba06c47afde375a13667bb1b9f"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
         "jsdom": "2f3d716c58d9d3e0d76c492b8a305b80cf301acda844b5c2831ad0a5d0023535",
@@ -27944,8 +27944,8 @@
         "node": "7e29f2aa1ad168116440815b25443291b3fb4da5baa9d31acd0e93ba8f3c4e4b"
       },
       "packages/mermaid/src/diagrams/git/gitGraph.spec.ts": {
-        "jsdom": "bd7e3496d73dd79d2a17321b987b4dfb3375c22124301821a7a2ed0f9af199b2",
-        "node": "bd7e3496d73dd79d2a17321b987b4dfb3375c22124301821a7a2ed0f9af199b2"
+        "jsdom": "4380ab0e51d215ffcc541014f3d2adb1febb783c932881039bff04d40f5702fc",
+        "node": "4380ab0e51d215ffcc541014f3d2adb1febb783c932881039bff04d40f5702fc"
       },
       "packages/mermaid/src/diagrams/info/info.spec.ts": {
         "jsdom": "1e80fc3c1a51a51aecf33a4ab159bda1372e852b60b75d69129d2308c4c999ea",
@@ -28036,8 +28036,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "54dab6ca8094133e29c006cfc018356c4b026e2c0eeb27be806723e6d03749df",
-        "node": "54dab6ca8094133e29c006cfc018356c4b026e2c0eeb27be806723e6d03749df"
+        "jsdom": "4f5c283b0210764a0a71b84baec4071e3c436f3b9f8463154472cd52fba68a43",
+        "node": "4f5c283b0210764a0a71b84baec4071e3c436f3b9f8463154472cd52fba68a43"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -28160,8 +28160,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "0ac160e435062a41bda93eba15baecc8c263b6d7d150e738c7b372e373368eb0",
-        "node": "0ac160e435062a41bda93eba15baecc8c263b6d7d150e738c7b372e373368eb0"
+        "jsdom": "110d3641aff0125c3ad10c636052d590bc8a7ddaffa2f1397b38aa419b42f09a",
+        "node": "110d3641aff0125c3ad10c636052d590bc8a7ddaffa2f1397b38aa419b42f09a"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -28200,12 +28200,12 @@
         "node": "dbab22646de78d78818fba0ff03b464205a0adc61d7d47c3f2692af7d1a2f2cf"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "b92760328bb3a99a7190c0ff1131d2bc31aca7c388e3abb12bedb5f0ba5d94d6",
-        "node": "b92760328bb3a99a7190c0ff1131d2bc31aca7c388e3abb12bedb5f0ba5d94d6"
+        "jsdom": "9236a66a5f7a67ebca48c44147fd1db3f75e217215af60575e0b1d4d64923622",
+        "node": "9236a66a5f7a67ebca48c44147fd1db3f75e217215af60575e0b1d4d64923622"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "e92bcca9229a8d7cfd25d478010d129a78f2d80a96c8e4b0003f96a38330e6b9",
-        "node": "e92bcca9229a8d7cfd25d478010d129a78f2d80a96c8e4b0003f96a38330e6b9"
+        "jsdom": "fb3e2005c4d95550689644950996448c64561b8d1c518858f273f8b5d8791c4a",
+        "node": "fb3e2005c4d95550689644950996448c64561b8d1c518858f273f8b5d8791c4a"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -28836,8 +28836,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "fa1ed8d054164fe5fd601761c9dbf06f43e48be911919046247d0c84c6ff3fb6",
-        "node": "fa1ed8d054164fe5fd601761c9dbf06f43e48be911919046247d0c84c6ff3fb6"
+        "jsdom": "de0b13bdd71ccd03c1fe31c75a5ebea46ea0fffc6ca5facf706c323dae934f8c",
+        "node": "de0b13bdd71ccd03c1fe31c75a5ebea46ea0fffc6ca5facf706c323dae934f8c"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -29010,8 +29010,8 @@
         "node": "e0601fa7105908648b768449f473f54767bef1618d136fd6e9c5188a117cb6f7"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "1ea46e5202ab3e7d0828f55b90dd2f3c4a4822bd65cf88e967dd03c9b705d45b",
-        "node": "1ea46e5202ab3e7d0828f55b90dd2f3c4a4822bd65cf88e967dd03c9b705d45b"
+        "jsdom": "34ff8c142bc9f75c9ee322dcf6c1a1fc8aac81a3317553bc8ac02fcbde49f14e",
+        "node": "34ff8c142bc9f75c9ee322dcf6c1a1fc8aac81a3317553bc8ac02fcbde49f14e"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "37e0109cf0f01f7b19a304ba2141a0fa3c1aa56ac3295cb7015b71ea4c1817bc",
@@ -29102,8 +29102,8 @@
         "node": "846d9a7c7ef783dc3bcea26d253785af08dff88f0ab769e9354c64de20e8638e"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "565e57512b5d263e19188356cd26627f7cfc60b18b19773849c6abe93d7b59ea",
-        "node": "565e57512b5d263e19188356cd26627f7cfc60b18b19773849c6abe93d7b59ea"
+        "jsdom": "ff37144b99b8fbe0689a557fd94737edb46411c7b62b3453bf3c8610f1ebde1b",
+        "node": "ff37144b99b8fbe0689a557fd94737edb46411c7b62b3453bf3c8610f1ebde1b"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "2799317ae5ea02de3341718ae54f472ff96424578a9f3b28268bed728025dfcf",
@@ -29126,8 +29126,8 @@
         "node": "6fa9969d411856c7b4e7cbca8fc0c906155192b57df130975ca3742bce4506af"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "aaf6bbb0e9ccb56a3408a905ff20daca38c219f4a1186071b3453e22c28df9df",
-        "node": "aaf6bbb0e9ccb56a3408a905ff20daca38c219f4a1186071b3453e22c28df9df"
+        "jsdom": "a20dafcdaeb07204e0237df2dfca0243e96be6c81181d1034f0591d0e2d193f4",
+        "node": "a20dafcdaeb07204e0237df2dfca0243e96be6c81181d1034f0591d0e2d193f4"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "6d3abcabbfd86a5c1e197614b0f832de68a214795a8d9b39ae68778eb82b46df",
@@ -29138,8 +29138,8 @@
         "node": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a"
       },
       "packages/mermaid/src/diagrams/architecture/architecture.spec.ts": {
-        "jsdom": "c2eb42cd71c0e399980eff9322ee3a19d49db3ddcf9a52059b008a0dfd63291e",
-        "node": "c2eb42cd71c0e399980eff9322ee3a19d49db3ddcf9a52059b008a0dfd63291e"
+        "jsdom": "5cc484d22583036fdc6ffd05ff988c8ee144dc19a04e1c28a763dd12c2f0d8d0",
+        "node": "5cc484d22583036fdc6ffd05ff988c8ee144dc19a04e1c28a763dd12c2f0d8d0"
       },
       "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts": {
         "jsdom": "784f4efe4a5bc4b16a391b536083353ae2cee1fea4fbe1aec6b040b6939137f0",
@@ -29154,8 +29154,8 @@
         "node": "ca9bd3033215d94b29607fa7d7fe562f936893e4e414672c45a9898a6821dda2"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "9a30914f339034088f3633c30d28a397484871f4024f8943b013f14dfd1eb006",
-        "node": "9a30914f339034088f3633c30d28a397484871f4024f8943b013f14dfd1eb006"
+        "jsdom": "b21ad7db79df04196d753492ed3f024c2377680d4c45fe516dcedf7ee6d1aba6",
+        "node": "b21ad7db79df04196d753492ed3f024c2377680d4c45fe516dcedf7ee6d1aba6"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -29198,8 +29198,8 @@
         "node": "2cdb84d916445fe8a1c2d0080ac25ec1c439ff1c76bb952997780e0995e56a5d"
       },
       "packages/mermaid/src/diagrams/class/classDiagram-colorIndex.spec.ts": {
-        "jsdom": "6d1028e8c9ad125c356bab80d8289057850222748296b86473f0f19541750de4",
-        "node": "6d1028e8c9ad125c356bab80d8289057850222748296b86473f0f19541750de4"
+        "jsdom": "e0d61c0b22dfe8b7ac96878c5bf7346878d4c0ae23dce29f5f66d872e41235eb",
+        "node": "e0d61c0b22dfe8b7ac96878c5bf7346878d4c0ae23dce29f5f66d872e41235eb"
       },
       "packages/mermaid/src/diagrams/class/classDiagram-styles.spec.js": {
         "jsdom": "b4ed31008d0ce6e665b14d10a287b9efa98b39a721ca9b8f93059eebef7cce1a",
@@ -29234,12 +29234,12 @@
         "node": "1e55832be63ae6f67f21f5a887790f5991e74cbbf7e3eee1757ef06d10e16dc1"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "3ed0133fa640502f588f0eb63dbb57d40322ff3dc224e2d4b03bec0648551a02",
-        "node": "3ed0133fa640502f588f0eb63dbb57d40322ff3dc224e2d4b03bec0648551a02"
+        "jsdom": "99fb183ba1b7c2729a8c439f5e0e9ee011e730a9e21eaf27faa27547546f0c22",
+        "node": "99fb183ba1b7c2729a8c439f5e0e9ee011e730a9e21eaf27faa27547546f0c22"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
-        "jsdom": "701730758c809006bf6d8507aada5811898c3b440e82360f9e88814823431e20",
-        "node": "701730758c809006bf6d8507aada5811898c3b440e82360f9e88814823431e20"
+        "jsdom": "15ee3605da8af3b8835eeab7a9a3171223a5d294ba4eca413badcf2b1a767e85",
+        "node": "15ee3605da8af3b8835eeab7a9a3171223a5d294ba4eca413badcf2b1a767e85"
       },
       "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js": {
         "jsdom": "b1f3ce37384a14bf86886e3ad338a9acedb50102726bb80e7a0b45d8727c988d",
@@ -29346,16 +29346,16 @@
         "node": "7522e04635d10eedb56ee557fabb1258e2339c1c4c2bca5fd19b6b06d08f6de6"
       },
       "packages/mermaid/src/diagrams/gantt/ganttDb.spec.ts": {
-        "jsdom": "8fe83a819863b83f08c56dd94939aa8a5c5ac2c5def74d44b8ed32448ae59326",
-        "node": "8fe83a819863b83f08c56dd94939aa8a5c5ac2c5def74d44b8ed32448ae59326"
+        "jsdom": "b58c00cea277f2481a7b32c324564bda32394c3dfd2e3158248f0448507a11c1",
+        "node": "b58c00cea277f2481a7b32c324564bda32394c3dfd2e3158248f0448507a11c1"
       },
       "packages/mermaid/src/diagrams/gantt/parser/gantt.spec.js": {
         "jsdom": "aee7ac044f210cdce21f9a30f04cc766fbfc82e6073c264a83b092b88365a602",
         "node": "aee7ac044f210cdce21f9a30f04cc766fbfc82e6073c264a83b092b88365a602"
       },
       "packages/mermaid/src/diagrams/git/gitGraph.spec.ts": {
-        "jsdom": "90cccd891329a1a93fd278e8cdfbfa065cf548246b493c0ec4063362cc6e9b7d",
-        "node": "90cccd891329a1a93fd278e8cdfbfa065cf548246b493c0ec4063362cc6e9b7d"
+        "jsdom": "8345ec92647b18d0d47ca0e8b507380a6898f14f73f788859cd24b32038552c8",
+        "node": "8345ec92647b18d0d47ca0e8b507380a6898f14f73f788859cd24b32038552c8"
       },
       "packages/mermaid/src/diagrams/info/info.spec.ts": {
         "jsdom": "2f00a4d8497fc9fca82a06f4638cfb6e1e9f610d18f236d569395fe735962d69",
@@ -29378,8 +29378,8 @@
         "node": "a17e0e7af929d07d6e58a5090d42dbb5ddd3971068743c946a9d447f420f241d"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts": {
-        "jsdom": "279d8304a5baedd4e7c334fd925f5c50b529ddede5bc9e29896212783298824c",
-        "node": "279d8304a5baedd4e7c334fd925f5c50b529ddede5bc9e29896212783298824c"
+        "jsdom": "68098a666a6f652e5cb3909663f4d83b66486da30ef8bfbbc3440ff5bb7fdb47",
+        "node": "68098a666a6f652e5cb3909663f4d83b66486da30ef8bfbbc3440ff5bb7fdb47"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapLayout.spec.ts": {
         "jsdom": "02e9993c81fea2d3a522a73547f0ca3ac588866cb2a758cd098441ca10938246",
@@ -29398,8 +29398,8 @@
         "node": "4a3305708450194978bb4856fa27b9a32a0e59be27659e6e81e9af44d8723617"
       },
       "packages/mermaid/src/diagrams/pie/pie.spec.ts": {
-        "jsdom": "746bc58f5fc7ad3259964fde6c64c9eb769c3a2ac9375a18d0ddbbf34c08b8a8",
-        "node": "746bc58f5fc7ad3259964fde6c64c9eb769c3a2ac9375a18d0ddbbf34c08b8a8"
+        "jsdom": "125219692f2fe3aa71a508a56e207601f9f2d4aaedb35f79cff3b0b5e8ed6181",
+        "node": "125219692f2fe3aa71a508a56e207601f9f2d4aaedb35f79cff3b0b5e8ed6181"
       },
       "packages/mermaid/src/diagrams/pie/pieRenderer.spec.ts": {
         "jsdom": "4bd8377eb47eeefda61969f13aa16fccb26084b2039aa2aabb1083dbeb2ac91f",
@@ -29410,8 +29410,8 @@
         "node": "07e36b80f8c45ff24ebee980b63bf69cce9b86ffd67275f01a921eb96decbc96"
       },
       "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts": {
-        "jsdom": "35d8cee1013bc93724dd4844c9dd620ce81692e6575e4a6bdcedb633efaf18e0",
-        "node": "35d8cee1013bc93724dd4844c9dd620ce81692e6575e4a6bdcedb633efaf18e0"
+        "jsdom": "6e35d4b6d2c23d5bdd24103edd6e9bfc345a8ed10f40a0065412f8bc75786220",
+        "node": "6e35d4b6d2c23d5bdd24103edd6e9bfc345a8ed10f40a0065412f8bc75786220"
       },
       "packages/mermaid/src/diagrams/radar/radar.spec.ts": {
         "jsdom": "c42bcb17810750dc1e10095bd8faf8982f61503fa7bd2006b81d4b5563413655",
@@ -29446,8 +29446,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "136c3c031535e63cfc94187e043713c50cd1d02cd4dc85d6fb53673aed840dcd",
-        "node": "136c3c031535e63cfc94187e043713c50cd1d02cd4dc85d6fb53673aed840dcd"
+        "jsdom": "84ebda6af48d788c2560189c671a7045f532e7cdcf0c68c15cc1ea9695f0b989",
+        "node": "84ebda6af48d788c2560189c671a7045f532e7cdcf0c68c15cc1ea9695f0b989"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -29466,8 +29466,8 @@
         "node": "6bca03855733d99a47f4df510a053ac20e207b0decb986b5b076a0d229e5c2f2"
       },
       "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts": {
-        "jsdom": "d47d331fb4a4e05d5b25f9267d51a703f655b0a5aa7f33fa3b1026a85ac4c78b",
-        "node": "d47d331fb4a4e05d5b25f9267d51a703f655b0a5aa7f33fa3b1026a85ac4c78b"
+        "jsdom": "56e775683af5bc51d45b4f9cc8a7a7152fa8aec8baface4fe43a9f3bd9b824ad",
+        "node": "56e775683af5bc51d45b4f9cc8a7a7152fa8aec8baface4fe43a9f3bd9b824ad"
       },
       "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts": {
         "jsdom": "a9e41bd9160d52b2e37dca78b53f87da13e34c6df85a553e202527c4123002d9",
@@ -29522,8 +29522,8 @@
         "node": "aa82a59235645fe9c899287197a61366e68d9ccdd8d89077f0e0d60a42b0afe5"
       },
       "packages/mermaid/src/diagrams/state/stateDb.spec.js": {
-        "jsdom": "047c589a8e6b9a2c70fdb0b858a0b59e8cc3e7145787bbe28631bbb7f65cf7d8",
-        "node": "047c589a8e6b9a2c70fdb0b858a0b59e8cc3e7145787bbe28631bbb7f65cf7d8"
+        "jsdom": "821647ee4715e7bc62a39911948256e6f74492a7be81a50171b8b44cc4189e20",
+        "node": "821647ee4715e7bc62a39911948256e6f74492a7be81a50171b8b44cc4189e20"
       },
       "packages/mermaid/src/diagrams/state/stateDiagram-colorIndex.spec.ts": {
         "jsdom": "ec859cd9684c3bb5046cf1965d4546d231fd4361800a69dd31f06f63dcedc7d6",
@@ -29534,8 +29534,8 @@
         "node": "b9cac6c9d9a3a561e171fe68d35d4cb2a47b823ef3fb2911082ebe4f72eeb71e"
       },
       "packages/mermaid/src/diagrams/state/stateDiagram.spec.js": {
-        "jsdom": "f09ca5202598d71f4800a5b89906a328cbae9874edd9b4a12b0087794b0635f8",
-        "node": "f09ca5202598d71f4800a5b89906a328cbae9874edd9b4a12b0087794b0635f8"
+        "jsdom": "bf6ef66e06372b4ee93b7e9c026daf8b4d215cb3e2623eb80067ab8035d7961c",
+        "node": "bf6ef66e06372b4ee93b7e9c026daf8b4d215cb3e2623eb80067ab8035d7961c"
       },
       "packages/mermaid/src/diagrams/state/stateNoteEdge.spec.ts": {
         "jsdom": "e9893bdd2ae69a3e96d4dd5339fb7f52bfc2e5890f832373f94c2de7148f86b9",
@@ -29546,7 +29546,7 @@
         "node": "5aa533334035322eee209ff27b9ccb749cc7b69b0681e629ba9c39c29dd80b26"
       },
       "packages/mermaid/src/diagrams/state/stateRenderer-v3-unified.spec.js": {
-        "jsdom": "0453ff7d71dad9c0e3e8ccf5683c6de3ad02419ae2930b5a5663b6c67042a4e8",
+        "jsdom": "60537de353ae671110e1f49374dead4ce81cf5831b17a58c1b689593d64b5e43",
         "node": "d7b86a2b8900decc0f518489575a7e1e58ccd8979b66ff6e1a123d9ffe8c70bc"
       },
       "packages/mermaid/src/diagrams/state/stateRenderer.spec.js": {
@@ -29570,8 +29570,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "5851e15eb97e0d46edb452b2ede25494604577ecb72b50e6272be11751475b2f",
-        "node": "5851e15eb97e0d46edb452b2ede25494604577ecb72b50e6272be11751475b2f"
+        "jsdom": "257dc5332b6f8475b9d82470c80f2af2f686ff34795f6b0aa6f6eeaee7b451ca",
+        "node": "257dc5332b6f8475b9d82470c80f2af2f686ff34795f6b0aa6f6eeaee7b451ca"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -29610,12 +29610,12 @@
         "node": "836b562996a3ee58a9ddac21629a1276880abe83e57b71a30755081ec419e463"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "b28e096c211aa3b4166cc0a68b4727d4444de28d601d622d4e4c26afc3426797",
-        "node": "b28e096c211aa3b4166cc0a68b4727d4444de28d601d622d4e4c26afc3426797"
+        "jsdom": "ca63053250121d6308b45f73e3a22d636d2b567fc07b83de86b240987419c83b",
+        "node": "ca63053250121d6308b45f73e3a22d636d2b567fc07b83de86b240987419c83b"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "306d9f5a4620f74875120968af36037e8c84b9b4aac091875ca257a5415614e5",
-        "node": "306d9f5a4620f74875120968af36037e8c84b9b4aac091875ca257a5415614e5"
+        "jsdom": "a5521802670d651f1eac497638dd8c781140c5a8b3d48f6e5281b2b1bb2042c9",
+        "node": "a5521802670d651f1eac497638dd8c781140c5a8b3d48f6e5281b2b1bb2042c9"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -29626,8 +29626,8 @@
         "node": "5c5bcd8998970aad1e599e1d5245ae2e9c920a042b4e581e36d20a73c1a8bf8d"
       },
       "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js": {
-        "jsdom": "8e1d9e5832d3a3045b7168a1a943f9591392ac3ec9ba6be829b4eb2410bdb27b",
-        "node": "8e1d9e5832d3a3045b7168a1a943f9591392ac3ec9ba6be829b4eb2410bdb27b"
+        "jsdom": "9afb9a422b33f3f161bf18c8bda0d8f3ccec140374d7500b9ae17cf710af1f27",
+        "node": "9afb9a422b33f3f161bf18c8bda0d8f3ccec140374d7500b9ae17cf710af1f27"
       },
       "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js": {
         "jsdom": "f1f38af1056d8c9b65516e47728a9c10c40690520d7a5cc156c2105352fcc737",
@@ -29670,8 +29670,8 @@
         "node": "e16383b81d5eb9a4799eead5e0055d660d48bc36483bdc6a2525f55e996af238"
       },
       "packages/mermaid/src/diagrams/xychart/xychartDb.spec.ts": {
-        "jsdom": "6419f587c3772a779dbe37eec7eb0510d90167edfd8b4d723ee22bf8a9ef2934",
-        "node": "6419f587c3772a779dbe37eec7eb0510d90167edfd8b4d723ee22bf8a9ef2934"
+        "jsdom": "b5649870340f590bf5f5aa0b8307bb7c6dc115f6f8185c2afbeec4b59acb1f20",
+        "node": "b5649870340f590bf5f5aa0b8307bb7c6dc115f6f8185c2afbeec4b59acb1f20"
       },
       "packages/mermaid/src/docs/.vitepress/betaDiagrams.spec.ts": {
         "jsdom": "9b9d337e8e32bd8d1a661a36d1174750b59519d3c5e81d80ec1a85ac9985667d",
@@ -30246,8 +30246,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "6c5a4550e0c8238d29c86848fb38ab357a79e1ad6e2c58286bb4547222bbb068",
-        "node": "6c5a4550e0c8238d29c86848fb38ab357a79e1ad6e2c58286bb4547222bbb068"
+        "jsdom": "7e000bdc2aac0f9681424a4c8e5539ea04d38eb972e171331e1a43f6ddbbc0e3",
+        "node": "7e000bdc2aac0f9681424a4c8e5539ea04d38eb972e171331e1a43f6ddbbc0e3"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",
@@ -30420,8 +30420,8 @@
         "node": "9aba746d590e748d734f6c4f07de951234df041a27a562d3a98f0e55a685c55d"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics.spec.ts": {
-        "jsdom": "1f9a0468013c43561cd4ee889f844c4f9558bd3486f2076f16f38bada51731ab",
-        "node": "1f9a0468013c43561cd4ee889f844c4f9558bd3486f2076f16f38bada51731ab"
+        "jsdom": "486b8b3ac3a5ac98a4b6a0c31d4590fd7fb2395261513fd3cd9eec95d518d94d",
+        "node": "486b8b3ac3a5ac98a4b6a0c31d4590fd7fb2395261513fd3cd9eec95d518d94d"
       },
       "packages/mermaid/src/diagrams/agentflow/agentflow-link-style.spec.ts": {
         "jsdom": "8305c5269c8726c29a3b82d07e063504d105d5ac15d1f2c80f644a5b80e025d1",
@@ -30512,8 +30512,8 @@
         "node": "d64971b0cdae18551fd9b1fc08ea63dd8daf1ffdbfa62bd44533df94c72db19b"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-mappings.spec.ts": {
-        "jsdom": "0d698d0693c044b45b9021188cfd6ecbaed194958ae3650ba383905939dcd4c9",
-        "node": "0d698d0693c044b45b9021188cfd6ecbaed194958ae3650ba383905939dcd4c9"
+        "jsdom": "b08fd74b2efef2aef53ae6892fcae56ba4daa0db0da6c4842483d105b6e82bb3",
+        "node": "b08fd74b2efef2aef53ae6892fcae56ba4daa0db0da6c4842483d105b6e82bb3"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-metadata-no-validation.spec.ts": {
         "jsdom": "e500d1cfb99f793915476607a3950f5503dadb9d17b59527b9c86722c63a7d15",
@@ -30536,8 +30536,8 @@
         "node": "94cf10091df1ca8fffa9111dca83a79c51183507f36738d853dd07483ad577ce"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow-yaml-error-position.spec.ts": {
-        "jsdom": "72704ce5e761b90ceb278e1e9a52c002bebfa0a0cdd210eefba1a1f8ff64e44a",
-        "node": "72704ce5e761b90ceb278e1e9a52c002bebfa0a0cdd210eefba1a1f8ff64e44a"
+        "jsdom": "a8e3089e8aaa9e8cb9aaf766ee0c87de3fc79e7f9ecebc14bb6020874524e378",
+        "node": "a8e3089e8aaa9e8cb9aaf766ee0c87de3fc79e7f9ecebc14bb6020874524e378"
       },
       "packages/mermaid/src/diagrams/agentflow/parser/agentflow.spec.ts": {
         "jsdom": "7ab95713f3f6a14efb3bb9981f0df1b50e04762f88bac7f506eacab402e8d19e",
@@ -30548,8 +30548,8 @@
         "node": "ee7ff03c99df869c3c730081060ee2dfa7ab240da219ed1576d7a1b8888c597a"
       },
       "packages/mermaid/src/diagrams/architecture/architecture.spec.ts": {
-        "jsdom": "5b8bb53750d731da48d01f4029e61923bac0027a9814b741e43aa0107aa6e8b2",
-        "node": "5b8bb53750d731da48d01f4029e61923bac0027a9814b741e43aa0107aa6e8b2"
+        "jsdom": "68c7daa4e11d35ff86882b4a4ab0f4d8fcd97533f7d8650a8666a3f7ed4014cf",
+        "node": "68c7daa4e11d35ff86882b4a4ab0f4d8fcd97533f7d8650a8666a3f7ed4014cf"
       },
       "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts": {
         "jsdom": "784f4efe4a5bc4b16a391b536083353ae2cee1fea4fbe1aec6b040b6939137f0",
@@ -30564,8 +30564,8 @@
         "node": "75c5592451dadf98d9e392d794f15016e92a2861552fd440a67e2e09bf751118"
       },
       "packages/mermaid/src/diagrams/block/blockDB.spec.ts": {
-        "jsdom": "3a59e0dd66a24c55f9e8a08788e3b49f7da810027cc48767ecabfd9f1fe78a7e",
-        "node": "3a59e0dd66a24c55f9e8a08788e3b49f7da810027cc48767ecabfd9f1fe78a7e"
+        "jsdom": "fd19a891b6ff0453e9f6c07c6661a750b5f2b8af40962c9e7076135c403c6094",
+        "node": "fd19a891b6ff0453e9f6c07c6661a750b5f2b8af40962c9e7076135c403c6094"
       },
       "packages/mermaid/src/diagrams/block/layout.spec.ts": {
         "jsdom": "989366deb8e1e88ef35680794c25869b3fae13ef20ae91197b90feb6fe1a1631",
@@ -30608,8 +30608,8 @@
         "node": "c2b0a40eff28426ad37ea62de4f2ceb963e7b082ceecb12fb65c434d9d58419b"
       },
       "packages/mermaid/src/diagrams/class/classDiagram-colorIndex.spec.ts": {
-        "jsdom": "84be07632eafb976cee2bd3b9064f2ec8c0657def848322a3086cd949e8b57cd",
-        "node": "84be07632eafb976cee2bd3b9064f2ec8c0657def848322a3086cd949e8b57cd"
+        "jsdom": "c5cb878272a850aa33c4fb3216331c049119be46a5f7ca17b95b75b6674bbd8e",
+        "node": "c5cb878272a850aa33c4fb3216331c049119be46a5f7ca17b95b75b6674bbd8e"
       },
       "packages/mermaid/src/diagrams/class/classDiagram-styles.spec.js": {
         "jsdom": "3a835e49d2b45c5da7cabe3551e694f40028dc003477f2a6a6ad3e699ea4b9a6",
@@ -30644,12 +30644,12 @@
         "node": "7d446ada69601353ae2685fa0fbb67ca33223dd2bda99ac6564377543b7aff3f"
       },
       "packages/mermaid/src/diagrams/cynefin/cynefin.spec.ts": {
-        "jsdom": "1b2524c43f536bb90c478ad7f012f55e10e8d7eeed3172cfd64b6a7f5cadc7a1",
-        "node": "1b2524c43f536bb90c478ad7f012f55e10e8d7eeed3172cfd64b6a7f5cadc7a1"
+        "jsdom": "b059e0014793b710a9c893aa5e0fc7568f4e64dd048299ae253d6557947fdac1",
+        "node": "b059e0014793b710a9c893aa5e0fc7568f4e64dd048299ae253d6557947fdac1"
       },
       "packages/mermaid/src/diagrams/er/erDb.spec.js": {
-        "jsdom": "b2abb195bc9df74ec08b54b438eafe823e311129d85efc8384534b6141079c0d",
-        "node": "b2abb195bc9df74ec08b54b438eafe823e311129d85efc8384534b6141079c0d"
+        "jsdom": "2511a1b459c4dcba4a9037fdd4f97342ef8154bb6d36d17ca5b85be07d740d3a",
+        "node": "2511a1b459c4dcba4a9037fdd4f97342ef8154bb6d36d17ca5b85be07d740d3a"
       },
       "packages/mermaid/src/diagrams/er/parser/erDiagram.spec.js": {
         "jsdom": "246b8a78b5a82a3872e513cccd0caefd79abc62db538b049dbb382a23e9149d8",
@@ -30680,8 +30680,8 @@
         "node": "ba9f97ee99a0c0097d4182e9cb8290618bf9ac8f628263af55c94afc2231eaa6"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDb.spec.ts": {
-        "jsdom": "64efc5ac0726be306cfe3030c576a207a1f5c81d6cae4f99a262694b411afe10",
-        "node": "64efc5ac0726be306cfe3030c576a207a1f5c81d6cae4f99a262694b411afe10"
+        "jsdom": "9852ee64265986ddc906a6518be8d79d9065faa422fae950da2017dc43cbadb3",
+        "node": "9852ee64265986ddc906a6518be8d79d9065faa422fae950da2017dc43cbadb3"
       },
       "packages/mermaid/src/diagrams/flowchart/flowDiagram.spec.ts": {
         "jsdom": "24b99696cc532944cd9147c3f6f64ed31d78a69ab334477bb66ebc7490475cfd",
@@ -30732,8 +30732,8 @@
         "node": "71973fadaad95c130f840cd43b2cca0d19a3252e8bbb359a9871393a9b586d2f"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow-singlenode.spec.js": {
-        "jsdom": "b57dbbabde866731304cc2b0aa15ecb7eee6be4fade7f70315e28f2269961447",
-        "node": "b57dbbabde866731304cc2b0aa15ecb7eee6be4fade7f70315e28f2269961447"
+        "jsdom": "4a058508f6e9dbd76f8a2fef17468baf1d92d647b7d0d4d74b52136a8124f8e4",
+        "node": "4a058508f6e9dbd76f8a2fef17468baf1d92d647b7d0d4d74b52136a8124f8e4"
       },
       "packages/mermaid/src/diagrams/flowchart/parser/flow-style.spec.js": {
         "jsdom": "5347313615f7fbf5d39a1ccac91d1209167266117f5e4a15a4e83ff273f602b0",
@@ -30756,16 +30756,16 @@
         "node": "71e64fc810ed02b7ec1b3e419b913505e30a257e050ca873d5d3d1d3ec4d996e"
       },
       "packages/mermaid/src/diagrams/gantt/ganttDb.spec.ts": {
-        "jsdom": "e32fcebddc845afd9d3a3b9c4a04e29ecef0442f1cee07d3f4ad2dda845347fa",
-        "node": "e32fcebddc845afd9d3a3b9c4a04e29ecef0442f1cee07d3f4ad2dda845347fa"
+        "jsdom": "ddc6b868cf859de120e8e66be83f14b3fde83b175b8ae25deb3f4a943d393b9d",
+        "node": "ddc6b868cf859de120e8e66be83f14b3fde83b175b8ae25deb3f4a943d393b9d"
       },
       "packages/mermaid/src/diagrams/gantt/parser/gantt.spec.js": {
         "jsdom": "97eca1bf3da2bc7e31a10805a8c6767ee3d25473e308675fac6fde2528fb5b77",
         "node": "97eca1bf3da2bc7e31a10805a8c6767ee3d25473e308675fac6fde2528fb5b77"
       },
       "packages/mermaid/src/diagrams/git/gitGraph.spec.ts": {
-        "jsdom": "30097dd7a39a1f06d16bf9a04c9d0489627e4857ae8d50d03cda469dcd9c1f85",
-        "node": "30097dd7a39a1f06d16bf9a04c9d0489627e4857ae8d50d03cda469dcd9c1f85"
+        "jsdom": "d7f46aadabad2501979c92b6056ddf7fe2f1c659fa9eef97bf71b7b55ad4d026",
+        "node": "d7f46aadabad2501979c92b6056ddf7fe2f1c659fa9eef97bf71b7b55ad4d026"
       },
       "packages/mermaid/src/diagrams/info/info.spec.ts": {
         "jsdom": "133a95f5039c9c81a20bae2bc7a8708bb923387d65a0e8febd4ed131e0aa6e7b",
@@ -30788,8 +30788,8 @@
         "node": "a17e0e7af929d07d6e58a5090d42dbb5ddd3971068743c946a9d447f420f241d"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapDb.getData.test.ts": {
-        "jsdom": "1febd4c187df74ea8e84eee9efb8b75e31692de0db9acb2dd6047087703956dd",
-        "node": "1febd4c187df74ea8e84eee9efb8b75e31692de0db9acb2dd6047087703956dd"
+        "jsdom": "d52b6ab9977faea9b351f05936fc6c2469a642913cfe3702823043568337f4b5",
+        "node": "d52b6ab9977faea9b351f05936fc6c2469a642913cfe3702823043568337f4b5"
       },
       "packages/mermaid/src/diagrams/mindmap/mindmapLayout.spec.ts": {
         "jsdom": "02e9993c81fea2d3a522a73547f0ca3ac588866cb2a758cd098441ca10938246",
@@ -30808,8 +30808,8 @@
         "node": "4a3305708450194978bb4856fa27b9a32a0e59be27659e6e81e9af44d8723617"
       },
       "packages/mermaid/src/diagrams/pie/pie.spec.ts": {
-        "jsdom": "a7f234042136cf08c1615880821fe230a3748d5a1d023437481034eeed21760d",
-        "node": "a7f234042136cf08c1615880821fe230a3748d5a1d023437481034eeed21760d"
+        "jsdom": "9699f3e608dab4c7f02159a353291682449755bdb4abec495e0db7a9bd82499d",
+        "node": "9699f3e608dab4c7f02159a353291682449755bdb4abec495e0db7a9bd82499d"
       },
       "packages/mermaid/src/diagrams/pie/pieRenderer.spec.ts": {
         "jsdom": "a00d9c4da7df8a77c8771522e6b67c5c85d934d989c503e2ebd67888678e0954",
@@ -30820,8 +30820,8 @@
         "node": "7b1f602dc66e7aca354eced797ad263d2e53835aacac028b568bbf7197570d10"
       },
       "packages/mermaid/src/diagrams/quadrant-chart/quadrantDb.spec.ts": {
-        "jsdom": "d8639ebe536c61c433e13d3a6439cf127811cc543a07b7a4af288b227b507c9c",
-        "node": "d8639ebe536c61c433e13d3a6439cf127811cc543a07b7a4af288b227b507c9c"
+        "jsdom": "198d2be29607d58772ae437b1af786c623e95295259439f9b3ae6fcc72dbfdbb",
+        "node": "198d2be29607d58772ae437b1af786c623e95295259439f9b3ae6fcc72dbfdbb"
       },
       "packages/mermaid/src/diagrams/radar/radar.spec.ts": {
         "jsdom": "faee75e83263f77109fed0ced83a32400119e0af06f9538f0df81daf60780ce1",
@@ -30856,8 +30856,8 @@
         "node": "192d6a809c59236072703237f48e3cf4bdfa044d55e9f182d0104515590b9af6"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDb.spec.ts": {
-        "jsdom": "f37ea8d472b8e4d109979e9274ca1d0c365abdc3865197a073c8536292d77f2c",
-        "node": "f37ea8d472b8e4d109979e9274ca1d0c365abdc3865197a073c8536292d77f2c"
+        "jsdom": "f5283edbf81c1aadca67a4ea9dce4e2b2ee52ac18c7bb3f82138b138da9837a8",
+        "node": "f5283edbf81c1aadca67a4ea9dce4e2b2ee52ac18c7bb3f82138b138da9837a8"
       },
       "packages/mermaid/src/diagrams/railroad/railroadDetector.spec.ts": {
         "jsdom": "d54fbe03431434ff3d667a2c00dabe6f6b97d4ec66370768cb9390fec5928bc3",
@@ -30876,8 +30876,8 @@
         "node": "6e22253b32155436619420b9d0e0cea030cde0904a484fa6d6a2bfd7ff04e16a"
       },
       "packages/mermaid/src/diagrams/requirement/requirementDb.spec.ts": {
-        "jsdom": "5dc7fba67e2d2fa7a2c9ff33afaaf5bfb59ac8bd3e5042254f34ceb9880c13d1",
-        "node": "5dc7fba67e2d2fa7a2c9ff33afaaf5bfb59ac8bd3e5042254f34ceb9880c13d1"
+        "jsdom": "73fcd7b5f20955c979b690319c5089b9c76c42e1886f8fce1db608d266d68678",
+        "node": "73fcd7b5f20955c979b690319c5089b9c76c42e1886f8fce1db608d266d68678"
       },
       "packages/mermaid/src/diagrams/sankey/parser/sankey.spec.ts": {
         "jsdom": "a9e41bd9160d52b2e37dca78b53f87da13e34c6df85a553e202527c4123002d9",
@@ -30932,8 +30932,8 @@
         "node": "8d421d7550d26aa76419e70778c254f1ded4b739674b63d75aefcf3c5fe6d339"
       },
       "packages/mermaid/src/diagrams/state/stateDb.spec.js": {
-        "jsdom": "eecc971384749b11415fe91a0c4588a2eca99867fb8714829596acff816db0df",
-        "node": "eecc971384749b11415fe91a0c4588a2eca99867fb8714829596acff816db0df"
+        "jsdom": "f7036463718045a64ad768017da0e13bcc132e87910b3ea5aa24f8de556a98cb",
+        "node": "f7036463718045a64ad768017da0e13bcc132e87910b3ea5aa24f8de556a98cb"
       },
       "packages/mermaid/src/diagrams/state/stateDiagram-colorIndex.spec.ts": {
         "jsdom": "2a6a0e2cc44bcbdfb3a62797ec089f0593beb65d1f0c2458b0d255b373d17165",
@@ -30944,8 +30944,8 @@
         "node": "8ffdb59b69de69b39b805980e183ac1630ff14cbf68bb2762aa616320e599932"
       },
       "packages/mermaid/src/diagrams/state/stateDiagram.spec.js": {
-        "jsdom": "e0505891f3eb4b2dc5a9387b7441a1556a8fd5e22c177d418ea9cc9c13923fbe",
-        "node": "e0505891f3eb4b2dc5a9387b7441a1556a8fd5e22c177d418ea9cc9c13923fbe"
+        "jsdom": "6c533741c5d82e0fcd78b93dd074a82ea48f5ebcb7a891124ed44306d7064ebb",
+        "node": "6c533741c5d82e0fcd78b93dd074a82ea48f5ebcb7a891124ed44306d7064ebb"
       },
       "packages/mermaid/src/diagrams/state/stateNoteEdge.spec.ts": {
         "jsdom": "ceb0b161be36b6e19164df24f087e42029a95c4183c4f2a5f72506e857ac9ddc",
@@ -30956,7 +30956,7 @@
         "node": "937ace9f8ab048fa9fcab88e3c2a3ab0c7bc75b61c27042e01ba1d03911c7078"
       },
       "packages/mermaid/src/diagrams/state/stateRenderer-v3-unified.spec.js": {
-        "jsdom": "68571cd047424374df1a5dadaf27b1c8cd84a7aa9efa881d8ae4081322f6149b",
+        "jsdom": "f2b2813fcd4ebe5bb99980cec91244080559cb11eba251465bbbf940a6d7df70",
         "node": "d7b86a2b8900decc0f518489575a7e1e58ccd8979b66ff6e1a123d9ffe8c70bc"
       },
       "packages/mermaid/src/diagrams/state/stateRenderer.spec.js": {
@@ -30980,8 +30980,8 @@
         "node": "5eb9643220ad8013c31b5882d929299d3067aabf09eec67682fd18a11f4c5eda"
       },
       "packages/mermaid/src/diagrams/treeView/db.spec.ts": {
-        "jsdom": "3660d201a50125c66396e9beb9cae6e181574b62e1d7c25d7093dfa37a8dc256",
-        "node": "3660d201a50125c66396e9beb9cae6e181574b62e1d7c25d7093dfa37a8dc256"
+        "jsdom": "e32b39a6ae3fe5e0237e2d19037a3256c24d0840ff7558e7ba470cc008f5c553",
+        "node": "e32b39a6ae3fe5e0237e2d19037a3256c24d0840ff7558e7ba470cc008f5c553"
       },
       "packages/mermaid/src/diagrams/treeView/icons.spec.ts": {
         "jsdom": "c169678248c2a2f6c186ed515d038a37ba62f247144fb6ed980276e0e6b726b4",
@@ -31020,12 +31020,12 @@
         "node": "bd4ad4dc6024e637ec8556f81f591c065d2fbbf8db6ffc0eafe59a257793d1a3"
       },
       "packages/mermaid/src/diagrams/usecase/usecase.spec.ts": {
-        "jsdom": "9efe40f7141e388ade4567eb0910e5e74448462bc7ead5fdfd14712f07f6a796",
-        "node": "9efe40f7141e388ade4567eb0910e5e74448462bc7ead5fdfd14712f07f6a796"
+        "jsdom": "fb2fab86386b11d9c7d5c31e6402c70fd2bdcf9539dafc8f65f4b0f4154bd8af",
+        "node": "fb2fab86386b11d9c7d5c31e6402c70fd2bdcf9539dafc8f65f4b0f4154bd8af"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseDb.spec.ts": {
-        "jsdom": "aed3ce9c19b13f0fc165b1f33af7a81add4d57410c1a124482e98fd74a022c07",
-        "node": "aed3ce9c19b13f0fc165b1f33af7a81add4d57410c1a124482e98fd74a022c07"
+        "jsdom": "448c2200bae969b8a750b7b9003b1f14bca2dd90459b7c2a9c598b9e6c7ac753",
+        "node": "448c2200bae969b8a750b7b9003b1f14bca2dd90459b7c2a9c598b9e6c7ac753"
       },
       "packages/mermaid/src/diagrams/usecase/usecaseRenderer.spec.ts": {
         "jsdom": "44df0266bc044056dab44307592062955093e46f3940bb85e513bc1b12534a02",
@@ -31036,8 +31036,8 @@
         "node": "5c5bcd8998970aad1e599e1d5245ae2e9c920a042b4e581e36d20a73c1a8bf8d"
       },
       "packages/mermaid/src/diagrams/user-journey/journeyDb.spec.js": {
-        "jsdom": "93bf84a7a811db5c14c7e2d032064ea9c62948ce01f243951b5710c42bd4264e",
-        "node": "93bf84a7a811db5c14c7e2d032064ea9c62948ce01f243951b5710c42bd4264e"
+        "jsdom": "6a2ac73fdb95d20dbfbbffd40e93007486d1c53c4b77c16395fea63a5f71fdde",
+        "node": "6a2ac73fdb95d20dbfbbffd40e93007486d1c53c4b77c16395fea63a5f71fdde"
       },
       "packages/mermaid/src/diagrams/user-journey/parser/journey.spec.js": {
         "jsdom": "0e0018efbfb13cb305893a439c00dc73199a6f17ee51b24bd8a8d1424b4ef4f1",
@@ -31080,8 +31080,8 @@
         "node": "c59633ed38c09a445dda1325048f3514c400efdfe7c8966e8eacb43b732d6e66"
       },
       "packages/mermaid/src/diagrams/xychart/xychartDb.spec.ts": {
-        "jsdom": "3d1581d12a6020b8926ba6e6c460389f2a089613a54324329bce791a5e68fe1d",
-        "node": "3d1581d12a6020b8926ba6e6c460389f2a089613a54324329bce791a5e68fe1d"
+        "jsdom": "a3c5c2659e0fa806ffd0f8803cac10d36423c9e7279d5a7286a2aa86ef65bcbb",
+        "node": "a3c5c2659e0fa806ffd0f8803cac10d36423c9e7279d5a7286a2aa86ef65bcbb"
       },
       "packages/mermaid/src/docs/.vitepress/betaDiagrams.spec.ts": {
         "jsdom": "9b9d337e8e32bd8d1a661a36d1174750b59519d3c5e81d80ec1a85ac9985667d",
@@ -31656,8 +31656,8 @@
         "node": "3c762d7f877fffb10d04b01813260f5917351d39a18e017904b882e2b83e2e1d"
       },
       "packages/mermaid/src/rendering-util/unique-dom-ids.spec.ts": {
-        "jsdom": "46ceb347d38219023440bffde3f28ca32c5ba352ec2f48d55555d1362ab59fae",
-        "node": "46ceb347d38219023440bffde3f28ca32c5ba352ec2f48d55555d1362ab59fae"
+        "jsdom": "73c791a24134d293b06fc9355b17d39efe0fa7229dd8a1d246655f806b4337f4",
+        "node": "73c791a24134d293b06fc9355b17d39efe0fa7229dd8a1d246655f806b4337f4"
       },
       "packages/mermaid/src/setupGraphViewbox.spec.js": {
         "jsdom": "8264baa77222a78c408c3c8981ea2623008dcae92d41c75811325e45f5b15f38",

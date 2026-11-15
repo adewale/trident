@@ -1,7 +1,7 @@
 {
   "benchmark": "Mermaid Fidelity",
   "referenceMode": "pinned-production-source-v1",
-  "controlIdentity": "bdd4e7db62b641044553a9204a8932395420f9e2648123f1a0f75b2c7d4a5c21",
+  "controlIdentity": "01af674570275a5546f51884049ef395ea08439abc2d1e996b1b033a767a8e76",
   "pin": "2086904e76c692331e34a45d7cc3bc30860d040e",
   "selection": "all core package tests",
   "inventory": {
@@ -770,7 +770,7 @@
   "verification": {
     "refusals": {
       "path": "docs/evidence/fidelity-refusal-verification-2026-11-15.json",
-      "sha256": "2bb9444a33b350c1d0091af6133b07cd02b4a5dfa55f34127c5c810b3f6d5cdb"
+      "sha256": "4c4fcf3401931e6f62ae67d4f8f9295d832ee9b50d9c2c7e361a86cd0e516c23"
     },
     "assessmentReviews": [
       {
@@ -803,7 +803,7 @@
     "candidates": 23,
     "commonUnassessedCallbacks": 0,
     "commonUncollectedCallbacks": 0,
-    "additionalGapObservations": 2405,
+    "additionalGapObservations": 1495,
     "perFile": []
   },
   "results": [
@@ -937,15 +937,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "passed": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "passed": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "passed": 1
           }
         },
         {
@@ -1217,6 +1217,29 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "passed": 32
+          },
+          "scored": {
+            "passed": 18,
+            "nonpass": 0,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "passed": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "passed": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "passed": 4
@@ -1298,29 +1321,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "passed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "passed": 32
-          },
-          "scored": {
-            "passed": 18,
-            "nonpass": 0,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "passed": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "passed": 1
           }
@@ -3489,7 +3489,7 @@
       },
       "known": {
         "verifiedRefusals": 287,
-        "confirmedAbsences": 353
+        "confirmedAbsences": 440
       },
       "outcomeKinds": {
         "scored": {
@@ -3706,15 +3706,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -4000,6 +4000,32 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "passed": 8,
+            "failed": 7,
+            "trident-blocked": 4,
+            "unsupported": 13
+          },
+          "scored": {
+            "passed": 8,
+            "nonpass": 7,
+            "unassessed": 3
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -4084,32 +4110,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "passed": 8,
-            "failed": 7,
-            "trident-blocked": 4,
-            "unsupported": 13
-          },
-          "scored": {
-            "passed": 8,
-            "nonpass": 7,
-            "unassessed": 3
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -5167,8 +5167,8 @@
           },
           "scored": {
             "passed": 4,
-            "nonpass": 0,
-            "unassessed": 3
+            "nonpass": 3,
+            "unassessed": 0
           }
         },
         {
@@ -5190,8 +5190,8 @@
           },
           "scored": {
             "passed": 24,
-            "nonpass": 0,
-            "unassessed": 24
+            "nonpass": 24,
+            "unassessed": 0
           }
         },
         {
@@ -5213,8 +5213,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 15,
-            "unassessed": 27
+            "nonpass": 42,
+            "unassessed": 0
           }
         },
         {
@@ -5225,8 +5225,8 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 0,
-            "unassessed": 5
+            "nonpass": 5,
+            "unassessed": 0
           }
         },
         {
@@ -5237,8 +5237,8 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 0,
-            "unassessed": 4
+            "nonpass": 4,
+            "unassessed": 0
           }
         },
         {
@@ -5249,8 +5249,8 @@
           },
           "scored": {
             "passed": 18,
-            "nonpass": 0,
-            "unassessed": 24
+            "nonpass": 24,
+            "unassessed": 0
           }
         },
         {
@@ -6417,6 +6417,8 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "architecture.db.getLayoutHints": 3,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -6433,8 +6435,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "architecture.db.getLayoutHints": 3,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -7134,15 +7134,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -7422,6 +7422,31 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "passed": 8,
+            "unsupported": 23,
+            "trident-blocked": 1
+          },
+          "scored": {
+            "passed": 8,
+            "nonpass": 10,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -7506,31 +7531,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "passed": 8,
-            "unsupported": 23,
-            "trident-blocked": 1
-          },
-          "scored": {
-            "passed": 8,
-            "nonpass": 10,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -9803,6 +9803,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -9819,7 +9820,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -10204,7 +10204,7 @@
       },
       "known": {
         "verifiedRefusals": 0,
-        "confirmedAbsences": 838
+        "confirmedAbsences": 921
       },
       "outcomeKinds": {
         "scored": {
@@ -10427,15 +10427,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -10711,6 +10711,30 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "unsupported": 31,
+            "trident-blocked": 1
+          },
+          "scored": {
+            "passed": 0,
+            "nonpass": 18,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -10794,30 +10818,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "unsupported": 31,
-            "trident-blocked": 1
-          },
-          "scored": {
-            "passed": 0,
-            "nonpass": 18,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -11859,8 +11859,8 @@
           },
           "scored": {
             "passed": 4,
-            "nonpass": 0,
-            "unassessed": 3
+            "nonpass": 3,
+            "unassessed": 0
           }
         },
         {
@@ -11882,8 +11882,8 @@
           },
           "scored": {
             "passed": 24,
-            "nonpass": 0,
-            "unassessed": 24
+            "nonpass": 24,
+            "unassessed": 0
           }
         },
         {
@@ -11905,8 +11905,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 19,
-            "unassessed": 23
+            "nonpass": 42,
+            "unassessed": 0
           }
         },
         {
@@ -11917,8 +11917,8 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 0,
-            "unassessed": 5
+            "nonpass": 5,
+            "unassessed": 0
           }
         },
         {
@@ -11929,8 +11929,8 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 0,
-            "unassessed": 4
+            "nonpass": 4,
+            "unassessed": 0
           }
         },
         {
@@ -11941,8 +11941,8 @@
           },
           "scored": {
             "passed": 18,
-            "nonpass": 0,
-            "unassessed": 24
+            "nonpass": 24,
+            "unassessed": 0
           }
         },
         {
@@ -13099,6 +13099,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -13115,7 +13116,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -13596,7 +13596,7 @@
       },
       "known": {
         "verifiedRefusals": 0,
-        "confirmedAbsences": 838
+        "confirmedAbsences": 921
       },
       "outcomeKinds": {
         "scored": {
@@ -13819,15 +13819,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -14103,6 +14103,30 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "unsupported": 31,
+            "trident-blocked": 1
+          },
+          "scored": {
+            "passed": 0,
+            "nonpass": 18,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -14186,30 +14210,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "unsupported": 31,
-            "trident-blocked": 1
-          },
-          "scored": {
-            "passed": 0,
-            "nonpass": 18,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -15251,8 +15251,8 @@
           },
           "scored": {
             "passed": 4,
-            "nonpass": 0,
-            "unassessed": 3
+            "nonpass": 3,
+            "unassessed": 0
           }
         },
         {
@@ -15274,8 +15274,8 @@
           },
           "scored": {
             "passed": 24,
-            "nonpass": 0,
-            "unassessed": 24
+            "nonpass": 24,
+            "unassessed": 0
           }
         },
         {
@@ -15297,8 +15297,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 19,
-            "unassessed": 23
+            "nonpass": 42,
+            "unassessed": 0
           }
         },
         {
@@ -15309,8 +15309,8 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 0,
-            "unassessed": 5
+            "nonpass": 5,
+            "unassessed": 0
           }
         },
         {
@@ -15321,8 +15321,8 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 0,
-            "unassessed": 4
+            "nonpass": 4,
+            "unassessed": 0
           }
         },
         {
@@ -15333,8 +15333,8 @@
           },
           "scored": {
             "passed": 18,
-            "nonpass": 0,
-            "unassessed": 24
+            "nonpass": 24,
+            "unassessed": 0
           }
         },
         {
@@ -16491,6 +16491,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -16507,7 +16508,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -16985,8 +16985,8 @@
         "trident-blocked": 47
       },
       "known": {
-        "verifiedRefusals": 545,
-        "confirmedAbsences": 121
+        "verifiedRefusals": 552,
+        "confirmedAbsences": 184
       },
       "outcomeKinds": {
         "scored": {
@@ -17210,15 +17210,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -17498,6 +17498,31 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "passed": 12,
+            "trident-blocked": 1,
+            "unsupported": 19
+          },
+          "scored": {
+            "passed": 12,
+            "nonpass": 0,
+            "unassessed": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -17581,31 +17606,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "passed": 12,
-            "trident-blocked": 1,
-            "unsupported": 19
-          },
-          "scored": {
-            "passed": 12,
-            "nonpass": 0,
-            "unassessed": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -17711,8 +17711,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -17961,8 +17961,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -18047,8 +18047,8 @@
           },
           "scored": {
             "passed": 66,
-            "nonpass": 36,
-            "unassessed": 14
+            "nonpass": 40,
+            "unassessed": 10
           }
         },
         {
@@ -18174,8 +18174,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 2
+            "nonpass": 2,
+            "unassessed": 0
           }
         },
         {
@@ -18227,8 +18227,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 31,
-            "unassessed": 2
+            "nonpass": 33,
+            "unassessed": 0
           }
         },
         {
@@ -18549,8 +18549,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 10,
-            "unassessed": 1
+            "nonpass": 11,
+            "unassessed": 0
           }
         },
         {
@@ -18650,8 +18650,8 @@
           },
           "scored": {
             "passed": 4,
-            "nonpass": 0,
-            "unassessed": 3
+            "nonpass": 3,
+            "unassessed": 0
           }
         },
         {
@@ -18673,8 +18673,8 @@
           },
           "scored": {
             "passed": 24,
-            "nonpass": 0,
-            "unassessed": 24
+            "nonpass": 24,
+            "unassessed": 0
           }
         },
         {
@@ -18708,8 +18708,8 @@
           },
           "scored": {
             "passed": 4,
-            "nonpass": 0,
-            "unassessed": 4
+            "nonpass": 4,
+            "unassessed": 0
           }
         },
         {
@@ -18720,8 +18720,8 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 0,
-            "unassessed": 4
+            "nonpass": 4,
+            "unassessed": 0
           }
         },
         {
@@ -18732,8 +18732,8 @@
           },
           "scored": {
             "passed": 18,
-            "nonpass": 0,
-            "unassessed": 24
+            "nonpass": 24,
+            "unassessed": 0
           }
         },
         {
@@ -19881,6 +19881,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -19897,7 +19898,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -20382,7 +20382,7 @@
       },
       "known": {
         "verifiedRefusals": 0,
-        "confirmedAbsences": 646
+        "confirmedAbsences": 729
       },
       "outcomeKinds": {
         "scored": {
@@ -20605,15 +20605,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -20889,6 +20889,32 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "passed": 5,
+            "unsupported": 17,
+            "failed": 9,
+            "trident-blocked": 1
+          },
+          "scored": {
+            "passed": 5,
+            "nonpass": 13,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -20972,32 +20998,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "passed": 5,
-            "unsupported": 17,
-            "failed": 9,
-            "trident-blocked": 1
-          },
-          "scored": {
-            "passed": 5,
-            "nonpass": 13,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -22033,8 +22033,8 @@
           },
           "scored": {
             "passed": 4,
-            "nonpass": 0,
-            "unassessed": 3
+            "nonpass": 3,
+            "unassessed": 0
           }
         },
         {
@@ -22056,8 +22056,8 @@
           },
           "scored": {
             "passed": 24,
-            "nonpass": 0,
-            "unassessed": 24
+            "nonpass": 24,
+            "unassessed": 0
           }
         },
         {
@@ -22079,8 +22079,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 19,
-            "unassessed": 23
+            "nonpass": 42,
+            "unassessed": 0
           }
         },
         {
@@ -22091,8 +22091,8 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 0,
-            "unassessed": 5
+            "nonpass": 5,
+            "unassessed": 0
           }
         },
         {
@@ -22103,8 +22103,8 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 0,
-            "unassessed": 4
+            "nonpass": 4,
+            "unassessed": 0
           }
         },
         {
@@ -22115,8 +22115,8 @@
           },
           "scored": {
             "passed": 18,
-            "nonpass": 0,
-            "unassessed": 24
+            "nonpass": 24,
+            "unassessed": 0
           }
         },
         {
@@ -23273,6 +23273,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -23289,7 +23290,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -23649,8 +23649,8 @@
         "zombie-mermaid has no railroad parser (it parses flowchart, state, sequence, class, er, cN, xychart, architecture, pie, quadrant)": 73,
         "zombie-mermaid has no treeview parser (it parses flowchart, state, sequence, class, er, cN, xychart, architecture, pie, quadrant)": 63,
         "zombie-mermaid has no treemap parser (it parses flowchart, state, sequence, class, er, cN, xychart, architecture, pie, quadrant)": 17,
-        "zombie-mermaid has no agentflow parser (it parses flowchart, state, sequence, class, er, cN, xychart, architecture, pie, quadrant)": 201,
         "zombie-mermaid drops architecture align directives": 3,
+        "zombie-mermaid has no agentflow parser (it parses flowchart, state, sequence, class, er, cN, xychart, architecture, pie, quadrant)": 201,
         "zombie-mermaid has no block parser (it parses flowchart, state, sequence, class, er, cN, xychart, architecture, pie, quadrant)": 28,
         "zombie-mermaid keeps a generic class's type parameter only in its display label": 4,
         "zombie-mermaid's class model keeps no accessibility title": 2,
@@ -23689,8 +23689,8 @@
         "zombie-mermaid has no railroad parser (it parses flowchart, state, sequence, class, er, cN, xychart, architecture, pie, quadrant)": 73,
         "zombie-mermaid has no treeview parser (it parses flowchart, state, sequence, class, er, cN, xychart, architecture, pie, quadrant)": 63,
         "zombie-mermaid has no treemap parser (it parses flowchart, state, sequence, class, er, cN, xychart, architecture, pie, quadrant)": 17,
-        "zombie-mermaid has no agentflow parser (it parses flowchart, state, sequence, class, er, cN, xychart, architecture, pie, quadrant)": 201,
         "zombie-mermaid drops architecture align directives": 3,
+        "zombie-mermaid has no agentflow parser (it parses flowchart, state, sequence, class, er, cN, xychart, architecture, pie, quadrant)": 201,
         "zombie-mermaid has no block parser (it parses flowchart, state, sequence, class, er, cN, xychart, architecture, pie, quadrant)": 28,
         "zombie-mermaid keeps a generic class's type parameter only in its display label": 4,
         "zombie-mermaid's class model keeps no accessibility title": 2,
@@ -23747,8 +23747,8 @@
         "trident-blocked": 44
       },
       "known": {
-        "verifiedRefusals": 417,
-        "confirmedAbsences": 771
+        "verifiedRefusals": 424,
+        "confirmedAbsences": 858
       },
       "outcomeKinds": {
         "scored": {
@@ -23971,15 +23971,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -24261,6 +24261,32 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "passed": 4,
+            "unsupported": 19,
+            "trident-blocked": 1,
+            "failed": 8
+          },
+          "scored": {
+            "passed": 4,
+            "nonpass": 14,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -24344,32 +24370,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "passed": 4,
-            "unsupported": 19,
-            "trident-blocked": 1,
-            "failed": 8
-          },
-          "scored": {
-            "passed": 4,
-            "nonpass": 14,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -24475,8 +24475,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -24725,8 +24725,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -24811,8 +24811,8 @@
           },
           "scored": {
             "passed": 28,
-            "nonpass": 81,
-            "unassessed": 7
+            "nonpass": 88,
+            "unassessed": 0
           }
         },
         {
@@ -24938,8 +24938,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 2
+            "nonpass": 2,
+            "unassessed": 0
           }
         },
         {
@@ -24991,8 +24991,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 31,
-            "unassessed": 2
+            "nonpass": 33,
+            "unassessed": 0
           }
         },
         {
@@ -25313,8 +25313,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 10,
-            "unassessed": 1
+            "nonpass": 11,
+            "unassessed": 0
           }
         },
         {
@@ -25414,8 +25414,8 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 1,
-            "unassessed": 3
+            "nonpass": 4,
+            "unassessed": 0
           }
         },
         {
@@ -25437,8 +25437,8 @@
           },
           "scored": {
             "passed": 12,
-            "nonpass": 0,
-            "unassessed": 36
+            "nonpass": 36,
+            "unassessed": 0
           }
         },
         {
@@ -25450,8 +25450,8 @@
           },
           "scored": {
             "passed": 1,
-            "nonpass": 1,
-            "unassessed": 1
+            "nonpass": 2,
+            "unassessed": 0
           }
         },
         {
@@ -25475,8 +25475,8 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 0,
-            "unassessed": 5
+            "nonpass": 5,
+            "unassessed": 0
           }
         },
         {
@@ -25487,8 +25487,8 @@
           },
           "scored": {
             "passed": 2,
-            "nonpass": 0,
-            "unassessed": 5
+            "nonpass": 5,
+            "unassessed": 0
           }
         },
         {
@@ -25499,8 +25499,8 @@
           },
           "scored": {
             "passed": 12,
-            "nonpass": 0,
-            "unassessed": 30
+            "nonpass": 30,
+            "unassessed": 0
           }
         },
         {
@@ -26657,6 +26657,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -26673,7 +26674,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -27042,11 +27042,11 @@
         "mmdr detected this source as Flowchart, not railroad": 73,
         "mmdr detected this source as Flowchart, not treeview": 63,
         "mermaid-rs-renderer keeps every treemap line as a node whose display label folds name, value and class": 15,
-        "mmdr detected this source as Flowchart, not agentflow": 200,
         "mermaid-rs-renderer's architecture model keeps no title": 2,
         "mermaid-rs-renderer's architecture model keeps no accessibility title": 1,
         "mermaid-rs-renderer's architecture model keeps no accessibility description": 1,
         "mermaid-rs-renderer drops architecture align directives": 2,
+        "mmdr detected this source as Flowchart, not agentflow": 200,
         "mermaid-rs-renderer keeps no palette slot for a composite block (Mermaid's renderer setting)": 4,
         "mermaid-rs-renderer's class parser records no class assignments": 4,
         "mermaid-rs-renderer's class parser records no class styles": 1,
@@ -27447,15 +27447,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -27730,6 +27730,30 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "unsupported": 31,
+            "trident-blocked": 1
+          },
+          "scored": {
+            "passed": 0,
+            "nonpass": 18,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -27813,30 +27837,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "unsupported": 31,
-            "trident-blocked": 1
-          },
-          "scored": {
-            "passed": 0,
-            "nonpass": 18,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -30085,6 +30085,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -30101,7 +30102,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -30791,15 +30791,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -31076,6 +31076,30 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "unsupported": 31,
+            "trident-blocked": 1
+          },
+          "scored": {
+            "passed": 0,
+            "nonpass": 18,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -31159,30 +31183,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "unsupported": 31,
-            "trident-blocked": 1
-          },
-          "scored": {
-            "passed": 0,
-            "nonpass": 18,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -33441,6 +33441,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -33457,7 +33458,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -33914,7 +33914,7 @@
         "trident-blocked": 3
       },
       "known": {
-        "verifiedRefusals": 1033,
+        "verifiedRefusals": 1049,
         "confirmedAbsences": 290
       },
       "outcomeKinds": {
@@ -34138,15 +34138,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -34422,6 +34422,30 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "unsupported": 31,
+            "trident-blocked": 1
+          },
+          "scored": {
+            "passed": 0,
+            "nonpass": 12,
+            "unassessed": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -34505,30 +34529,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "unsupported": 31,
-            "trident-blocked": 1
-          },
-          "scored": {
-            "passed": 0,
-            "nonpass": 12,
-            "unassessed": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -34633,8 +34633,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -34849,8 +34849,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 9
+            "nonpass": 9,
+            "unassessed": 0
           }
         },
         {
@@ -34878,8 +34878,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -35086,8 +35086,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 2
+            "nonpass": 2,
+            "unassessed": 0
           }
         },
         {
@@ -35139,8 +35139,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 31,
-            "unassessed": 2
+            "nonpass": 33,
+            "unassessed": 0
           }
         },
         {
@@ -35461,8 +35461,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 10,
-            "unassessed": 1
+            "nonpass": 11,
+            "unassessed": 0
           }
         },
         {
@@ -36787,6 +36787,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -36803,7 +36804,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -37226,8 +37226,8 @@
         "trident-blocked": 11
       },
       "known": {
-        "verifiedRefusals": 612,
-        "confirmedAbsences": 515
+        "verifiedRefusals": 628,
+        "confirmedAbsences": 551
       },
       "outcomeKinds": {
         "scored": {
@@ -37450,15 +37450,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -37738,6 +37738,32 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "passed": 4,
+            "unsupported": 21,
+            "trident-blocked": 1,
+            "failed": 6
+          },
+          "scored": {
+            "passed": 4,
+            "nonpass": 14,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -37826,32 +37852,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "passed": 4,
-            "unsupported": 21,
-            "trident-blocked": 1,
-            "failed": 6
-          },
-          "scored": {
-            "passed": 4,
-            "nonpass": 14,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/block/blockColorIndex.spec.ts",
           "counts": {
             "unsupported": 4,
@@ -37905,8 +37905,8 @@
           },
           "scored": {
             "passed": 46,
-            "nonpass": 308,
-            "unassessed": 10
+            "nonpass": 318,
+            "unassessed": 0
           }
         },
         {
@@ -37952,8 +37952,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -38170,8 +38170,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 9
+            "nonpass": 9,
+            "unassessed": 0
           }
         },
         {
@@ -38199,8 +38199,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -38409,8 +38409,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 2
+            "nonpass": 2,
+            "unassessed": 0
           }
         },
         {
@@ -38462,8 +38462,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 31,
-            "unassessed": 2
+            "nonpass": 33,
+            "unassessed": 0
           }
         },
         {
@@ -38784,8 +38784,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 10,
-            "unassessed": 1
+            "nonpass": 11,
+            "unassessed": 0
           }
         },
         {
@@ -38886,8 +38886,8 @@
           },
           "scored": {
             "passed": 4,
-            "nonpass": 2,
-            "unassessed": 1
+            "nonpass": 3,
+            "unassessed": 0
           }
         },
         {
@@ -38898,8 +38898,8 @@
           },
           "scored": {
             "passed": 10,
-            "nonpass": 0,
-            "unassessed": 2
+            "nonpass": 2,
+            "unassessed": 0
           }
         },
         {
@@ -38911,8 +38911,8 @@
           },
           "scored": {
             "passed": 23,
-            "nonpass": 18,
-            "unassessed": 7
+            "nonpass": 25,
+            "unassessed": 0
           }
         },
         {
@@ -38947,8 +38947,8 @@
           },
           "scored": {
             "passed": 2,
-            "nonpass": 4,
-            "unassessed": 2
+            "nonpass": 6,
+            "unassessed": 0
           }
         },
         {
@@ -38960,8 +38960,8 @@
           },
           "scored": {
             "passed": 2,
-            "nonpass": 3,
-            "unassessed": 2
+            "nonpass": 5,
+            "unassessed": 0
           }
         },
         {
@@ -38973,8 +38973,8 @@
           },
           "scored": {
             "passed": 12,
-            "nonpass": 18,
-            "unassessed": 12
+            "nonpass": 30,
+            "unassessed": 0
           }
         },
         {
@@ -40123,6 +40123,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -40139,7 +40140,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -40645,7 +40645,7 @@
       },
       "known": {
         "verifiedRefusals": 1,
-        "confirmedAbsences": 271
+        "confirmedAbsences": 329
       },
       "outcomeKinds": {
         "scored": {
@@ -40864,15 +40864,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -41152,6 +41152,32 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "failed": 16,
+            "trident-blocked": 3,
+            "unsupported": 12,
+            "passed": 1
+          },
+          "scored": {
+            "passed": 1,
+            "nonpass": 15,
+            "unassessed": 2
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "failed": 4
@@ -41240,32 +41266,6 @@
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "failed": 16,
-            "trident-blocked": 3,
-            "unsupported": 12,
-            "passed": 1
-          },
-          "scored": {
-            "passed": 1,
-            "nonpass": 15,
-            "unassessed": 2
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid/src/diagrams/block/blockColorIndex.spec.ts",
           "counts": {
             "failed": 4,
@@ -41319,8 +41319,8 @@
           },
           "scored": {
             "passed": 37,
-            "nonpass": 318,
-            "unassessed": 9
+            "nonpass": 327,
+            "unassessed": 0
           }
         },
         {
@@ -42340,8 +42340,8 @@
           },
           "scored": {
             "passed": 8,
-            "nonpass": 28,
-            "unassessed": 12
+            "nonpass": 40,
+            "unassessed": 0
           }
         },
         {
@@ -42363,8 +42363,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 29,
-            "unassessed": 13
+            "nonpass": 42,
+            "unassessed": 0
           }
         },
         {
@@ -42376,8 +42376,8 @@
           },
           "scored": {
             "passed": 2,
-            "nonpass": 2,
-            "unassessed": 4
+            "nonpass": 6,
+            "unassessed": 0
           }
         },
         {
@@ -42389,8 +42389,8 @@
           },
           "scored": {
             "passed": 2,
-            "nonpass": 1,
-            "unassessed": 4
+            "nonpass": 5,
+            "unassessed": 0
           }
         },
         {
@@ -42402,8 +42402,8 @@
           },
           "scored": {
             "passed": 8,
-            "nonpass": 18,
-            "unassessed": 16
+            "nonpass": 34,
+            "unassessed": 0
           }
         },
         {
@@ -43567,6 +43567,9 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "architecture.db.getGroups": 1,
+        "architecture.db.getServices": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning)": 1,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
@@ -43584,9 +43587,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "architecture.db.getGroups": 1,
-        "architecture.db.getServices": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -44039,8 +44039,8 @@
         "trident-blocked": 35
       },
       "known": {
-        "verifiedRefusals": 700,
-        "confirmedAbsences": 297
+        "verifiedRefusals": 716,
+        "confirmedAbsences": 312
       },
       "outcomeKinds": {
         "scored": {
@@ -44263,15 +44263,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -44400,8 +44400,8 @@
           },
           "scored": {
             "passed": 2,
-            "nonpass": 0,
-            "unassessed": 15
+            "nonpass": 15,
+            "unassessed": 0
           }
         },
         {
@@ -44551,6 +44551,32 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "passed": 3,
+            "unsupported": 21,
+            "trident-blocked": 1,
+            "failed": 7
+          },
+          "scored": {
+            "passed": 3,
+            "nonpass": 15,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -44634,32 +44660,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "passed": 3,
-            "unsupported": 21,
-            "trident-blocked": 1,
-            "failed": 7
-          },
-          "scored": {
-            "passed": 3,
-            "nonpass": 15,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -44765,8 +44765,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -44987,8 +44987,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 9
+            "nonpass": 9,
+            "unassessed": 0
           }
         },
         {
@@ -45016,8 +45016,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -45229,8 +45229,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 2
+            "nonpass": 2,
+            "unassessed": 0
           }
         },
         {
@@ -45282,8 +45282,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 31,
-            "unassessed": 2
+            "nonpass": 33,
+            "unassessed": 0
           }
         },
         {
@@ -45604,8 +45604,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 10,
-            "unassessed": 1
+            "nonpass": 11,
+            "unassessed": 0
           }
         },
         {
@@ -46935,6 +46935,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -46951,7 +46952,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -47314,11 +47314,11 @@
         "termaid parsed this source as flowchart, not railroad": 73,
         "termaid parsed this source as flowchart, not treeview": 63,
         "termaid keeps only treemap node lines (classDef rows are dropped) and stores a value not written as N": 15,
-        "termaid parsed this source as flowchart, not agentflow": 201,
         "termaid's architecture model keeps no accessibility title": 1,
         "termaid's architecture model keeps no accessibility description": 1,
         "termaid drops architecture align directives": 3,
         "termaid drops architecture junctions": 1,
+        "termaid parsed this source as flowchart, not agentflow": 201,
         "termaid keeps no palette slot for a composite block (Mermaid's renderer setting)": 4,
         "termaid skips class cssClass lines": 6,
         "termaid skips class style lines": 1,
@@ -47468,7 +47468,7 @@
         "trident-blocked": 0
       },
       "known": {
-        "verifiedRefusals": 2752,
+        "verifiedRefusals": 2768,
         "confirmedAbsences": 29
       },
       "outcomeKinds": {
@@ -47693,15 +47693,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -47976,6 +47976,30 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "unsupported": 31,
+            "trident-blocked": 1
+          },
+          "scored": {
+            "passed": 0,
+            "nonpass": 12,
+            "unassessed": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -48059,30 +48083,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "unsupported": 31,
-            "trident-blocked": 1
-          },
-          "scored": {
-            "passed": 0,
-            "nonpass": 12,
-            "unassessed": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -48185,8 +48185,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -48397,8 +48397,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 9
+            "nonpass": 9,
+            "unassessed": 0
           }
         },
         {
@@ -48426,8 +48426,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -48639,8 +48639,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 2
+            "nonpass": 2,
+            "unassessed": 0
           }
         },
         {
@@ -48692,8 +48692,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 31,
-            "unassessed": 2
+            "nonpass": 33,
+            "unassessed": 0
           }
         },
         {
@@ -49014,8 +49014,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 10,
-            "unassessed": 1
+            "nonpass": 11,
+            "unassessed": 0
           }
         },
         {
@@ -50339,6 +50339,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -50355,7 +50356,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -51122,15 +51122,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -51405,6 +51405,30 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "unsupported": 31,
+            "trident-blocked": 1
+          },
+          "scored": {
+            "passed": 0,
+            "nonpass": 18,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -51488,30 +51512,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "unsupported": 31,
-            "trident-blocked": 1
-          },
-          "scored": {
-            "passed": 0,
-            "nonpass": 18,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -53756,6 +53756,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -53772,7 +53773,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -54237,7 +54237,7 @@
       },
       "known": {
         "verifiedRefusals": 1,
-        "confirmedAbsences": 16
+        "confirmedAbsences": 101
       },
       "outcomeKinds": {
         "scored": {
@@ -54455,15 +54455,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -54505,8 +54505,8 @@
           },
           "scored": {
             "passed": 4,
-            "nonpass": 9,
-            "unassessed": 14
+            "nonpass": 23,
+            "unassessed": 0
           }
         },
         {
@@ -54746,6 +54746,31 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "passed": 18,
+            "trident-blocked": 1,
+            "unsupported": 13
+          },
+          "scored": {
+            "passed": 18,
+            "nonpass": 0,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "passed": 4
@@ -54801,8 +54826,8 @@
           },
           "scored": {
             "passed": 4,
-            "nonpass": 0,
-            "unassessed": 3
+            "nonpass": 1,
+            "unassessed": 2
           }
         },
         {
@@ -54826,37 +54851,12 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 0,
-            "unassessed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "passed": 18,
-            "trident-blocked": 1,
-            "unsupported": 13
-          },
-          "scored": {
-            "passed": 18,
-            "nonpass": 0,
+            "nonpass": 1,
             "unassessed": 0
           }
         },
         {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -55363,8 +55363,8 @@
           },
           "scored": {
             "passed": 1,
-            "nonpass": 0,
-            "unassessed": 2
+            "nonpass": 2,
+            "unassessed": 0
           }
         },
         {
@@ -55485,8 +55485,8 @@
           },
           "scored": {
             "passed": 31,
-            "nonpass": 0,
-            "unassessed": 2
+            "nonpass": 2,
+            "unassessed": 0
           }
         },
         {
@@ -55675,8 +55675,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 8
+            "nonpass": 8,
+            "unassessed": 0
           }
         },
         {
@@ -55687,8 +55687,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 1,
-            "unassessed": 5
+            "nonpass": 6,
+            "unassessed": 0
           }
         },
         {
@@ -55699,8 +55699,8 @@
           },
           "scored": {
             "passed": 11,
-            "nonpass": 0,
-            "unassessed": 2
+            "nonpass": 2,
+            "unassessed": 0
           }
         },
         {
@@ -55710,8 +55710,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 8
+            "nonpass": 8,
+            "unassessed": 0
           }
         },
         {
@@ -55745,8 +55745,8 @@
           },
           "scored": {
             "passed": 5,
-            "nonpass": 1,
-            "unassessed": 2
+            "nonpass": 2,
+            "unassessed": 1
           }
         },
         {
@@ -55757,8 +55757,8 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -55769,8 +55769,8 @@
           },
           "scored": {
             "passed": 1,
-            "nonpass": 0,
-            "unassessed": 6
+            "nonpass": 6,
+            "unassessed": 0
           }
         },
         {
@@ -55793,8 +55793,8 @@
           },
           "scored": {
             "passed": 2,
-            "nonpass": 0,
-            "unassessed": 8
+            "nonpass": 8,
+            "unassessed": 0
           }
         },
         {
@@ -55804,8 +55804,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 4
+            "nonpass": 4,
+            "unassessed": 0
           }
         },
         {
@@ -55815,8 +55815,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 11
+            "nonpass": 11,
+            "unassessed": 0
           }
         },
         {
@@ -55827,8 +55827,8 @@
           },
           "scored": {
             "passed": 7,
-            "nonpass": 0,
-            "unassessed": 4
+            "nonpass": 4,
+            "unassessed": 0
           }
         },
         {
@@ -55861,8 +55861,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 5
+            "nonpass": 5,
+            "unassessed": 0
           }
         },
         {
@@ -55897,8 +55897,8 @@
           },
           "scored": {
             "passed": 28,
-            "nonpass": 0,
-            "unassessed": 3
+            "nonpass": 2,
+            "unassessed": 1
           }
         },
         {
@@ -57146,6 +57146,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -57162,7 +57163,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -57574,7 +57574,7 @@
       },
       "known": {
         "verifiedRefusals": 0,
-        "confirmedAbsences": 1432
+        "confirmedAbsences": 1434
       },
       "outcomeKinds": {
         "scored": {
@@ -57797,15 +57797,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -58080,6 +58080,30 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "unsupported": 31,
+            "trident-blocked": 1
+          },
+          "scored": {
+            "passed": 0,
+            "nonpass": 18,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -58163,30 +58187,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "unsupported": 31,
-            "trident-blocked": 1
-          },
-          "scored": {
-            "passed": 0,
-            "nonpass": 18,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -58620,8 +58620,8 @@
           },
           "scored": {
             "passed": 23,
-            "nonpass": 91,
-            "unassessed": 2
+            "nonpass": 93,
+            "unassessed": 0
           }
         },
         {
@@ -60445,6 +60445,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -60461,7 +60462,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -61184,15 +61184,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -61468,6 +61468,30 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "unsupported": 31,
+            "trident-blocked": 1
+          },
+          "scored": {
+            "passed": 0,
+            "nonpass": 18,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -61551,30 +61575,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "unsupported": 31,
-            "trident-blocked": 1
-          },
-          "scored": {
-            "passed": 0,
-            "nonpass": 18,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -63831,6 +63831,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -63847,7 +63848,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -64326,7 +64326,7 @@
       },
       "known": {
         "verifiedRefusals": 0,
-        "confirmedAbsences": 36
+        "confirmedAbsences": 95
       },
       "outcomeKinds": {
         "scored": {
@@ -64544,15 +64544,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -64835,6 +64835,31 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "passed": 25,
+            "trident-blocked": 1,
+            "unsupported": 6
+          },
+          "scored": {
+            "passed": 18,
+            "nonpass": 0,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "passed": 4
@@ -64919,31 +64944,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "passed": 25,
-            "trident-blocked": 1,
-            "unsupported": 6
-          },
-          "scored": {
-            "passed": 18,
-            "nonpass": 0,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -66002,8 +66002,8 @@
           },
           "scored": {
             "passed": 4,
-            "nonpass": 0,
-            "unassessed": 3
+            "nonpass": 3,
+            "unassessed": 0
           }
         },
         {
@@ -66025,8 +66025,8 @@
           },
           "scored": {
             "passed": 24,
-            "nonpass": 0,
-            "unassessed": 24
+            "nonpass": 24,
+            "unassessed": 0
           }
         },
         {
@@ -66060,8 +66060,8 @@
           },
           "scored": {
             "passed": 4,
-            "nonpass": 0,
-            "unassessed": 4
+            "nonpass": 4,
+            "unassessed": 0
           }
         },
         {
@@ -66072,8 +66072,8 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 0,
-            "unassessed": 4
+            "nonpass": 4,
+            "unassessed": 0
           }
         },
         {
@@ -66084,8 +66084,8 @@
           },
           "scored": {
             "passed": 18,
-            "nonpass": 0,
-            "unassessed": 24
+            "nonpass": 24,
+            "unassessed": 0
           }
         },
         {
@@ -67227,6 +67227,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); ./diagnostics.js.AgentflowWarning.SHAPE_UNSUPPORTED; ./d": 1,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); ./diagnostics.js.AgentflowWarning.SHAPE_UNSUPPORTED": 5,
@@ -67245,7 +67246,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -67873,15 +67873,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -68156,6 +68156,30 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "unsupported": 31,
+            "trident-blocked": 1
+          },
+          "scored": {
+            "passed": 0,
+            "nonpass": 18,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -68239,30 +68263,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "unsupported": 31,
-            "trident-blocked": 1
-          },
-          "scored": {
-            "passed": 0,
-            "nonpass": 18,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -70510,6 +70510,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -70526,7 +70527,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -70971,7 +70971,7 @@
         "trident-blocked": 0
       },
       "known": {
-        "verifiedRefusals": 3056,
+        "verifiedRefusals": 3086,
         "confirmedAbsences": 0
       },
       "outcomeKinds": {
@@ -71196,15 +71196,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -71479,6 +71479,30 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "unsupported": 31,
+            "trident-blocked": 1
+          },
+          "scored": {
+            "passed": 0,
+            "nonpass": 12,
+            "unassessed": 6
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -71562,30 +71586,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "unsupported": 31,
-            "trident-blocked": 1
-          },
-          "scored": {
-            "passed": 0,
-            "nonpass": 12,
-            "unassessed": 6
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -71688,8 +71688,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -71900,8 +71900,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 9
+            "nonpass": 9,
+            "unassessed": 0
           }
         },
         {
@@ -71929,8 +71929,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 1
+            "nonpass": 1,
+            "unassessed": 0
           }
         },
         {
@@ -72134,8 +72134,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 0,
-            "unassessed": 2
+            "nonpass": 2,
+            "unassessed": 0
           }
         },
         {
@@ -72187,8 +72187,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 31,
-            "unassessed": 2
+            "nonpass": 33,
+            "unassessed": 0
           }
         },
         {
@@ -72509,8 +72509,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 10,
-            "unassessed": 1
+            "nonpass": 11,
+            "unassessed": 0
           }
         },
         {
@@ -72826,8 +72826,8 @@
           },
           "scored": {
             "passed": 0,
-            "nonpass": 134,
-            "unassessed": 14
+            "nonpass": 148,
+            "unassessed": 0
           }
         },
         {
@@ -73819,6 +73819,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -73835,7 +73836,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -74210,7 +74210,7 @@
       },
       "known": {
         "verifiedRefusals": 0,
-        "confirmedAbsences": 1382
+        "confirmedAbsences": 1384
       },
       "outcomeKinds": {
         "scored": {
@@ -74433,15 +74433,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -74717,6 +74717,30 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "unsupported": 31,
+            "trident-blocked": 1
+          },
+          "scored": {
+            "passed": 0,
+            "nonpass": 18,
+            "unassessed": 0
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "unsupported": 4
@@ -74800,30 +74824,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "unsupported": 31,
-            "trident-blocked": 1
-          },
-          "scored": {
-            "passed": 0,
-            "nonpass": 18,
-            "unassessed": 0
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -75259,8 +75259,8 @@
           },
           "scored": {
             "passed": 24,
-            "nonpass": 90,
-            "unassessed": 2
+            "nonpass": 92,
+            "unassessed": 0
           }
         },
         {
@@ -77087,6 +77087,7 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
         "Unavailable imported value used by original test: log (Logger side effects are not bound to the candidate); Unavailable imported value used by original test: tr": 1,
@@ -77103,7 +77104,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -77609,7 +77609,7 @@
       },
       "known": {
         "verifiedRefusals": 1,
-        "confirmedAbsences": 36
+        "confirmedAbsences": 95
       },
       "outcomeKinds": {
         "scored": {
@@ -77827,15 +77827,15 @@
           }
         },
         {
-          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
           "path": "packages/mermaid-layout-elk/src/plugin.spec.ts",
           "counts": {
             "trident-blocked": 3
+          }
+        },
+        {
+          "path": "packages/mermaid-example-diagram/src/exampleDiagram.spec.js",
+          "counts": {
+            "trident-blocked": 1
           }
         },
         {
@@ -78118,6 +78118,31 @@
           }
         },
         {
+          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
+          "counts": {
+            "passed": 24,
+            "trident-blocked": 2,
+            "unsupported": 6
+          },
+          "scored": {
+            "passed": 17,
+            "nonpass": 0,
+            "unassessed": 1
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
+          "counts": {
+            "trident-blocked": 7
+          }
+        },
+        {
+          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
+          "counts": {
+            "trident-blocked": 1
+          }
+        },
+        {
           "path": "packages/mermaid/src/diagrams/agentflow/agentflow-diagnostics-lifecycle.spec.ts",
           "counts": {
             "passed": 4
@@ -78203,31 +78228,6 @@
         },
         {
           "path": "packages/mermaid/src/diagrams/agentflow/renderer.spec.ts",
-          "counts": {
-            "trident-blocked": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architecture.spec.ts",
-          "counts": {
-            "passed": 24,
-            "trident-blocked": 2,
-            "unsupported": 6
-          },
-          "scored": {
-            "passed": 17,
-            "nonpass": 0,
-            "unassessed": 1
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/architectureSeed.spec.ts",
-          "counts": {
-            "trident-blocked": 7
-          }
-        },
-        {
-          "path": "packages/mermaid/src/diagrams/architecture/svgDraw.spec.ts",
           "counts": {
             "trident-blocked": 1
           }
@@ -79290,8 +79290,8 @@
           },
           "scored": {
             "passed": 4,
-            "nonpass": 0,
-            "unassessed": 3
+            "nonpass": 3,
+            "unassessed": 0
           }
         },
         {
@@ -79313,8 +79313,8 @@
           },
           "scored": {
             "passed": 24,
-            "nonpass": 0,
-            "unassessed": 24
+            "nonpass": 24,
+            "unassessed": 0
           }
         },
         {
@@ -79348,8 +79348,8 @@
           },
           "scored": {
             "passed": 4,
-            "nonpass": 0,
-            "unassessed": 4
+            "nonpass": 4,
+            "unassessed": 0
           }
         },
         {
@@ -79360,8 +79360,8 @@
           },
           "scored": {
             "passed": 3,
-            "nonpass": 0,
-            "unassessed": 4
+            "nonpass": 4,
+            "unassessed": 0
           }
         },
         {
@@ -79372,8 +79372,8 @@
           },
           "scored": {
             "passed": 18,
-            "nonpass": 0,
-            "unassessed": 24
+            "nonpass": 24,
+            "unassessed": 0
           }
         },
         {
@@ -80519,6 +80519,8 @@
         "Unavailable imported value used by original test: ImperativeState (./imperativeState.js.ImperativeState); new ./imperativeState.js.ImperativeState; No candidate": 3,
         "Unavailable imported value used by original test: sanitizeDirective (./sanitizeDirective.js.sanitizeDirective); ./sanitizeDirective.js.sanitizeDirective; No can": 5,
         "Unavailable imported value used by original test: getSubGraphTitleMargins (./subGraphTitleMargins.js.getSubGraphTitleMargins); ./subGraphTitleMargins.js.getSubG": 1,
+        "Bezel architecture nodes: a JSON object from the bridge loses the declaration order of integer-like ids": 1,
+        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); ./diagnostics.js.AgentflowWarning.SHAPE_UNSUPPORTED; age": 6,
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: log (L": 2,
         "Unavailable imported value used by original test: transformData (./transformData.js.transformData); ./transformData.js.transformData; No candidate operation was": 2,
@@ -80538,8 +80540,6 @@
         "Unavailable imported value used by original test: AgentflowWarning (./diagnostics.js.AgentflowWarning); Unavailable imported value used by original test: PARSER": 1,
         "Unavailable imported value used by original test: PARSER_EMITTED_DIAGNOSTICS (./diagnostics.js.PARSER_EMITTED_DIAGNOSTICS); ./diagnostics.js.PARSER_EMITTED_DIAG": 1,
         "./renderer.js.draw; No candidate operation was exercised by this test": 1,
-        "Bezel architecture nodes: a JSON object from the bridge loses the declaration order of integer-like ids": 1,
-        "Unavailable imported value used by original test: withSeededRandom (./architectureSeed.js.withSeededRandom); ./architectureSeed.js.withSeededRandom; No candidat": 7,
         "Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candidate operation was exercised by this test": 2,
         "Unavailable imported value used by original test: calculateBlockPosition (./layout.js.calculateBlockPosition); ./layout.js.calculateBlockPosition; No candidate ": 1,
         "Unavailable imported value used by original test: layout (./layout.js.layout); Native module namespace is not bound: ../../diagram-api/diagramAPI.js; No candida": 1,
@@ -80939,6 +80939,6 @@
       }
     }
   ],
-  "updatedAt": "2026-11-15T02:06:59.758Z",
-  "collectedThrough": "2026-11-15T02:06:59.758Z"
+  "updatedAt": "2026-11-15T08:59:56.926Z",
+  "collectedThrough": "2026-11-15T08:59:56.926Z"
 }

@@ -50,12 +50,17 @@ export interface AssessmentConfirmations { confirmed(project: string, reason: st
 
 /** Confirmations from capability and model-concept review files. Only a verdict that is
  * exactly `confirmed` counts; `disproved`, partial verdicts and unprobed entries do not. */
+/** Reasons as review files record them: the merged result's reason tables, which the
+ * model-concept review was drawn from, replace every number with N ("per CN element" for
+ * the verdict "per C4 element"), so reasons are compared in that form. */
+const reasonKey = (reason: string) => reason.replace(/\d+/g, 'N')
+
 export function assessmentConfirmations(reviews: readonly any[]): AssessmentConfirmations {
   const byBasis = new Set<string>(), byReason = new Set<string>()
   for (const review of reviews) {
     if (review?.protocol === 'fidelity-model-concept-review-v1') {
       for (const concept of review.concepts ?? [])
-        if (concept.verdict === 'confirmed' && !concept.supersededBy) for (const [project, reasons] of Object.entries(concept.projects ?? {})) for (const reason of Object.keys(reasons as object)) byReason.add(project + '\u0000' + reason)
+        if (concept.verdict === 'confirmed' && !concept.supersededBy) for (const [project, reasons] of Object.entries(concept.projects ?? {})) for (const reason of Object.keys(reasons as object)) byReason.add(project + '\u0000' + reasonKey(reason))
     } else if (Array.isArray(review?.assessments)) {
       for (const entry of review.assessments)
         if (entry.verdict === 'confirmed' && entry.basis !== 'model-concept' && Array.isArray(entry.projects)) for (const project of entry.projects) byBasis.add(entry.basis + '\u0000' + project)
@@ -65,7 +70,7 @@ export function assessmentConfirmations(reviews: readonly any[]): AssessmentConf
     files: reviews.length,
     confirmed(project, reason) {
       const basis = assessmentBasis(reason)
-      return basis === 'model-concept' ? byReason.has(project + '\u0000' + reason) : byBasis.has(basis + '\u0000' + project)
+      return basis === 'model-concept' ? byReason.has(project + '\u0000' + reasonKey(reason)) : byBasis.has(basis + '\u0000' + project)
     },
   }
 }
