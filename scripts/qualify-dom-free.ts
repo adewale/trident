@@ -63,7 +63,7 @@ export function qualifyDomFree(baseline: Iterable<Run>, alternate: Iterable<Run>
         return undefined
       }
       if (!suite || !Array.isArray(suite.assertionResults)) return undefined
-      const audit = run.audit.filter(row => row.file === absolute).map(({ index, name, fullName, calls, rejections, gaps, unsupported, faults, expectedFailure, protocol }) => ({ index, name, fullName, calls, rejections, gaps, unsupported, faults, expectedFailure, protocol })).sort((a, b) => a.index - b.index)
+      const audit = run.audit.filter(row => row.file === absolute && row.protocol !== 'setup-refusal-v1').map(({ index, name, fullName, calls, rejections, gaps, unsupported, faults, expectedFailure, protocol }) => ({ index, name, fullName, calls, rejections, gaps, unsupported, faults, expectedFailure, protocol })).sort((a, b) => a.index - b.index)
       if (!suite.assertionResults.length) {
         // An empty observation is no proof. Vitest must report the selected
         // file's completed collection failure, with a recognized disposition.
