@@ -322,7 +322,9 @@ test('Radar AST: agentic-mermaid names are its ids; a label equal to its name, e
   const radar = nativeAstView('adewale/agentic-mermaid', 'Radar', raw, hooks)
   expect(radar.$type).toBe('Radar')
   expect([radar.title, radar.accTitle]).toEqual(['My Title', 'My Accessible Title'])
-  expect(() => radar.accDescr).toThrow('unsupported')
+  // No accDescr was written, so the parse result's meta.accessibility has none.
+  expect(radar.accDescr).toBeUndefined()
+  expect(nativeAstView('adewale/agentic-mermaid', 'Radar', { ...raw, accessibilityDescription: 'Described' }, hooks).accDescr).toBe('Described')
   expect(radar.axes.map((axis: any) => [axis.$type, axis.name])).toEqual([['Axis', 'ax1'], ['Axis', 'ax2']])
   expect(radar.axes[0].label).toBe('Axis One')
   expect(() => radar.axes[1].label).toThrow('unsupported')

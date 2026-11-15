@@ -1,0 +1,130 @@
+{
+  "protocol": "trident-release-campaign-v1",
+  "version": "0.4.0",
+  "recordedAt": "2026-11-15T02:45:00.000Z",
+  "codeCommit": "e662752b7c8a2f75504086e4c2e7ec5116857f96",
+  "versionFreeze": {
+    "catalog": "docs/evidence/benchmark-campaign-2026-11-14/catalog.json",
+    "catalogSha256": "d90cea8d9732e0818c2703026f18e25ac41091d9550d806b53993b0aaf9511cb",
+    "versionsSha256": "3023ebf29b027bba2ab57bc47b416947db290b2da7d950cabaa3574b346488fa",
+    "checkedAt": "2026-11-14T00:14:18.895Z"
+  },
+  "collection": {
+    "davebench": {
+      "runs": 153,
+      "attemptedCalls": 205326,
+      "occurrencesPerRun": 1342,
+      "blocked": 0,
+      "admissionProfile": "davebench-public-api-admission-v3",
+      "windows": {
+        "nativePng": {
+          "startedAt": "2026-11-14T13:22:54.541Z",
+          "finishedAt": "2026-11-14T13:24:32.149Z"
+        },
+        "images": {
+          "startedAt": "2026-11-14T13:25:10.955Z",
+          "finishedAt": "2026-11-14T13:47:29.596Z"
+        },
+        "terminal": {
+          "startedAt": "2026-11-14T13:47:48.965Z",
+          "finishedAt": "2026-11-14T14:02:36.252Z"
+        }
+      },
+      "referenceRejected": 4,
+      "creditedInputs": 1338
+    },
+    "drawing": {
+      "startedAt": "2026-11-14T19:55:18.844Z",
+      "finishedAt": "2026-11-14T20:04:58.596Z",
+      "returnedOutputs": 3826,
+      "cases": 127,
+      "lanes": 35,
+      "observations": 4445,
+      "assessmentPolicy": "drawing-reviewed-labels-v3",
+      "captureArchive": {
+        "path": "captures/drawing-capture-2026-11-14.tar.gz",
+        "sha256": "bc86ecf0c9d6df9eee25f91b01db7b99eb032542a0360c69dd952331e6087716",
+        "bytes": 5183493,
+        "root": "drawing-retained"
+      },
+      "fontsSha256": "939b326443704235f702db8599eb7f55a4203f238e7d9d0372b8228e2cb12588",
+      "obligations": {
+        "profile": "drawing-source-obligations-v1",
+        "startedAt": "2026-11-14T20:04:59.576Z",
+        "finishedAt": "2026-11-14T20:14:20.376Z",
+        "evidence": "docs/evidence/drawing-reviews-2026-11-14/obligations.json.gz",
+        "manualReviews": 95
+      },
+      "pngLane": {
+        "project": "pub:mermaid_flutter",
+        "profile": "png-ocr-presence-only-v1",
+        "bundleSha256": "1600dea3a02daeeb6115640221267523c5edcc90a195072a8f579c3d26964f31",
+        "target": "drawing/drawing_worker.dart",
+        "observations": 127,
+        "reassessment": {
+          "reason": "The glued-syntax control admits unknown as well as incorrect, because bracketed syntax reads within a few points of the OCR confidence threshold depending on the machine's text rendering. The control set is part of the PNG profile, so the retained PNG outputs were reassessed under it; no renderer ran.",
+          "profile": "7c98ea89fd7610bd7800e4eb200f1ea4d1def9ad94df70f7e513281d50df75b0",
+          "previousProfile": "212ccc9848ace3c3923ac9154012b593fb48844b96655e88161745bee5954742",
+          "changedVerdicts": 0,
+          "changedReadings": 0
+        }
+      }
+    },
+    "fidelity": {
+      "scoring": "fidelity-scored-population-v3",
+      "scoredPopulation": 3327,
+      "inventoryCallbacks": 4019,
+      "candidates": 23,
+      "notApplicable": [
+        "spacedock-dev/mermaidtext",
+        "xai-org/grok-build",
+        "Yassimba/loom"
+      ],
+      "controlIdentity": "bdd4e7db62b641044553a9204a8932395420f9e2648123f1a0f75b2c7d4a5c21",
+      "windows": {
+        "jsdom": {
+          "startedAt": "2026-11-15T01:20:35Z",
+          "finishedAt": "2026-11-15T02:06:59.758Z"
+        },
+        "node": {
+          "startedAt": "2026-11-15T02:07:00Z",
+          "finishedAt": "2026-11-15T02:33:09.887Z"
+        },
+        "automaticMerslim": {
+          "startedAt": "2026-11-15T02:33:47Z",
+          "finishedAt": "2026-11-15T02:35:18.641Z",
+          "callbacks": 7099,
+          "differingFromJsdom": 0
+        },
+        "note": "Start times are the campaign scripts' step timestamps; finish times are each result file's updatedAt. Fidelity was recollected after the runtime began recording the Mermaid surfaces each test touches and the sources candidates refuse; every one of the 176,736 candidate callback outcomes matches the previous collection. The qualified DOM-free list was committed (f6bb56c) before the automatic Merslim run, which reproduced its JSDOM outcomes, recorded surfaces and refused sources."
+      },
+      "scopedOutInternals": 1517,
+      "codeCommit": "3f9460415dfa5ac0f6cd1538599c0190fe10a11f",
+      "verification": {
+        "refusals": {
+          "path": "docs/evidence/fidelity-refusal-verification-2026-11-15.json",
+          "sha256": "2bb9444a33b350c1d0091af6133b07cd02b4a5dfa55f34127c5c810b3f6d5cdb"
+        },
+        "assessmentReviews": [
+          {
+            "path": "docs/evidence/fidelity-capability-review-2026-11-14.json",
+            "sha256": "8e881b3fe6ef9acf919cb0806fcaec98dadc62e3aab89cf80957b0d3dcd83386"
+          },
+          {
+            "path": "docs/evidence/fidelity-model-concept-review-2026-11-14.json",
+            "sha256": "881c3002cf5ae14481cebb2f5bdb9d6f5738467d900fb47899f066c6570aba99"
+          }
+        ]
+      }
+    }
+  },
+  "method": "DaveBench was collected on one Linux x64 host (4 CPUs) after the replicated DaveBench, Drawing and Fidelity changes were committed, with timing collectors run serially and no other benchmark, build or test job running; its files are unchanged since, because no DaveBench code changed afterwards. Drawing Correctness (with Mermaid Flutter's native PNG lane), its source obligations and Mermaid Fidelity were then recollected on the same host at the code commit above, after the Flutter drawing target, Bezel's stateful bridge and the model-concept review were committed. Mermaid Fidelity was then recollected once more at its own code commit (above) for scoring v3.",
+  "numericSha256": {
+    "images.json": "d55b868b7a68fe8843c48f540c7ebf9503a273c1c7d2f90e2c456a09837bfaf3",
+    "terminal.json": "e0fae48c8e5efcf9ce49a15a2978892549f77600cf6798fbdcf6f098f26f0aa0",
+    "native-png.json": "615238c9fdf5eda5bd12e8044a5f104c769db31953efac73d69b6767e87da472",
+    "report.json": "1abc18b3ead1c859d6dc90843e39fe5ffcad0a46231d1efeb5a4ceb273769a79",
+    "drawing-correctness.json": "4929d2c0d2f44952ad88f974e6638eebf64aa15618c7b04696c528d600b9641b",
+    "mermaid-fidelity.json": "d415821898aecc21c9d4ffdc91764d6a233e6d300013cb97c4281468ffe8a549"
+  }
+}

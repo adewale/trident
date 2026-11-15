@@ -1,30 +1,282 @@
 # Changelog
 
-## Unreleased
+## 0.4.0 — 14 November 2026
 
-- Recollect Mermaid Fidelity for all 26 candidates under one frozen worker, with
-  paired JSDOM and Node profiles, fresh Node qualification (320 common files) and
-  an automatic Merslim run that reproduces every callback. Unused, unbound imports
-  defer until used, so original files collect. Missing exports, database members
-  and namespace reflection are adapter gaps even when caught. Worker startup and
-  dispatch failures are adapter gaps, never parser failures. Unassessed
-  observations fall from 99,799 to 91,984; 3,499 reference callbacks remain
-  unassessed for every candidate. Reports split shared and additional gaps.
+This release recollects all three benchmarks against a 14 November product
+freeze and changes how each benchmark admits, scores and reports results, after
+an outside review of the repository found results that measured Trident's own
+observers or adapters rather than the implementations. Results from 0.3.0 and
+0.4.0 are not directly comparable: DaveBench admission, Drawing's label and
+clipping rules, and Mermaid Fidelity's scored population all changed, and each
+change's effect is listed below.
+
+### Collection
+
+- Recollect DaveBench, Drawing Correctness and Mermaid Fidelity against the
+  latest public releases on 14 November: Bezel 0.2.26, Zombie Mermaid 5.17.0,
+  Frankenmermaid 0.5.0 (library and CLI), Latias Merman 0.10.0 (library and
+  CLI) and OpenCode's Merman component 2.3.0 are new since 0.3.0; the other
+  projects are unchanged. The Frankenmermaid 0.5.0 and Merman 0.10.0 release
+  CLIs are bound to their reviewed archives, whose SHA-256 values match the
+  checksums each project published.
+
+### DaveBench
+
+- Admit SVG the way a browser displays it. Strict XML first; if that fails, the
+  SVG is parsed as a browser parses SVG embedded in HTML. Strict-XML failures
+  are counted per run and shown in the SVG table, and do not affect completion.
+  Strict XML had cost Mermaid 34 completions of outputs browsers display (raw
+  `&` in click tooltips, `&nbsp;` and unbound xlink prefixes), which ranked
+  Mermaid sixth at its own documentation.
+- Apply one empty-output rule to SVG and terminal text: output that draws
+  nothing is admitted only for examples whose reviewed source draws nothing.
+  Frankenmermaid loses 4 SVG and 4 terminal completions (blank SVGs and blank
+  braille canvases), VitePress Plugin Diagram loses 2 SVG, and six terminal
+  renderers gain 2 for the two Gantt examples that draw nothing.
+- Credit completion only over the inputs the Mermaid reference accepts. Mermaid
+  rejects 4 of the 1,342 documentation inputs with its own parser or detection
+  error; rendering one earns no completion credit, so league tables, ranks and
+  the synthesis count completions of 1,338 accepted inputs. Collections record
+  the pinned oracle's verdicts (`corpus.referenceRejected`).
+  `docs/davebench-completion.md` lists the rejected inputs and splits each
+  project's failures into execution, output admission and PNG conversion.
+- Serve a fixed 1x1 transparent PNG for external image requests during browser
+  renders; other external requests are still refused. Aborted image requests
+  had failed Mermaid's `flowchart.md:1129` for reasons unrelated to Mermaid,
+  which now completes all 1,338 accepted inputs.
+- Reject terminal output that prints the source's body lines in separate,
+  unconnected boxes, reading text box by box so lines wrapped inside a box stay
+  whole. Termaid loses 46 terminal completions (ZenUML, requirement, event
+  modeling and use-case examples drawn as boxed source lines); no other project
+  changes.
+- Spot-check 55 accepted renders by eye across the top projects
+  (`docs/evidence/davebench-spot-checks-2026-11-14/`): 39 draw the source, 10
+  partly, 6 draw something else. The spot-checks found the two harness defects
+  above.
+- Keep every run's failed inputs with their reasons, and record each example's
+  diagram family. `results:snapshot` writes `docs/davebench-families.md`:
+  completion per diagram family for every implementation and format.
+- Rows with equal completions and the same timing boundary share a rank when
+  their three-run time ranges overlap.
+- Label each PNG row's source: the project's own PNG interface or Trident's
+  Chromium conversion of its SVG. The synthesis leaves converted PNG out,
+  because it repeats the SVG measurement.
+
+### Drawing Correctness
+
+- Label policy `drawing-reviewed-labels-v3`: a terminal label whose words are
+  drawn whole, in reading order, on successive rows outside a walled box (on an
+  edge, in a diamond or a round node) is unknown rather than missing. Five of
+  Ondine's terminal failures, and wrapped labels from Frankenmermaid, Zombie
+  Mermaid and Kitlangton Merman, were drawn labels the observer could not find.
+- SVG profile `svg-label-paint-v8`: when every clipped label's declared font is
+  not installed on the assessing machine, clipping is unavailable rather than
+  failed. Each run records the machine's fontconfig family list and SHA-256.
+  24 of Latias Merman's SVG failures and 6 others become unknown.
+- Both rules have admission controls that run with every collection. Together
+  they move 39 rows from incorrect to unknown and none to correct.
+- Report source obligations beyond labels (`drawing-source-obligations-v1`):
+  relationships, geometry (containment, chart values, regression geometry) and
+  explicitly required layout, judged by qualified structure, layout and paint
+  observers and otherwise unassessed. Shown beside each format's league table,
+  alphabetically, not ranked; no label verdict or rank changes.
+- Publish 95 bounded manual reviews of retained drawings, selected by a
+  recorded rule, including every Ondine label-unknown, label-incorrect and
+  obligation-failure row: 49 confirmed failures, 40 drawn correctly, 6
+  undecidable. Seven reviews contradict a mechanical verdict and are listed as
+  candidate observer defects; verdicts are unchanged.
+- Add a native PNG lane for projects whose own interface draws only PNG (in the
+  frozen catalog, Mermaid Flutter). A sealed release target,
+  `native-flutter/app/drawing/drawing_worker.dart` (`build-drawing.sh`), runs the
+  DaveBench boundary `renderToPng(source, pixelRatio: 1)` with the same admission
+  and returns the PNG. A label-blind OCR reader and the profile
+  `png-ocr-presence-only-v1` judge the reviewed label plan: a label read whole and
+  confidently passes, raw syntax read, a blank raster or ink on an empty diagram
+  fails, and every unread label is unknown. 14 Chromium-rendered controls run with
+  every collection. The synthesis gives such a project a Drawing component from
+  its PNG lane; an SVG or terminal project's own PNG still adds none. Mermaid
+  Flutter: 55 correct, 3 renderer failures, 1 inadmissible PNG and 68 unknown of
+  127, so its Drawing component is 43.31–96.85 and its possible overall rank
+  2–19 (it had no Drawing component before). Every case it passes, Mermaid Dart
+  passes too. A Drawing run that includes PNG without `--native-png-bundle` is
+  refused rather than recording the lane as blocked, and the native Flutter CI
+  workflow builds, seals and smoke-tests the drawing target beside the DaveBench
+  one.
+  The glued-syntax control admits unknown as well as incorrect: its bracket
+  syntax reads at OCR confidence 79–91 depending on the machine's fonts and
+  Chromium build, so it failed on CI while leak detection is the source-header
+  control's job. The retained PNG outputs were reassessed under the changed
+  profile (`reassess-drawing-results.ts` now reads PNG) with every verdict and
+  OCR reading unchanged.
 - Measure the glyph ink of plain, single-line HTML labels, separating unused
-  font-box overflow from cropped letters, with independent positive and clipped
-  admission controls. Record each unavailable SVG criterion and the glyph witness's
-  stage, and keep proof-profile rejections separate from observer errors.
-  Reassessing the retained 0.3.0 SVG outputs with this and the reviewed wrapping
-  and control-label observer changes from #94 changes 33 verdicts: 24 clipped Latias
-  Merman labels become failures, 9 unknown or failing cases pass and no pass is
-  lost. Unassessed Drawing observations fall from 145 to 113.
-- Show SVG pass bounds, Fidelity assertion/fault nonpasses separately from
-  unsupported operations, timing boundaries and Drawing's label scope in the
-  league tables.
-- Reap persistent Fidelity parser bridges when they stop. Each closed or restarted
-  bridge previously left one unreaped process; long campaigns filled the process
-  table on hosts whose PID 1 does not reap orphans. A regression test checks that
-  stopped bridge processes no longer exist.
+  font-box overflow from cropped letters, with positive and clipped admission
+  controls, and record each unavailable SVG criterion and the glyph witness's
+  stage (#98).
+
+### Mermaid Fidelity
+
+- Score only callbacks from Mermaid's diagram and parser tests
+  (`packages/mermaid/src/diagrams/`, `packages/parser/`): 4,844 of the 7,346
+  reference-qualified callbacks. The other 2,502 (rendering utilities, Mermaid's
+  website and top-level modules) are inventory; 2,492 of them have no pass from
+  any implementation.
+- Count "unsupported" as unassessed for every candidate unless evidence
+  verifies it (below). A review of one candidate's unsupported verdicts found
+  most were Trident binding gaps, and no other candidate had that review.
+- Score the public parse contract, source text in and parsed model out
+  (`fidelity-scored-population-v3`). Trident ran Mermaid's tests by emulating
+  Mermaid's internal modules for every candidate, so tests of those internals
+  became unassessed for everyone, and Trident bindings for some. The runtime now
+  records, per test and for any candidate, the Mermaid surfaces the test reaches
+  besides parse-and-read: database methods called, spied on or inspected
+  directly (256 callbacks), the parser → database protocol (117), helper and
+  module exports (732), host configuration outside the source (68), renderer
+  output (64); and scoring leaves out files no candidate can load because they
+  import an internal at setup (314) and callbacks that exercised no candidate
+  operation (60). Those 1,517 of the 4,844 diagram and parser callbacks join the
+  inventory, leaving 3,327 scored (categories overlap). All 176,736 callback
+  outcomes of Mermaid and the 23 candidates match the previous collection; only
+  the scope changed. Pele loses 258 passes (database methods 105, parser →
+  database protocol 74, helper exports 70, renderer output 9) and Bezel 142
+  (helpers 69, database methods 49, protocol 15, renderer 9), so Bezel (3,137)
+  and Pele (3,130) now overlap at 2nd–3rd.
+- Verify native refusals against the pinned Mermaid oracle: the runtime keeps
+  each source a candidate's own code refused, and `verify-fidelity-refusals.ts`
+  parses it with Mermaid's public `parse`. 2,917 of 3,154 refused sources are
+  valid Mermaid, so 9,408 refusals across all candidates are known nonpasses
+  (Kitlangton Merman's detector rejects `graph TD;`, MermaidTUI parses only
+  flowcharts). The 237 sources Mermaid also rejects (test fragments, deliberately
+  invalid diagrams) leave their refusals unassessed.
+- Count confirmed capability assessments as known nonpasses: a model concept by
+  its exact reason in the model-concept review, any other basis (family table,
+  public library, Ondine's missing model) by basis and project in the capability
+  review, and only for a verdict that is exactly "confirmed". 21,032 assessments
+  are confirmed; unprobed and disproved ones stay unassessed. Ondine's Fidelity
+  is now 9.11–9.26 rather than 6.6–98.3: its public interface exposes no parsed
+  model, so only acceptance and rejection tests can pass.
+- Effect on the Fidelity and overall ranges: Bezel 67.7–98.3 → 94.3–96.7 and
+  Pele 69.9–98.0 → 94.1–96.5 (overall 2nd–3rd, from 2nd–8th); Latias Merman
+  89.5–93.8; Agentic Mermaid 46.8–97.8 → 68.1–76.8 (overall 4th–5th, from
+  2nd–12th). No callback is unassessed for every candidate any more.
+- Remove the renderer binding and error-location translation that only Agentic
+  Mermaid had. Agentic loses 2 passes.
+- Apply Fidelity only through public parse interfaces. Grok's renderer
+  component, MermaidText and Loom's renderer component are reached only through
+  private code and are now not applicable. The Mermaid Dart bridge calls only
+  the 16 parsers `mermaid_core` exports; its 12 private parsers are unassessed,
+  and Mermaid Dart and Mermaid Flutter fall from 2,127 to 1,968 passes.
+- Views are reviewed per native version and, where a project publishes one,
+  source revision (`views/reviewed-versions.mjs`); an unreviewed version gets
+  every callback as a Trident gap. Frankenmermaid 0.5.0, Bezel 0.2.26, Zombie
+  Mermaid 5.17.0, OpenCode 2.3.0 and Latias Merman 0.10.0 were reviewed by
+  comparing native model output or source; Latias Merman's 0.9.3 and 0.10.0
+  CLIs were built from crates.io source to compare model shapes.
+- The Mermaid Flutter row reads `mermaid_core`'s version from its lockfile and
+  says it shares Mermaid Dart's parser. The Flutter bridge binds the
+  `mermaid_core` its native app resolved, byte-identical to Mermaid Dart's.
+- Record how each qualified callback ended: passed, native failure, native
+  unsupported (the candidate's own code refused or returned another diagram
+  kind), capability assessment (Trident's judgement, each with its basis) or
+  adapter limitation. RESULTS.md shows this per project as Binding coverage.
+  Scoring is unchanged: only passes and native failures are known outcomes.
+- A capability review (`docs/evidence/fidelity-capability-review-2026-11-14.json`,
+  33 entries with file:line or probe evidence) withdrew disproved "capability
+  absent" assessments:
+  - Pele's parser builds its model through its own database classes, which use
+    Mermaid's method names. The calls it makes are delivered to the test's
+    `yy` database or spy, so those tests now measure Pele. The mechanism
+    applies to any candidate built that way.
+  - MermaidTUI has one parser for every source, which refuses some sources
+    itself; the bridge calls it for every family, so 2,788 assessments become
+    MermaidTUI's own refusals.
+  - Timeline tests supply Mermaid's own database module, which Trident already
+    binds to each candidate; they are now measured for every candidate.
+  - Bezel's public crate implements most of Mermaid's database methods; the
+    stateful bridge below binds them.
+  - Zombie Mermaid's edges carry ids and animation.
+  A family parse reported against a shared test's non-family request is
+  Trident's mismatch, not a native refusal.
+- Bezel's bridge keeps a test's database. Tests that call Mermaid's database
+  methods directly now run Bezel's own public methods on Bezel's own model
+  (`bridges/bezel/src/database.rs`), and a spy on one of those members sees the
+  test's direct calls, the same way Pele's database classes are bound. Any
+  bridge can declare such a database (`bridges.ts` protocol). Adapter
+  limitations that name a native capability fall from 288 to 160; the rest are
+  listed with their reasons in `native-capabilities.mjs`: arguments Bezel's
+  methods take in another shape, methods that take parsed statements, and
+  parsers that drive a concrete database type, so a test's spy or `yy`
+  database cannot observe their calls. treeview `addNode` was wrongly listed
+  as public: Bezel's tree view database is in a private module, so those 12
+  tests are capability assessments.
+- Bridged models arrive as JSON, which prints a native map as an object. The
+  generic projection now returns the native keys and records as a Map wherever
+  Mermaid's getter returns a Map: flowchart `getClasses`, er `getClasses`,
+  state `getStates` and `getClasses`, requirement `getRequirements`,
+  `getElements` and `getClasses`, and class `getNotes` and `getNamespaces`.
+  Bezel's flowchart class tests no longer fail on `classes.get is not a
+  function`. Pele's outcomes are unchanged.
+- Latias Merman's flowchart view reads its classDefs' style lists as Mermaid's
+  class records, so its 12 flow-style and chaining failures pass.
+- Probe every `model-concept` capability assessment (657 distinct reasons over
+  21 candidates) against the installed artifacts
+  (`docs/evidence/fidelity-model-concept-review-2026-11-14.json`): 631
+  confirmed, 26 disproved in 12 concepts. The views now read what the native
+  models carry: Agentic Mermaid's accessibility descriptions (flowchart, ER,
+  gantt, class, radar), class style statements and written `animate: true`;
+  subgraph class assignments (Frankenmermaid, Agentic Mermaid, Crafter, Zombie
+  Mermaid, Beautiful Mermaid, ASCII Mermaid); Zombie Mermaid's sequence title,
+  `link` / `dashed-link` / dashed class relations, ER aliases and state note
+  sides; `mermaid_core`'s ER aliases. Bezel's agentflow `emitWarning` and
+  `emitError`, which its crate has, are bound by the database bridge above.
+  Views receive the measured version.
+- MMDR and Termaid answer the families they draw as flowcharts with their own
+  public parse (`mmdr detected this source as Flowchart, not railroad`,
+  `termaid parsed this source as flowchart, not c4`, or MMDR's own
+  missing-header refusal) instead of Trident's family table: 608 MMDR and 930
+  Termaid callbacks (605 and 927 scored) move from capability assessment to
+  native unsupported.
+- One namespace rule for every class model that records namespaces by their
+  written name: the views build Mermaid's hierarchy from the qualified name with
+  Mermaid's own algorithm (a shared helper, formerly Agentic Mermaid's alone)
+  for Agentic Mermaid, Mermaid Dart and Flutter, Zombie Mermaid, Beautiful
+  Mermaid, ASCII Mermaid, VitePress Plugin Diagram, XMermaid and
+  Frankenmermaid's dotted keys; a brace-nested namespace recorded under its
+  bare name gets no guessed parent. 11 class callbacks pass that had been a
+  view-made native failure or a flat-list assessment.
+- Effect of the capability review, bindings and views on scored passes: Pele
+  3,253 → 3,388, Bezel 3,173 → 3,279 (native failures 90 → 82), Latias Merman
+  2,962 → 3,019, Agentic Mermaid 2,239 → 2,265, Mermaid Dart and Mermaid
+  Flutter 1,968 → 1,984, Zombie Mermaid 983 → 1,059, XMermaid 894 → 910,
+  Ondine 305 → 320, OpenCode Merman 126 → 129; the namespace rule adds 2 each
+  to ASCII Mermaid and Beautiful Mermaid and 1 to Frankenmermaid. Flowchart step
+  data that Mermaid's layout records do not carry is no longer read as
+  undefined, which removes false passes and failures: Frankenmermaid, Mermaid RS
+  Renderer, Mermaid ASCII and Termaid each lose 3 passes.
+- Earlier in this cycle, on the 0.3.0 product versions: recollect under one
+  frozen worker with paired JSDOM and Node profiles (unused imports defer until
+  used; missing exports, database members and worker failures are adapter gaps,
+  not parser failures), and reap persistent parser bridges when they stop.
+
+### Reporting and documentation
+
+- League tables show strict-XML invalidity, PNG source, SVG pass bounds,
+  Fidelity assertion nonpasses separately from unsupported operations, timing
+  boundaries, and projects whose per-case outcomes match in every lane.
+- The README's Fidelity facts come from the scored population.
+- Add "Dispute a result" to CONTRIBUTING.md. Record in SCOPE.md that benchmark
+  definitions change only at a release boundary. Describe the optional
+  diagnostics (`drawing:structure`, `layout:observe`, `fidelity:coverage`) as
+  diagnostics; none changes a score.
+- Remove Agentic Mermaid repair and candidate receipts from `docs/evidence`,
+  which published scores for an unreleased Agentic Mermaid version.
+- Add optional diagnostics: retained structure checks for qualified graph
+  families and quadrant clearance (#94), and a flowchart SVG layout observer
+  for crossings and clearance (#96).
+- Remove redundant copies and repeated work from the harness (#101); output is
+  unchanged, and Mermaid edge-id generation is no longer exponential in the
+  number of authored edge ids.
+- Update `actions/setup-python` to 7.1.0 and `actions/upload-artifact` to 7.0.2
+  (#100).
 
 ## 0.3.0 — 9 November 2026
 

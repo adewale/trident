@@ -75,7 +75,15 @@ export function inspectGraphLayout(test: DrawingCase, paint: PaintEvidence): Str
 }
 
 export async function assessSvgStructure(test: DrawingCase, page: any): Promise<StructureAssessment> {
-  if (test.sourceGaps.length) return unavailableStructure(test, test.sourceGaps.join('; '))
+  return (await observeSvgStructure(test, page)).assessment
+}
+
+/** The structural assessment plus the paint evidence it was derived from, so
+ * dependent obligation checks reuse the same qualified owners instead of
+ * observing the drawing a second time. */
+export async function observeSvgStructure(test: DrawingCase, page: any): Promise<{ assessment: StructureAssessment; paint?: PaintEvidence }> {
+  const only = (assessment: StructureAssessment) => ({ assessment })
+  if (test.sourceGaps.length) return only(unavailableStructure(test, test.sourceGaps.join('; ')))
   if (test.family === 'quadrant') {
     const paint = await inspectSvgDrawing(page, { family: test.family, source: test.source, expected: test.expected })
     const checks = ['visible-authored-labels', 'labels-within-canvas', 'unclipped-authored-labels', 'painted-quadrant-coordinates'].map(criterion => {
@@ -86,16 +94,16 @@ export async function assessSvgStructure(test: DrawingCase, page: any): Promise<
     // unavailable. That cannot erase an independently observed box collision.
     if (['visible-authored-labels', 'painted-quadrant-coordinates'].every(criterion => checks.find(c => c.criterion === criterion)?.status === 'passed')) checks.push(...await page.evaluate(inspectQuadrantClearance, test.expected))
     else checks.push({ criterion: 'quadrant-box-clearance', status: 'unassessed', detail: 'Visible labels and actual point inventory/coordinates must qualify before clearance can be assessed' })
-    return { topology: notApplicable(), layout: axis(checks) }
+    return { assessment: { topology: notApplicable(), layout: axis(checks) }, paint }
   }
-  if (!structureGraphFamilies.includes(test.family)) return unavailableStructure(test, 'No qualified structural profile for ' + test.family)
-  if (test.expected.nodes?.some(n => /[\u0000-\u001f]/.test(n.label))) return unavailableStructure(test, 'Control-bearing label-to-node identity needs a structural projection')
+  if (!structureGraphFamilies.includes(test.family)) return only(unavailableStructure(test, 'No qualified structural profile for ' + test.family))
+  if (test.expected.nodes?.some(n => /[\u0000-\u001f]/.test(n.label))) return only(unavailableStructure(test, 'Control-bearing label-to-node identity needs a structural projection'))
   const owners = new Map<string, string>()
   for (const group of test.expected.groups ?? []) for (const member of group.members) {
     // Older independent SVG contracts can retain both lexical mentions of a
     // global node, while the terminal contract explicitly assigns first use.
     // Do not turn conflicting source ownership into a renderer failure.
-    if (owners.has(member) && owners.get(member) !== group.id) return unavailableStructure(test, 'Source group ownership needs review: ' + member + ' occurs in multiple direct membership lists')
+    if (owners.has(member) && owners.get(member) !== group.id) return only(unavailableStructure(test, 'Source group ownership needs review: ' + member + ' occurs in multiple direct membership lists'))
     owners.set(member, group.id)
   }
   const applies = structureObligations(test)
@@ -110,7 +118,7 @@ export async function assessSvgStructure(test: DrawingCase, page: any): Promise<
     const c = paint.checks.find(c => c.criterion === criterion)
     return { criterion, status: c?.status === 'passed' ? 'passed' as const : c?.status === 'failed' ? 'failed' as const : 'unassessed' as const, detail: c?.scope ?? 'No qualified observation for this obligation', actual: c?.actual }
   })
-  return { topology: applies.topology ? axis(topology) : notApplicable(), layout: applies.layout ? axis(inspectGraphLayout(test, paint)) : notApplicable() }
+  return { assessment: { topology: applies.topology ? axis(topology) : notApplicable(), layout: applies.layout ? axis(inspectGraphLayout(test, paint)) : notApplicable() }, paint }
 }
 
 export function assessTerminalStructure(test: DrawingCase, output: string): StructureAssessment {

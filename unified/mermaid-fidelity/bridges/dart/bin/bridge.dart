@@ -1,5 +1,5 @@
-// orestesgaolin/mermaid (Mermaid Dart) and pub:mermaid_flutter: call mermaid_core
-// 0.3.2's own parser for the requested family and print the model it returns.
+// orestesgaolin/mermaid (Mermaid Dart) and pub:mermaid_flutter: call mermaid_core's
+// own public parser for the requested family and print the model it returns.
 // See ../../../bridges.ts for the reply protocol. The bridge parses nothing itself.
 //
 // Models have no toJson, so their public instance fields are read through
@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:mermaid_core/mermaid_core.dart' show MermaidParseException;
+import 'package:trident_mermaid_core_bridge/core_version.dart';
 import 'package:trident_mermaid_core_bridge/families.dart';
 import 'package:trident_mermaid_core_bridge/model_fields.g.dart';
 
@@ -123,9 +124,17 @@ Future<void> main() async {
     reply({'adapterGap': 'bridge request lacks string family and source'});
     return;
   }
+  final private = privateFamilies[family];
+  if (private != null) {
+    reply({
+      'unsupported':
+          'mermaid_core $coreVersion does not export its $family parser ($private) from its public library',
+    });
+    return;
+  }
   final parser = parsers[family];
   if (parser == null) {
-    reply({'unsupported': 'mermaid_core 0.3.2 has no $family parser'});
+    reply({'unsupported': 'mermaid_core $coreVersion has no $family parser'});
     return;
   }
   final Object model;
@@ -137,11 +146,11 @@ Future<void> main() async {
     });
     return;
   } on UnsupportedError catch (e) {
-    reply({'unsupported': 'mermaid_core ${parser.$1}: ${e.message ?? e}'});
+    reply({'unsupported': 'mermaid_core $coreVersion ${parser.$1}: ${e.message ?? e}'});
     return;
   } catch (e) {
     reply({
-      'adapterGap': 'mermaid_core ${parser.$1} threw ${e.runtimeType}: $e',
+      'adapterGap': 'mermaid_core $coreVersion ${parser.$1} threw ${e.runtimeType}: $e',
     });
     return;
   }

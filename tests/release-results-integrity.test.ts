@@ -102,11 +102,14 @@ test('every Fidelity project is scored over exactly the tests the control passes
 
 test('declared ports and shared parsers score identically', () => {
   const row = (project: string) => fidelity.results.find((entry: any) => entry.project === project)
-  // MermaidText is a declared Go port of Grok's renderer; Mermaid Flutter calls mermaid_core unchanged.
-  for (const [a, b] of [['xai-org/grok-build', 'spacedock-dev/mermaidtext'], ['orestesgaolin/mermaid', 'pub:mermaid_flutter']] as const) {
-    expect(row(a).counts).toEqual(row(b).counts)
-    expect(row(a).perFile).toEqual(row(b).perFile)
-  }
+  // Mermaid Flutter calls mermaid_core unchanged, so its rows equal Mermaid Dart's.
+  expect(row('orestesgaolin/mermaid').counts).toEqual(row('pub:mermaid_flutter').counts)
+  expect(row('orestesgaolin/mermaid').perFile).toEqual(row('pub:mermaid_flutter').perFile)
+  expect(row('pub:mermaid_flutter').sharedParserWith).toBe('orestesgaolin/mermaid')
+  // MermaidText is a declared Go port of Grok's renderer; both reach their parsers only
+  // through private code, so neither has a Fidelity row.
+  const notApplicable = new Set((fidelity.notApplicable ?? []).map((entry: any) => entry.project))
+  for (const project of ['xai-org/grok-build', 'spacedock-dev/mermaidtext']) { expect(row(project)).toBeUndefined(); expect(notApplicable.has(project)).toBe(true) }
 })
 
 test('all three benchmarks measured the same version of each project', () => {

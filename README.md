@@ -13,7 +13,7 @@ building a Mermaid renderer or parser and for people choosing one.
 Mermaid has been reimplemented in Rust, Go, Dart, Python and TypeScript, and the
 implementations are far apart: given Mermaid's own documentation examples, the
 <!-- fact:davebench-svg-renderers -->16<!-- /fact --> SVG renderers complete
-anywhere from <!-- fact:davebench-svg-range -->384 to 1,338<!-- /fact --> of them.
+anywhere from <!-- fact:davebench-svg-range -->382 to 1,338<!-- /fact --> of them.
 Trident runs <!-- fact:projects -->27<!-- /fact --> implementations, at frozen
 versions, through three benchmarks and records every case each one passes or
 fails, so a builder can see what to fix and a chooser can see which diagrams will
@@ -27,13 +27,16 @@ Each benchmark answers a question the previous one leaves open.
 derived from Dave Kiss's posts
 ([first](https://x.com/davekiss/status/2111512440106078554),
 [second](https://x.com/davekiss/status/2111513199119941999)). Trident takes every
-Mermaid example in Mermaid's documentation
-(<!-- fact:davebench-inputs -->1,342<!-- /fact --> blocks at a pinned commit) and
-renders each one three times per format. It counts the renders that produce a
-usable output: an SVG with a size, a valid PNG, or terminal text that is not
-empty, an error or the source printed back. It ranks by that count, then by
-median time. DaveBench never looks at the drawing, so an implementation can
-complete an example and still draw it wrong.
+Mermaid example block in Mermaid's documentation at a pinned commit:
+<!-- fact:davebench-inputs -->1,342<!-- /fact --> occurrences of 658 distinct sources.
+Documentation generation repeats many examples, and each occurrence counts, so a
+diagram family's weight follows how many examples its documentation shows.
+Trident renders each occurrence three times per format. It counts the renders that produce a
+usable output: an SVG that a browser displays, with a size; a valid PNG; or
+terminal text that is not empty, an error or the source printed back. It ranks
+by that count, then by median time between implementations with the same timing
+boundary whose three-run times do not overlap. DaveBench never looks at the
+drawing, so an implementation can complete an example and still draw it wrong.
 
 **[Drawing Correctness](docs/benchmark-portfolio.md#drawing-correctness-real-rendering-failures-across-formats):
 is the drawing right?** There are <!-- fact:drawing-cases -->127<!-- /fact -->
@@ -41,63 +44,107 @@ cases, taken from shared examples and from bugs reported against real
 implementations. Each case lists the labels its diagram must show. Trident checks
 that every label appears in the SVG or terminal output, with no error message or
 raw Mermaid syntax. Edges, arrows and layout are not checked, so a drawing can
-show every label and still connect them wrongly.
+show every label and still connect them wrongly. "Correct" means correct by
+Trident's label definition, not "matches Mermaid", so Mermaid itself does not
+pass every case: its renderer fails on an unnamed `subgraph` taken from Pele's
+parser tests, its SVG for a label containing a raw ESC control character (from a
+Termaid issue) is not admissible output, and a few of its outputs are unassessed.
+These are expected outcomes, not harness errors.
 
 **[Mermaid Fidelity](docs/benchmark-portfolio.md#mermaid-fidelity-execute-pinned-upstream-tests):
-does it behave like Mermaid?** Mermaid's
-<!-- fact:fidelity-files -->352<!-- /fact --> core test files exercise Mermaid's parsers, models and internal helpers, including
-edges (`flow-edges.spec.js`, for
-example, tests flowchart arrow types). Trident runs those tests unchanged against each
-implementation's parser, translating its model into the shape the tests read.
-When Trident cannot call an implementation's parser from JavaScript, it reaches
-it through a [parser bridge](docs/benchmark-results-details.md#why-coverage-is-incomplete);
-13 implementations are reached this way.
-Only the <!-- fact:fidelity-population -->7,346<!-- /fact --> tests that the pinned Mermaid
-<!-- fact:mermaid-reference -->12.3.0<!-- /fact --> source control passes count. A native operation that reports
-it is unsupported counts as a failure. Missing Trident operation bindings or
-model translations stay unassessed
-(<!-- fact:fidelity-gaps -->91,984<!-- /fact --> tests across all implementations).
+does its parser produce Mermaid's model?** Mermaid Fidelity measures parser-model
+fidelity: whether an implementation's parser, given a test's source, produces the
+model that Mermaid's own tests read from Mermaid's parser. Trident runs Mermaid's
+<!-- fact:fidelity-files -->352<!-- /fact --> core test files unchanged against each
+implementation's parser, translating its model into the shape the tests read
+(`flow-edges.spec.js`, for example, checks the arrow types the flowchart parser
+records). An implementation whose parser the tests cannot import as a JavaScript
+module, such as a Rust, Go, Dart or Python parser, is reached through a
+[parser bridge](docs/benchmark-results-details.md#why-coverage-is-incomplete): a
+small program that calls the project's own public parser and prints its model.
+The bridges are registered in `unified/mermaid-fidelity/bridge-registry.ts`.
+Comparison goes through public interfaces only, so Mermaid Fidelity does not
+apply to a project whose parser can be reached only through private code (Grok's
+renderer component, MermaidText and Loom's renderer component). The catalog
+declares their Fidelity not applicable (`benchmark.notApplicable.fidelity`): they
+are not run, the tables show them as n/a, and they are left out of the Fidelity
+ranking and out of the synthesis's Fidelity component.
+Fidelity measures each implementation's public parse contract: source text in,
+parsed model out. Only tests that the pinned Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> source control passes,
+whose file is under `packages/mermaid/src/diagrams/` or `packages/parser/`, and that
+exercise that contract are scored: <!-- fact:fidelity-population -->3,327<!-- /fact --> tests.
+The other <!-- fact:fidelity-inventory -->4,019<!-- /fact --> tests the control passes are
+executed and listed as inventory, not scored. They cover rendering utilities,
+Mermaid's website and its top-level modules, plus
+<!-- fact:fidelity-internals -->1,517<!-- /fact --> diagram and parser tests that test Mermaid's
+internals rather than its parse contract: they call, spy on or inspect Mermaid's
+database methods directly, rely on its parser → database call protocol, use its
+helper or module exports, set host configuration outside the source, read a
+renderer or styles, or ask for Mermaid's own detection pipeline. The runtime records
+which of these a test reaches, whichever implementation runs it, and a test that
+reaches one for any implementation is inventory for all.
+
+A refusal by the implementation's own code counts as a failure when the pinned
+Mermaid oracle accepts the source it refused (<!-- fact:fidelity-verified-refusals -->9,408<!-- /fact -->
+across all applicable implementations), and Trident's judgement that a capability is
+absent counts as one when a recorded review confirmed it
+(<!-- fact:fidelity-confirmed-absences -->21,032<!-- /fact -->). Any other unsupported
+verdict, missing Trident binding or missing model translation stays unassessed
+(<!-- fact:fidelity-gaps -->2,405<!-- /fact --> tests). Result files scored this way declare
+`scoring.protocol: 'fidelity-scored-population-v3'`; an earlier result file is read
+under the rules it was published with.
 
 Drawing Correctness and Mermaid Fidelity tables show each project's verified rank
 and the range of ranks still possible once its unassessed cases are resolved.
 
-The optional [Fidelity coverage report](docs/fidelity-coverage.md) splits the same
-reference-qualified population by upstream source path and shows score bounds,
-assessed coverage and the remaining per-file gaps.
-
-The optional [retained structure diagnostics](docs/drawing-structure.md) replay
-captured drawings for qualified flowchart, class, state, ER and sequence topology,
-plus SVG quadrant box clearance and explicit graph layout constraints.
-They report separate coverage and verdicts without changing the
-label benchmark or overall score. Run `bun commands.ts drawing:structure --help`.
-
 ## Current results
 
-Collected <!-- fact:campaign-collected -->9 November 2026 to 10 November 2026<!-- /fact -->. The
+Collected <!-- fact:campaign-collected -->14 November 2026 to 15 November 2026<!-- /fact -->. The
 leaders are:
 
 - **DaveBench**, examples completed. SVG:
   <!-- fact:davebench-svg-leader -->Latias Merman with 1,338<!-- /fact -->. PNG:
   <!-- fact:davebench-png-leader -->Latias Merman with 1,338<!-- /fact -->. Terminal text:
-  <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,342<!-- /fact -->.
+  <!-- fact:davebench-terminal-leader -->Frankenmermaid with 1,334<!-- /fact -->.
 - **Drawing Correctness**, cases correct. SVG:
   <!-- fact:drawing-svg-leader -->Bezel and Pele with 125 each (not yet settled)<!-- /fact -->.
   Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 124<!-- /fact -->.
 - **Mermaid Fidelity**, tests passed:
-  <!-- fact:fidelity-leader -->Pele with 3,263 (not yet settled)<!-- /fact -->.
+  <!-- fact:fidelity-leader -->Bezel with 3,137 (not yet settled)<!-- /fact -->.
 
 Mermaid is ranked alongside the other implementations in DaveBench and Drawing
 Correctness. In Mermaid Fidelity it is the reference, so it passes every counted
 test by definition and is left out of the leader above.
 
 [Full league tables, with timings](RESULTS.md) ·
+[DaveBench completion by diagram family](docs/davebench-families.md) ·
 [How each count is made](docs/benchmark-results-details.md) ·
-[How the collection was run](results/release/README.md)
+[How the collection was run](results/release/README.md) ·
+[Dispute a result](CONTRIBUTING.md#dispute-a-result)
 
-The optional [flowchart SVG layout observer](docs/layout-observer.md) measures
-crossings and overlaps from retained Drawing outputs, with explicit coverage and
-per-case evidence. These separate diagnostics do not change the three benchmark
-scores or establish layout quality for unassessed cases.
+The diagram-family page gives each implementation's DaveBench completion
+percentage per diagram family and format. `results:snapshot` writes it from
+collections that record each case's family (the type its first statement
+declares); collections made before that record have no family page.
+
+## Diagnostics
+
+These commands are optional diagnostics, not benchmarks. They read results that
+have already been collected, run no renderer, and never change a benchmark score,
+a rank or the overall synthesis.
+
+- [`drawing:structure`](docs/drawing-structure.md) replays retained Drawing
+  outputs and checks qualified flowchart, class, state, ER and sequence topology,
+  SVG quadrant box clearance and explicit graph layout constraints, with its own
+  coverage and verdicts.
+- [`layout:observe`](docs/layout-observer.md) measures edge crossings and overlaps
+  in retained flowchart SVG outputs, with explicit coverage and per-case evidence.
+  It does not establish layout quality for unassessed cases.
+- [`fidelity:coverage`](docs/fidelity-coverage.md) splits a Mermaid Fidelity run's
+  reference-qualified population by upstream source path and shows score bounds,
+  assessed coverage and the remaining per-file gaps.
+
+Each command takes `--help`.
 
 ## Quick start
 
@@ -287,6 +334,9 @@ Bindings accept dotted public export paths, an optional JSON `options` argument 
   crossings and clearance. Broader layout quality remains outside these profiles.
 - DaveBench times compare only with rows from the same collection on the same
   machine.
+- An implementation's author who thinks a row is wrong can
+  [dispute it](CONTRIBUTING.md#dispute-a-result); retained Drawing outputs let
+  anyone replay a Drawing verdict.
 - Benchmarks run locally. CI tests Trident's code and refuses to run any
   benchmark.
 

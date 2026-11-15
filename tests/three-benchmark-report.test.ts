@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, rmSync } from 'nod
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { writeSnapshot } from '../unified/results-snapshot.ts'
+import { campaignPlan } from '../unified/campaign-plan.ts'
 import { currentBenchmarkResultFiles, threeBenchmarkReport, renderThreeBenchmarkReport, renderBenchmarkLeagues } from '../unified/three-benchmark-report.ts'
 
 function fixture() {
@@ -114,4 +115,23 @@ test('current result files carry no hand-chosen collection date in their names',
 test('a labelled functional subset cannot silently become the current league', () => {
   const { davebench, drawing, fidelity, catalog } = leaguesFixture()
   expect(() => renderBenchmarkLeagues({ ...davebench, scope: 'subset' }, drawing, fidelity, catalog)).toThrow('full campaigns')
+})
+test('a collection that recorded reference rejections ranks completion over accepted inputs only', () => {
+  const cases = Array.from({ length: 10 }, (_, index) => `docs/x.md:${index + 1}`)
+  // "a" renders all ten inputs; "b" fails only input 9, which the Mermaid reference rejects.
+  const runs = (format: string) => [1, 2, 3].flatMap(run => [
+    { project: 'a', version: '1.0.0', format, run, boundary: 'fixture public API', attempted: 10, completed: 10, failed: 0, timeouts: 0, totalMs: 200, failures: {} },
+    { project: 'b', version: '1.0.0', format, run, boundary: 'fixture public API', attempted: 10, completed: 9, failed: 1, timeouts: 0, totalMs: 100, failures: { 'error: parse': '9' } },
+  ])
+  const corpus = { commit: 'fixed', occurrences: 10, referenceRejected: { 'docs/x.md:10': 'Parse error on line 1:' } }
+  const method = { admission: 'fixture admission policy' }
+  const lanes = (formats: string[]) => formats.flatMap(format => ['a', 'b'].map(project => ({ project, version: '1.0.0', format })))
+  const report: any = threeBenchmarkReport({ state: 'complete', corpus, method, plan: campaignPlan(lanes(['svg', 'png']), cases, 3, 'fixture'), runs: [...runs('svg'), ...runs('png')], blocked: [] }, { state: 'complete', corpus, method, plan: campaignPlan(lanes(['terminal']), cases, 3, 'fixture'), runs: runs('terminal'), blocked: [] })
+  expect(report.credit).toEqual({ basis: 'reference-accepted', inputs: 9 })
+  // Both completed all nine accepted inputs, so "a" earns nothing for rendering the rejected one.
+  expect(report.rankings.svg.map((row: any) => [row.project, row.completed])).toEqual([['b', 9], ['a', 9]])
+  expect(report.rankings.terminal.every((row: any) => row.completed === 9)).toBe(true)
+  // Without recorded rejections, the earlier credit over every planned input applies.
+  const { images, terminal } = fixture()
+  expect(threeBenchmarkReport(images, terminal)).not.toHaveProperty('credit')
 })

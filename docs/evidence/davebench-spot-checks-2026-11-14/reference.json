@@ -1,0 +1,113 @@
+{
+  "commit": "370c4af57f43cb0bda05f4a9fe2d99c912ba16dd",
+  "oracle": {
+    "version": "12.3.0",
+    "parser": "2.0.1",
+    "jsdom": "26.1.0",
+    "integrity": "sha512-4113TdXeLAsMruJ79OpFL5O8+LTFXhQqZ260rF3tgUmiNAtRm4Uume04I+65PRN6yZ69J4f8rVYWW8zRk65UYw=="
+  },
+  "inputs": 1342,
+  "accepted": 1338,
+  "rejected": [
+    {
+      "position": 11,
+      "id": "docs/config/8.6.0_docs.md:82",
+      "error": "Parse error on line 10:"
+    },
+    {
+      "position": 12,
+      "id": "docs/config/8.6.0_docs.md:94",
+      "error": "Parse error on line 10:"
+    },
+    {
+      "position": 41,
+      "id": "docs/config/directives.md:100",
+      "error": "No diagram type detected matching given configuration for text: "
+    },
+    {
+      "position": 42,
+      "id": "docs/config/directives.md:106",
+      "error": "No diagram type detected matching given configuration for text: "
+    }
+  ],
+  "replays": [
+    {
+      "position": 11,
+      "id": "docs/config/8.6.0_docs.md:82",
+      "harness": "as measured: requests outside the artifact origin are aborted",
+      "result": {
+        "outcome": "error",
+        "ms": 24.5999999998603,
+        "error": "Parse error on line 10:"
+      }
+    },
+    {
+      "position": 12,
+      "id": "docs/config/8.6.0_docs.md:94",
+      "harness": "as measured: requests outside the artifact origin are aborted",
+      "result": {
+        "outcome": "error",
+        "ms": 18.199999999953434,
+        "error": "Parse error on line 10:"
+      }
+    },
+    {
+      "position": 41,
+      "id": "docs/config/directives.md:100",
+      "harness": "as measured: requests outside the artifact origin are aborted",
+      "result": {
+        "outcome": "error",
+        "ms": 1.5,
+        "error": "No diagram type detected matching given configuration for text: "
+      }
+    },
+    {
+      "position": 42,
+      "id": "docs/config/directives.md:106",
+      "harness": "as measured: requests outside the artifact origin are aborted",
+      "result": {
+        "outcome": "error",
+        "ms": 1,
+        "error": "No diagram type detected matching given configuration for text: "
+      }
+    },
+    {
+      "position": 665,
+      "id": "docs/syntax/flowchart.md:1129",
+      "harness": "as measured: requests outside the artifact origin are aborted",
+      "result": {
+        "outcome": "error",
+        "ms": 111.19999999995343,
+        "error": "The source image cannot be decoded."
+      }
+    },
+    {
+      "position": 666,
+      "id": "docs/syntax/flowchart.md:1135",
+      "harness": "as measured: requests outside the artifact origin are aborted",
+      "result": {
+        "outcome": "error",
+        "ms": 14.800000000046566,
+        "error": "The source image cannot be decoded."
+      }
+    },
+    {
+      "position": 665,
+      "id": "docs/syntax/flowchart.md:1129",
+      "harness": "image request answered locally with a 10x10 SVG",
+      "result": {
+        "outcome": "completed",
+        "ms": 265.5
+      }
+    },
+    {
+      "position": 666,
+      "id": "docs/syntax/flowchart.md:1135",
+      "harness": "image request answered locally with a 10x10 SVG",
+      "result": {
+        "outcome": "completed",
+        "ms": 28.5
+      }
+    }
+  ]
+}

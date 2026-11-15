@@ -8,9 +8,12 @@ test('source slices keep a fixed denominator, repeated callback titles and missi
   const row = report.results[1]!
   expect(report.referenceQualifiedCallbacks).toBe(3)
   expect(row.slices[0]).toMatchObject({ population: 2, passed: 1, unassessed: 1, lowerScore: 50, upperScore: 100, assessedPercent: 50 })
-  expect(row.slices[1]).toMatchObject({ population: 1, unsupported: 1, lowerScore: 0, upperScore: 0, assessedPercent: 100 })
+  // An unsupported verdict is unassessed in scoring: it leaves the upper bound open.
+  expect(row.slices[1]).toMatchObject({ population: 1, unsupported: 1, lowerScore: 0, upperScore: 100, assessedPercent: 0 })
   expect(row.slices[2]).toMatchObject({ population: 0, lowerScore: null })
-  expect(row.gaps[0].unassessed).toBe(1)
+  expect(row.gaps.find((gap: any) => gap.file === file)).toMatchObject({ unassessed: 1, unsupported: 0, inventory: false })
+  expect(row.gaps.find((gap: any) => gap.file !== file)).toMatchObject({ unassessed: 0, unsupported: 1, inventory: true })
+  expect(row.scopes).toMatchObject({ scored: { population: 2, passed: 1 }, inventory: { population: 1, unsupported: 1 } })
   expect(fidelitySlice('packages/mermaid/src/diagrams/flowchart/parser/flow.spec.js')).toBe('parser-model')
   expect(fidelitySlice('packages/mermaid/src/diagrams/gantt/ganttDb.spec.ts')).toBe('parser-model')
   expect(fidelitySlice('packages/mermaid/src/mermaidAPI.spec.ts')).toBe('host-internals')

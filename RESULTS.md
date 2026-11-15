@@ -6,180 +6,367 @@
 
 ### SVG rendering
 
-| Rank | Project | Completed / 1342 ↑ | Median seconds ↓ | Timing boundary |
-| --- | --- | --- | --- | --- |
-| 1 | Latias Merman 0.9.3 | 1338 | 4.309 | API; initialization excluded |
-| 2 | Ondine 0.0.3 | 1306 | 0.264 | API; initialization excluded |
-| 3 | Bezel 0.2.24 | 1306 | 0.348 | API; initialization excluded |
-| 4 | Pele 1.13.0 | 1306 | 0.597 | API; initialization excluded |
-| 5 | Mermaid RS Renderer 0.3.1 | 1304 | 13.285 | CLI; startup included |
-| 6 | Mermaid 12.3.0 | 1302 | 39.750 | API; initialization excluded |
-| 7 | Frankenmermaid 0.4.0 | 1185 | 0.623 | API; initialization excluded |
-| 8 | Mermaid Dart 0.3.2 | 1114 | 0.856 | API; initialization excluded |
-| 9 | Agentic Mermaid 0.5.6 | 1066 | 6.553 | API; initialization excluded |
-| 10 | Merslim 0.2.3 | 700 | 20.917 | API; initialization excluded |
-| 11 | XMermaid 0.4.2 | 680 | 0.499 | API; initialization excluded |
-| 12 | Zombie Mermaid 5.14.4 | 637 | 1.588 | API; initialization excluded |
-| 13 | Beautiful Mermaid 1.1.3 | 513 | 1.138 | API; initialization excluded |
-| 14 | Crafter Mermaid 0.0.3 | 510 | 0.368 | API; initialization excluded |
-| 15 | VitePress Plugin Diagram 0.3.2 | 398 | 0.100 | API; initialization excluded |
-| 16 | DSH Mermaid GB SVG 0.1.5 | 384 | 0.174 | API; initialization excluded |
+| Rank | Project | Completed / 1338 accepted ↑ | Strict-XML invalid | Median seconds ↓ | Timing boundary |
+| --- | --- | --- | --- | --- | --- |
+| 1 | Latias Merman 0.10.0 | 1338 | 0 | 2.869 | API; initialization excluded |
+| 2 | Mermaid 12.3.0 | 1338 | 62 | 30.744 | API; initialization excluded |
+| 3 | Ondine 0.0.3 | 1306 | 0 | 0.287 | API; initialization excluded |
+| 4 | Bezel 0.2.26 | 1306 | 0 | 0.399 | API; initialization excluded |
+| 5 | Pele 1.13.0 | 1306 | 0 | 0.648 | API; initialization excluded |
+| 6 | Mermaid RS Renderer 0.3.1 | 1304 | 0 | 12.648 | CLI; startup included |
+| 7 | Frankenmermaid 0.5.0 | 1177 | 0 | 1.221 | API; initialization excluded |
+| 8 | Mermaid Dart 0.3.2 | 1114 | 0 | 0.964 | API; initialization excluded |
+| 9 | Agentic Mermaid 0.5.6 | 1066 | 0 | 5.879 | API; initialization excluded |
+| 10 | Zombie Mermaid 5.17.0 | 906 | 0 | 1.960 | API; initialization excluded |
+| 11 | Merslim 0.2.3 | 698 | 0 | 20.616 | API; initialization excluded |
+| 12 | XMermaid 0.4.2 | 680 | 0 | 0.596 | API; initialization excluded |
+| 13 | Beautiful Mermaid 1.1.3 | 511 | 0 | 1.343 | API; initialization excluded |
+| 14 | Crafter Mermaid 0.0.3 | 508 | 0 | 0.384 | API; initialization excluded |
+| 15 | VitePress Plugin Diagram 0.3.2 | 396 | 0 | 0.118 | API; initialization excluded |
+| 16 | DSH Mermaid GB SVG 0.1.5 | 382 | 0 | 0.243 | API; initialization excluded |
 
 ### PNG rendering
 
-| Rank | Project | Completed / 1342 ↑ | Median seconds ↓ | Timing boundary |
-| --- | --- | --- | --- | --- |
-| 1 | Latias Merman 0.9.3 | 1338 | 16.987 | API; initialization excluded |
-| 2 | Bezel 0.2.24 | 1306 | 8.467 | API; initialization excluded |
-| 2 | Mermaid RS Renderer 0.3.1 | 1306 | 38.014 | CLI; startup included |
-| 2 | Ondine 0.0.3 | 1306 | 7.363 | API; initialization excluded |
-| 2 | Pele 1.13.0 | 1306 | 8.230 | API; initialization excluded |
-| 6 | Mermaid 12.3.0 | 1302 | 65.629 | API; initialization excluded |
-| 7 | Frankenmermaid 0.4.0 | 1185 | 12.982 | API; initialization excluded |
-| 8 | Mermaid Dart 0.3.2 | 1114 | 8.101 | API; initialization excluded |
-| 9 | Mermaid Flutter 0.3.2 | 1114 | 25.455 | API; initialization excluded |
-| 10 | Agentic Mermaid 0.5.6 | 1066 | 15.451 | API; initialization excluded |
-| 11 | Merslim 0.2.3 | 700 | 27.391 | API; initialization excluded |
-| 12 | XMermaid 0.4.2 | 680 | 3.871 | API; initialization excluded |
-| 13 | Zombie Mermaid 5.14.4 | 637 | 6.204 | API; initialization excluded |
-| 14 | Beautiful Mermaid 1.1.3 | 513 | 3.897 | API; initialization excluded |
-| 15 | Crafter Mermaid 0.0.3 | 510 | 5.046 | API; initialization excluded |
-| 16 | VitePress Plugin Diagram 0.3.2 | 398 | 2.042 | API; initialization excluded |
-| 17 | DSH Mermaid GB SVG 0.1.5 | 384 | 5.833 | API; initialization excluded |
+| Rank | Project | Completed / 1338 accepted ↑ | PNG source | Median seconds ↓ | Timing boundary |
+| --- | --- | --- | --- | --- | --- |
+| 1 | Latias Merman 0.10.0 | 1338 | Trident's Chromium conversion of its SVG | 14.002 | API; initialization excluded |
+| 2 | Mermaid 12.3.0 | 1338 | Trident's Chromium conversion of its SVG | 49.353 | API; initialization excluded |
+| 3 | Bezel 0.2.26 | 1306 | Trident's Chromium conversion of its SVG | 7.884 | API; initialization excluded |
+| 3 | Mermaid RS Renderer 0.3.1 | 1306 | Own PNG interface | 26.908 | CLI; startup included |
+| 3 | Ondine 0.0.3 | 1306 | Trident's Chromium conversion of its SVG | 7.869 | API; initialization excluded |
+| 3 | Pele 1.13.0 | 1306 | Trident's Chromium conversion of its SVG | 7.447 | API; initialization excluded |
+| 7 | Frankenmermaid 0.5.0 | 1177 | Trident's Chromium conversion of its SVG | 16.156 | API; initialization excluded |
+| 8 | Mermaid Dart 0.3.2 | 1114 | Trident's Chromium conversion of its SVG | 8.090 | API; initialization excluded |
+| 9 | Mermaid Flutter 0.3.2 | 1114 | Own PNG interface | 22.836 | API; initialization excluded |
+| 10 | Agentic Mermaid 0.5.6 | 1066 | Trident's Chromium conversion of its SVG | 13.366 | API; initialization excluded |
+| 11 | Zombie Mermaid 5.17.0 | 906 | Trident's Chromium conversion of its SVG | 8.745 | API; initialization excluded |
+| 12 | Merslim 0.2.3 | 698 | Own PNG interface | 26.793 | API; initialization excluded |
+| 13 | XMermaid 0.4.2 | 680 | Trident's Chromium conversion of its SVG | 3.983 | API; initialization excluded |
+| 14 | Beautiful Mermaid 1.1.3 | 511 | Trident's Chromium conversion of its SVG | 3.680 | API; initialization excluded |
+| 15 | Crafter Mermaid 0.0.3 | 508 | Trident's Chromium conversion of its SVG | 4.108 | API; initialization excluded |
+| 16 | VitePress Plugin Diagram 0.3.2 | 396 | Trident's Chromium conversion of its SVG | 2.113 | API; initialization excluded |
+| 17 | DSH Mermaid GB SVG 0.1.5 | 382 | Trident's Chromium conversion of its SVG | 5.519 | API; initialization excluded |
 
 ### Terminal rendering
 
-| Rank | Project | Completed / 1342 ↑ | Median seconds ↓ | Timing boundary |
+| Rank | Project | Completed / 1338 accepted ↑ | Median seconds ↓ | Timing boundary |
 | --- | --- | --- | --- | --- |
-| 1 | Frankenmermaid 0.4.0 | 1342 | 3.213 | CLI; startup included |
-| 2 | Ondine 0.0.3 | 1304 | 234.173 | CLI; startup included |
-| 3 | Termaid 0.12.0 | 1286 | 1.914 | API; initialization excluded |
-| 4 | Agentic Mermaid 0.5.6 | 1068 | 6.248 | API; initialization excluded |
-| 5 | Loom renderer 0.10.0 | 745 | 0.387 | API; initialization excluded |
-| 6 | Latias Merman 0.9.3 | 726 | 10.011 | CLI; startup included |
-| 7 | Zombie Mermaid 5.14.4 | 637 | 2.698 | API; initialization excluded |
-| 8 | ASCII Mermaid 0.1.0 | 555 | 0.165 | API; initialization excluded |
-| 9 | Merslim 0.2.3 | 538 | 0.662 | API; initialization excluded |
-| 10 | Crafter Mermaid 0.0.3 | 534 | 0.189 | API; initialization excluded |
-| 11 | Beautiful Mermaid 1.1.3 | 509 | 0.205 | API; initialization excluded |
-| 12 | Grok renderer git-2bdd1d6a6369 | 475 | 1.937 | CLI; startup included |
-| 13 | MermaidText git-a6b0c7657b94 | 475 | 3.167 | CLI; startup included |
-| 14 | Figurehead v0.4.3 | 408 | 40.191 | CLI; startup included |
-| 15 | Mermaid ASCII 1.6.1 | 401 | 19.202 | CLI; startup included |
-| 16 | OpenCode Merman 2.2.5 | 254 | 0.684 | API; initialization excluded |
+| 1 | Frankenmermaid 0.5.0 | 1334 | 2.992 | CLI; startup included |
+| 2 | Ondine 0.0.3 | 1306 | 216.867 | CLI; startup included |
+| 3 | Termaid 0.12.0 | 1240 | 1.718 | API; initialization excluded |
+| 4 | Agentic Mermaid 0.5.6 | 1068 | 6.069 | API; initialization excluded |
+| 5 | Zombie Mermaid 5.17.0 | 906 | 1.954 | API; initialization excluded |
+| 6 | Loom renderer 0.10.0 | 743 | 0.549 | API; initialization excluded |
+| 7 | Latias Merman 0.10.0 | 730 | 6.207 | CLI; startup included |
+| 8 | ASCII Mermaid 0.1.0 | 555 | 0.166 | API; initialization excluded |
+| 9 | Merslim 0.2.3 | 538 | 0.549 | API; initialization excluded |
+| 10 | Crafter Mermaid 0.0.3 | 534 | 0.248 | API; initialization excluded |
+| 11 | Beautiful Mermaid 1.1.3 | 507 | 0.225 | API; initialization excluded |
+| 12 | MermaidText git-a6b0c7657b94 | 473 | 2.012 | CLI; startup included |
+| 13 | Grok renderer git-2bdd1d6a6369 | 473 | 2.789 | CLI; startup included |
+| 14 | Figurehead v0.4.3 | 406 | 21.334 | CLI; startup included |
+| 15 | Mermaid ASCII 1.6.1 | 399 | 11.899 | CLI; startup included |
+| 16 | OpenCode Merman 2.3.0 | 252 | 0.858 | API; initialization excluded |
 | 17 | Kitlangton Merman 0.2.1 | 181 | 0.142 | API; initialization excluded |
-| 18 | MermaidTUI 0.0.6 | 23 | 0.022 | API; initialization excluded |
+| 18 | MermaidTUI 0.0.6 | 23 | 0.024 | API; initialization excluded |
+
+Completion counts only the 1,338 of 1,342 inputs the Mermaid reference accepts. [Reference-rejected inputs and failures by kind](docs/davebench-completion.md)
+
+[Completion by diagram family](docs/davebench-families.md)
 
 ## Drawing Correctness
 
-Required labels must be visible without leaked source syntax. Edges, arrow direction, layout and styling are outside this benchmark; PNG is not assessed.
+Required labels must be visible without leaked source syntax. Edges, arrow direction, layout and styling are outside this benchmark; PNG is assessed only for a project whose own interface draws PNG and that has no SVG or terminal output, under the weaker `png-ocr-presence-only-v1` profile: OCR must read every label for a pass, a label it does not read is unassessed rather than failed, and absence of raw source syntax is observed, not proved.
 
 ### SVG correctness
 
 | Verified rank | Possible rank | Project | Passed / 127 ↑ | Pass bounds | Failed | Unassessed |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 1–3 | Bezel 0.2.24 | 125 | 125–126 | 1 | 1 |
-| 1 | 1–3 | Pele 1.13.0 | 125 | 125–126 | 1 | 1 |
-| 3 | 1–4 | Ondine 0.0.3 | 124 | 124–126 | 1 | 2 |
-| 4 | 1–4 | Mermaid 12.3.0 | 123 | 123–125 | 2 | 2 |
-| 5 | 4–5 | Agentic Mermaid 0.5.6 | 122 | 122–123 | 4 | 1 |
-| 6 | 6–8 | Mermaid Dart 0.3.2 | 116 | 116–120 | 7 | 4 |
-| 7 | 5–8 | Frankenmermaid 0.4.0 | 112 | 112–122 | 5 | 10 |
-| 8 | 6–9 | Mermaid RS Renderer 0.3.1 | 108 | 108–119 | 8 | 11 |
-| 9 | 8–10 | Zombie Mermaid 5.14.4 | 105 | 105–109 | 18 | 4 |
-| 10 | 10–11 | Latias Merman 0.9.3 | 100 | 100–101 | 26 | 1 |
-| 11 | 9–11 | XMermaid 0.4.2 | 98 | 98–106 | 21 | 8 |
+| 1 | 1–4 | Bezel 0.2.26 | 125 | 125–126 | 1 | 1 |
+| 1 | 1–4 | Pele 1.13.0 | 125 | 125–126 | 1 | 1 |
+| 3 | 1–5 | Ondine 0.0.3 | 124 | 124–126 | 1 | 2 |
+| 4 | 1–5 | Mermaid 12.3.0 | 123 | 123–125 | 2 | 2 |
+| 5 | 4–7 | Agentic Mermaid 0.5.6 | 122 | 122–123 | 4 | 1 |
+| 6 | 6–10 | Mermaid Dart 0.3.2 | 116 | 116–121 | 6 | 5 |
+| 6 | 6–10 | Zombie Mermaid 5.17.0 | 116 | 116–118 | 9 | 2 |
+| 8 | 4–10 | Frankenmermaid 0.5.0 | 109 | 109–123 | 4 | 14 |
+| 9 | 6–10 | Mermaid RS Renderer 0.3.1 | 108 | 108–120 | 7 | 12 |
+| 10 | 1–11 | Latias Merman 0.10.0 | 101 | 101–126 | 1 | 25 |
+| 11 | 10–11 | XMermaid 0.4.2 | 98 | 98–106 | 21 | 8 |
 | 12 | 12 | Beautiful Mermaid 1.1.3 | 92 | 92 | 35 | 0 |
 | 13 | 13–14 | Merslim 0.2.3 | 76 | 76–88 | 39 | 12 |
-| 14 | 13–15 | Crafter Mermaid 0.0.3 | 66 | 66–83 | 44 | 17 |
-| 15 | 14–16 | DSH Mermaid GB SVG 0.1.5 | 57 | 57–72 | 55 | 15 |
+| 14 | 13–15 | Crafter Mermaid 0.0.3 | 66 | 66–86 | 41 | 20 |
+| 15 | 14–16 | DSH Mermaid GB SVG 0.1.5 | 57 | 57–73 | 54 | 16 |
 | 16 | 15–16 | VitePress Plugin Diagram 0.3.2 | 41 | 41–65 | 62 | 24 |
+
+**Common population:** the 5 projects with the most correct SVG cases, compared on the 122 of 127 cases that every one of them has a verdict for. Outside this population their order is not decided.
+
+| Project | Passed / 122 |
+| --- | --- |
+| Bezel 0.2.26 | 121 |
+| Pele 1.13.0 | 121 |
+| Ondine 0.0.3 | 121 |
+| Mermaid 12.3.0 | 120 |
+| Agentic Mermaid 0.5.6 | 118 |
+
+### Source obligations: SVG
+
+A second axis beside the ranked label verdict, not a ranking: rows are alphabetical and the label table above is unchanged. Each cell is passed / failed / unassessed over the cases whose reviewed source contract has that obligation. Relationships are drawn edges, messages and transitions with their direction, markers and captions; geometry is group containment, chart values encoded as position or extent, and regression geometry; layout is explicitly required source order or grid placement. A failure with no drawing is a renderer failure or inadmissible output. Unassessed obligations have no qualified observer for that drawing and could still pass or fail.
+
+Coverage, assessed / applicable case rows: relationships 843 / 1568; geometry 200 / 448; layout 445 / 544.
+
+| Project | Relationships (98 cases) | Geometry (28 cases) | Layout (34 cases) |
+| --- | --- | --- | --- |
+| Agentic Mermaid 0.5.6 | 42 / 3 (3 no drawing) / 53 | 12 / 1 (1 no drawing) / 15 | 27 / 0 / 7 |
+| Beautiful Mermaid 1.1.3 | 37 / 18 (14 no drawing) / 43 | 6 / 16 (15 no drawing) / 6 | 24 / 7 (7 no drawing) / 3 |
+| Bezel 0.2.26 | 67 / 2 (1 no drawing) / 29 | 13 / 0 / 15 | 27 / 0 / 7 |
+| Crafter Mermaid 0.0.3 | 38 / 26 (14 no drawing) / 34 | 3 / 15 (14 no drawing) / 10 | 22 / 6 (6 no drawing) / 6 |
+| DSH Mermaid GB SVG 0.1.5 | 20 / 31 (1 no drawing) / 47 | 1 / 0 / 27 | 22 / 1 (1 no drawing) / 11 |
+| Frankenmermaid 0.5.0 | 0 / 12 (1 no drawing) / 86 | 8 / 0 / 20 | 26 / 0 / 8 |
+| Latias Merman 0.10.0 | 50 / 2 (1 no drawing) / 46 | 13 / 0 / 15 | 27 / 0 / 7 |
+| Mermaid 12.3.0 | 70 / 3 (2 no drawing) / 25 | 12 / 1 (1 no drawing) / 15 | 27 / 1 (1 no drawing) / 6 |
+| Mermaid Dart 0.3.2 | 56 / 4 (4 no drawing) / 38 | 7 / 2 / 19 | 26 / 2 (2 no drawing) / 6 |
+| Mermaid RS Renderer 0.3.1 | 55 / 9 (1 no drawing) / 34 | 10 / 0 / 18 | 26 / 1 (1 no drawing) / 7 |
+| Merslim 0.2.3 | 5 / 19 (4 no drawing) / 74 | 5 / 8 (8 no drawing) / 15 | 21 / 6 (6 no drawing) / 7 |
+| Ondine 0.0.3 | 67 / 2 (1 no drawing) / 29 | 13 / 0 / 15 | 27 / 0 / 7 |
+| Pele 1.13.0 | 67 / 2 (1 no drawing) / 29 | 13 / 0 / 15 | 27 / 0 / 7 |
+| VitePress Plugin Diagram 0.3.2 | 0 / 50 (31 no drawing) / 48 | 1 / 18 (18 no drawing) / 9 | 21 / 9 (9 no drawing) / 4 |
+| XMermaid 0.4.2 | 4 / 16 (10 no drawing) / 78 | 4 / 5 (5 no drawing) / 19 | 27 / 4 (4 no drawing) / 3 |
+| Zombie Mermaid 5.17.0 | 58 / 8 (4 no drawing) / 32 | 10 / 3 (3 no drawing) / 15 | 27 / 4 (4 no drawing) / 3 |
+
+### Manual review: SVG
+
+A bounded manual review of retained drawings, beside the mechanical counts and not merged into them. Selection: Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of "project|format|caseId". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category. A review never erases a mechanical failure and never turns an unknown into a ranked pass.
+
+| Project | Mechanical labels passed / failed / unknown | Reviewed | Confirmed failure | Drawn correctly | Undecidable | Contradicts a mechanical failure |
+| --- | --- | --- | --- | --- | --- | --- |
+| Agentic Mermaid 0.5.6 | 122 / 4 / 1 | 3 | 2 | 1 | 0 | 0 |
+| Bezel 0.2.26 | 125 / 1 / 1 | 3 | 2 | 1 | 0 | 0 |
+| Frankenmermaid 0.5.0 | 109 / 4 / 14 | 18 | 6 | 12 | 0 | 1 |
+| Mermaid 12.3.0 | 123 / 2 / 2 | 4 | 2 | 2 | 0 | 0 |
+| Mermaid Dart 0.3.2 | 116 / 6 / 5 | 9 | 5 | 4 | 0 | 1 |
+| Ondine 0.0.3 | 124 / 1 / 2 | 4 | 2 | 1 | 1 | 0 |
+| Pele 1.13.0 | 125 / 1 / 1 | 3 | 2 | 1 | 0 | 0 |
+| Zombie Mermaid 5.17.0 | 116 / 9 / 2 | 6 | 3 | 2 | 1 | 0 |
+
+Candidate observer defects (mechanical verdicts unchanged):
+
+- Frankenmermaid 0.5.0, `drawing:03019928d457c65c` (labels, mechanical incorrect): Screenshot: the single node shows the ⚠️ emoji on one line and 'warn' on the next inside its box, so the whole label '⚠️ warn' is visible in reading order. Observer: svg-label-observer (visible-authored-labels). Evidence: The node holds <text class="fm-node-icon-emoji">⚠️</text> at y=72.77 and <text>warn</text> at y=111.62, both visible, and the observer counted 0 occurrences of '⚠️ warn' (failed). The identically structured 🎉 / Party node in drawing:48d7ff23dee1b343 from the same renderer was left unknown, not failed.
+- Mermaid Dart 0.3.2, `drawing:263ec71ab0c651b3` (labels, mechanical incorrect): Screenshot shows all six treemap labels; 'CSS 15' is white text on the visibly blue leaf (a #8686ff rect at fill-opacity 0.3 over the blue Frontend section) and is legible. Observer: svg-label-observer (visible-authored-labels camouflage check). Evidence: The evidence marks 'CSS' camouflaged:true ('identical to its own opaque flat backdrop'). Its text fill is #ffffff and its backdrop is translucent: <rect fill="#8686ff" fill-opacity="0.3"> over the section rect, which composites to blue in the Chromium screenshot. The camouflage test appears to ignore translucent ancestor fills.
 
 ### Terminal correctness
 
 | Verified rank | Possible rank | Project | Passed / 127 ↑ | Failed | Unassessed |
 | --- | --- | --- | --- | --- | --- |
 | 1 | 1 | Agentic Mermaid 0.5.6 | 124 | 3 | 0 |
-| 2 | 2 | Ondine 0.0.3 | 116 | 11 | 0 |
-| 3 | 3 | Termaid 0.12.0 | 108 | 19 | 0 |
-| 4 | 4 | Zombie Mermaid 5.14.4 | 106 | 21 | 0 |
-| 5 | 5 | Frankenmermaid 0.4.0 | 103 | 24 | 0 |
-| 5 | 5 | Loom renderer 0.10.0 | 103 | 24 | 0 |
-| 7 | 7 | Latias Merman 0.9.3 | 99 | 28 | 0 |
+| 2 | 2 | Ondine 0.0.3 | 116 | 6 | 5 |
+| 3 | 2–3 | Zombie Mermaid 5.17.0 | 115 | 11 | 1 |
+| 4 | 4–5 | Termaid 0.12.0 | 108 | 19 | 0 |
+| 5 | 4–5 | Frankenmermaid 0.5.0 | 107 | 18 | 2 |
+| 6 | 6 | Loom renderer 0.10.0 | 103 | 24 | 0 |
+| 7 | 7 | Latias Merman 0.10.0 | 101 | 26 | 0 |
 | 8 | 8 | Grok renderer git-2bdd1d6a6369 | 88 | 39 | 0 |
 | 8 | 8 | MermaidText git-a6b0c7657b94 | 88 | 39 | 0 |
 | 10 | 10 | Beautiful Mermaid 1.1.3 | 83 | 44 | 0 |
-| 11 | 11 | OpenCode Merman 2.2.5 | 81 | 46 | 0 |
+| 11 | 11 | OpenCode Merman 2.3.0 | 81 | 46 | 0 |
 | 12 | 12 | Mermaid ASCII 1.6.1 | 77 | 50 | 0 |
 | 13 | 13 | ASCII Mermaid 0.1.0 | 76 | 51 | 0 |
-| 14 | 14 | Kitlangton Merman 0.2.1 | 64 | 63 | 0 |
+| 14 | 14 | Kitlangton Merman 0.2.1 | 64 | 62 | 1 |
 | 15 | 15 | Merslim 0.2.3 | 63 | 64 | 0 |
 | 16 | 16 | Crafter Mermaid 0.0.3 | 59 | 68 | 0 |
 | 17 | 17 | Figurehead v0.4.3 | 47 | 80 | 0 |
 | 18 | 18 | MermaidTUI 0.0.6 | 13 | 114 | 0 |
 
+**Common population:** the 5 projects with the most correct terminal cases, compared on the 121 of 127 cases that every one of them has a verdict for. Outside this population their order is not decided.
+
+| Project | Passed / 121 |
+| --- | --- |
+| Agentic Mermaid 0.5.6 | 118 |
+| Ondine 0.0.3 | 115 |
+| Zombie Mermaid 5.17.0 | 110 |
+| Termaid 0.12.0 | 105 |
+| Frankenmermaid 0.5.0 | 105 |
+
+### Source obligations: Terminal
+
+A second axis beside the ranked label verdict, not a ranking: rows are alphabetical and the label table above is unchanged. Each cell is passed / failed / unassessed over the cases whose reviewed source contract has that obligation. Relationships are drawn edges, messages and transitions with their direction, markers and captions; geometry is group containment, chart values encoded as position or extent, and regression geometry; layout is explicitly required source order or grid placement. A failure with no drawing is a renderer failure or inadmissible output. Unassessed obligations have no qualified observer for that drawing and could still pass or fail.
+
+Coverage, assessed / applicable case rows: relationships 1028 / 1764; geometry 276 / 504; layout 478 / 612.
+
+| Project | Relationships (98 cases) | Geometry (28 cases) | Layout (34 cases) |
+| --- | --- | --- | --- |
+| Agentic Mermaid 0.5.6 | 54 / 3 (3 no drawing) / 41 | 9 / 1 (1 no drawing) / 18 | 29 / 0 / 5 |
+| ASCII Mermaid 0.1.0 | 30 / 28 (13 no drawing) / 40 | 3 / 13 (12 no drawing) / 12 | 18 / 7 (5 no drawing) / 9 |
+| Beautiful Mermaid 1.1.3 | 35 / 21 (13 no drawing) / 42 | 5 / 15 (15 no drawing) / 8 | 21 / 8 (6 no drawing) / 5 |
+| Crafter Mermaid 0.0.3 | 2 / 54 (12 no drawing) / 42 | 0 / 14 (14 no drawing) / 14 | 18 / 5 (5 no drawing) / 11 |
+| Figurehead v0.4.3 | 18 / 57 (35 no drawing) / 23 | 3 / 21 (21 no drawing) / 4 | 19 / 12 (12 no drawing) / 3 |
+| Frankenmermaid 0.5.0 | 0 / 1 (1 no drawing) / 97 | 0 / 0 / 28 | 0 / 0 / 34 |
+| Grok renderer git-2bdd1d6a6369 | 0 / 19 (12 no drawing) / 79 | 0 / 17 (17 no drawing) / 11 | 25 / 5 (5 no drawing) / 4 |
+| Kitlangton Merman 0.2.1 | 31 / 45 (34 no drawing) / 22 | 3 / 21 (21 no drawing) / 4 | 20 / 8 (8 no drawing) / 6 |
+| Latias Merman 0.10.0 | 36 / 25 (11 no drawing) / 37 | 5 / 11 (11 no drawing) / 12 | 25 / 3 (3 no drawing) / 6 |
+| Loom renderer 0.10.0 | 44 / 18 (3 no drawing) / 36 | 3 / 11 (11 no drawing) / 14 | 26 / 3 (3 no drawing) / 5 |
+| Mermaid ASCII 1.6.1 | 45 / 28 (24 no drawing) / 25 | 3 / 19 (18 no drawing) / 6 | 22 / 8 (4 no drawing) / 4 |
+| MermaidText git-a6b0c7657b94 | 49 / 19 (12 no drawing) / 30 | 3 / 17 (17 no drawing) / 8 | 25 / 5 (5 no drawing) / 4 |
+| MermaidTUI 0.0.6 | 6 / 89 (85 no drawing) / 3 | 0 / 28 (28 no drawing) / 0 | 6 / 25 (25 no drawing) / 3 |
+| Merslim 0.2.3 | 12 / 27 (10 no drawing) / 59 | 1 / 8 (8 no drawing) / 19 | 16 / 6 (6 no drawing) / 12 |
+| Ondine 0.0.3 | 25 / 14 (1 no drawing) / 59 | 4 / 1 / 23 | 28 / 0 / 6 |
+| OpenCode Merman 2.3.0 | 33 / 38 (29 no drawing) / 27 | 3 / 16 (16 no drawing) / 9 | 22 / 9 (8 no drawing) / 3 |
+| Termaid 0.12.0 | 55 / 9 / 34 | 6 / 1 / 21 | 25 / 0 / 9 |
+| Zombie Mermaid 5.17.0 | 49 / 9 (4 no drawing) / 40 | 7 / 4 (4 no drawing) / 17 | 26 / 3 (3 no drawing) / 5 |
+
+### Manual review: Terminal
+
+A bounded manual review of retained drawings, beside the mechanical counts and not merged into them. Selection: Lanes: the top 8 SVG and top 6 terminal projects by published label passes (ties alphabetical). In each lane: (1) every label-unknown row; (2) three sampled mechanical failures with a drawing, label-incorrect rows first and then rows with a failed obligation category; (3) one sampled row whose obligation category was left unassessed in a structure-profiled family (flowchart, class, state, ER, sequence). Samples are taken in ascending sha256 of "project|format|caseId". wevm/ondine additionally has every label-unknown and label-incorrect row and every obligation failure with a drawing reviewed, in both formats. Renderer failures and inadmissible outputs have no drawing to review. Each verdict concerns the named aspect only: labels, or one obligation category. A review never erases a mechanical failure and never turns an unknown into a ranked pass.
+
+| Project | Mechanical labels passed / failed / unknown | Reviewed | Confirmed failure | Drawn correctly | Undecidable | Contradicts a mechanical failure |
+| --- | --- | --- | --- | --- | --- | --- |
+| Agentic Mermaid 0.5.6 | 124 / 3 / 0 | 1 | 0 | 0 | 1 | 0 |
+| Frankenmermaid 0.5.0 | 107 / 18 / 2 | 6 | 3 | 2 | 1 | 0 |
+| Loom renderer 0.10.0 | 103 / 24 / 0 | 4 | 3 | 0 | 1 | 0 |
+| Ondine 0.0.3 | 116 / 6 / 5 | 25 | 13 | 11 | 1 | 5 |
+| Termaid 0.12.0 | 108 / 19 / 0 | 4 | 3 | 1 | 0 | 0 |
+| Zombie Mermaid 5.17.0 | 115 / 11 / 1 | 5 | 3 | 2 | 0 | 0 |
+
+Candidate observer defects (mechanical verdicts unchanged):
+
+- Ondine 0.0.3, `drawing:11426c4cad392dc7` (relationships, mechanical failed): Both stems leave the bottom of their source boxes, carry their captions ('derivative', 'ASCII component port') inline, then turn into v heads on Beautiful Mermaid's top border: two captioned edges, as authored. Observer: terminal structure (inspectTerminalFacts relationships). Evidence: Failed with 'Arrow stem is disconnected from its source node'. In each vertical stem the only missing '\|' cell (row 5, columns 7 and 27) is covered by that edge's own caption text, which then continues to a +---+ turn and a v head. The same inline-caption convention on horizontal routes (e.g. '----Uses --->' in drawing:0dbd28f2f1c494cc) is not treated as disconnected.
+- Ondine 0.0.3, `drawing:29fc1dab07164509` (relationships, mechanical failed): All three edges point the right way: 'row mounts ---->' B, B '+--  focus  -->' C with the wrapped caption 'first pointerenter or / focus' inline, and C '---->' D. Observer: terminal structure (inspectTerminalFacts relationships). Evidence: Failed with 'Arrow stem is disconnected from its source node'. B's '+--' stem is interrupted only by its own inline caption word 'focus' before resuming as '-->' into C; the caption is centred on the route row, which is the convention Ondine uses on every captioned edge.
+- Ondine 0.0.3, `drawing:4e4550d086c4e288` (geometry, mechanical failed): The Backend frame has its title 'Backend' and encloses Database, Cache Layer and API Gateway; the Load Dashboard -> Database route enters through the frame's top and runs down beside the title. Observer: terminal structure (groups fact). Evidence: Failed with 'No unique enclosing container has the exact authored group label: Backend; observed container labels: ["Backend ----v----"]'. The container's label text took in the route glyphs that cross its title rows (the '\|' at column 11 and the '----v----' top of Database), so a route through the title area turned a correctly drawn group into a failure rather than an unassessed ownership.
+- Ondine 0.0.3, `drawing:837336a6e0f8f27c` (relationships, mechanical failed): Two '+' staircase routes leave A's lower corners and end in v heads on the tops of B and C, giving exactly A -> B and A -> C. Observer: terminal structure (inspectTerminalFacts relationships). Evidence: Failed with 'Drawn directed relationships or their labels differ from the authored graph'. The recorded traced routes are A -> B and A -> C as authored, plus spurious B -> B and C -> C self-routes made from the staircase cells next to B's and C's top corners ((3,6)->(4,5) and (12,6)->(11,5)): the staircase routes are misread, not missing.
+- Ondine 0.0.3, `regression:68230bdf498c2525` (relationships, mechanical failed): Inside the anonymous subgraph frame, a '\|' stem leaves a's box and ends in a v head on b's box: the single a -> b edge as authored. Observer: terminal structure (inspectTerminalFacts relationships). Evidence: Failed with 'Drawn directed relationships or their labels differ from the authored graph', yet the recorded traced routes are exactly [{source: a, target: b}], matching the one authored edge (directed, end marker arrow). The nodes and anonymous-group checks passed. Nothing in the drawing differs from the contract, so the failure seems to come from the comparison, perhaps from the unnamed enclosing group.
+
+### PNG correctness (OCR presence-only profile `png-ocr-presence-only-v1`)
+
+| Verified rank | Possible rank | Project | Passed / 127 ↑ | Failed | Unassessed |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 1 | Mermaid Flutter 0.3.2 | 55 | 4 | 68 |
+
+### Source obligations: PNG
+
+A second axis beside the ranked label verdict, not a ranking: rows are alphabetical and the label table above is unchanged. Each cell is passed / failed / unassessed over the cases whose reviewed source contract has that obligation. Relationships are drawn edges, messages and transitions with their direction, markers and captions; geometry is group containment, chart values encoded as position or extent, and regression geometry; layout is explicitly required source order or grid placement. A failure with no drawing is a renderer failure or inadmissible output. Unassessed obligations have no qualified observer for that drawing and could still pass or fail.
+
+Coverage, assessed / applicable case rows: relationships 4 / 98; geometry 0 / 28; layout 1 / 34.
+
+| Project | Relationships (98 cases) | Geometry (28 cases) | Layout (34 cases) |
+| --- | --- | --- | --- |
+| Mermaid Flutter 0.3.2 | 0 / 4 (4 no drawing) / 94 | 0 / 0 / 28 | 0 / 1 (1 no drawing) / 33 |
+
+### Matching outcomes
+
+- Bezel 0.2.26 and Pele 1.13.0: identical per-case outcomes in every DaveBench and Drawing lane.
+- Grok renderer git-2bdd1d6a6369 and MermaidText git-a6b0c7657b94: identical per-case outcomes in every DaveBench and Drawing lane.
+
 ## Mermaid Fidelity
 
-3499 reference-qualified callbacks are unassessed for every one of the 26 executed candidates; 942 of them have no matching collected callback. Additional gaps vary by candidate. These gaps receive no verified pass credit.
+Fidelity measures each candidate's public parse contract: source text in, parsed model out. Scores use the 3,327 reference-qualified callbacks of Mermaid's diagram and parser tests (`packages/mermaid/src/diagrams/`, `packages/parser/`) that exercise that contract. 1,517 callbacks in those folders test Mermaid internals instead: its database methods called, spied on or inspected directly, the parser → database call protocol, helper and module exports, host configuration supplied outside the source, renderers and styles, or Mermaid's own detection pipeline, recorded for any candidate where the test reaches them. They and the 2,502 qualified callbacks outside those folders are inventory: executed and listed in the coverage report, not scored. A native refusal is a known nonpass when the pinned Mermaid oracle accepts the refused source, and a capability assessment is one when a recorded review confirmed it; other unsupported verdicts and missing Trident bindings are unassessed. A project whose parser is reachable only through private code is not applicable (n/a) and is not ranked.
 
-| Verified rank | Possible rank | Project | Passed / 7346 ↑ | Assertion/fault nonpasses | Unsupported | Unassessed (shared + additional) |
+0 scored callbacks are unassessed for every one of the 23 executed candidates; 0 of them have no matching collected callback. Additional gaps vary by candidate. These gaps receive no verified pass credit.
+
+| Verified rank | Possible rank | Project | Passed / 3327 ↑ | Assertion/fault nonpasses | Verified refusals / confirmed absences | Unassessed (shared + additional) |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 1 | Mermaid 12.3.0 | 7346 | 0 | 0 | 0 |
-| 2 | 2–27 | Pele 1.13.0 | 3263 | 97 | 375 | 3499 + 112 |
-| 3 | 2–27 | Bezel 0.2.24 | 3173 | 91 | 515 | 3499 + 68 |
-| 4 | 2–27 | Latias Merman 0.9.3 | 2935 | 274 | 544 | 3499 + 94 |
-| 5 | 2–27 | Agentic Mermaid 0.5.6 | 2247 | 106 | 1427 | 3499 + 67 |
-| 6 | 2–27 | Mermaid Dart 0.3.2 | 2127 | 525 | 1132 | 3499 + 63 |
-| 6 | 2–27 | Mermaid Flutter 0.3.2 | 2127 | 525 | 1132 | 3499 + 63 |
-| 8 | 2–27 | Mermaid RS Renderer 0.3.1 | 1481 | 496 | 1815 | 3499 + 55 |
-| 9 | 2–27 | Frankenmermaid 0.4.0 | 1326 | 1250 | 1169 | 3499 + 102 |
-| 10 | 2–27 | Termaid 0.12.0 | 1078 | 1153 | 1581 | 3499 + 35 |
-| 11 | 2–27 | Zombie Mermaid 5.14.4 | 979 | 1216 | 1638 | 3499 + 14 |
-| 12 | 2–27 | XMermaid 0.4.2 | 894 | 2083 | 724 | 3499 + 146 |
-| 13 | 2–27 | Loom renderer 0.10.0 | 752 | 938 | 2125 | 3499 + 32 |
-| 14 | 2–27 | Mermaid ASCII 1.6.1 | 722 | 956 | 2161 | 3499 + 8 |
-| 15 | 2–27 | Grok renderer git-2bdd1d6a6369 | 639 | 953 | 2244 | 3499 + 11 |
-| 15 | 2–27 | MermaidText git-a6b0c7657b94 | 639 | 953 | 2244 | 3499 + 11 |
-| 17 | 2–27 | Figurehead v0.4.3 | 362 | 1134 | 2339 | 3499 + 12 |
-| 18 | 2–27 | ASCII Mermaid 0.1.0 | 354 | 1578 | 1901 | 3499 + 14 |
-| 19 | 2–27 | Merslim 0.2.3 | 319 | 1773 | 1739 | 3499 + 16 |
-| 20 | 2–27 | Ondine 0.0.3 | 305 | 55 | 3457 | 3499 + 30 |
-| 21 | 2–27 | Beautiful Mermaid 1.1.3 | 236 | 1657 | 1942 | 3499 + 12 |
-| 22 | 2–27 | Crafter Mermaid 0.0.3 | 230 | 1666 | 1938 | 3499 + 13 |
-| 23 | 2–27 | VitePress Plugin Diagram 0.3.2 | 144 | 1090 | 2602 | 3499 + 11 |
-| 24 | 2–27 | DSH Mermaid GB SVG 0.1.5 | 128 | 668 | 3051 | 3499 + 0 |
-| 25 | 2–27 | OpenCode Merman 2.2.5 | 126 | 1123 | 2589 | 3499 + 9 |
-| 26 | 2–27 | Kitlangton Merman 0.2.1 | 59 | 292 | 3485 | 3499 + 11 |
-| 27 | 2–27 | MermaidTUI 0.0.6 | 0 | 55 | 3791 | 3499 + 1 |
+| 1 | 1 | Mermaid 12.3.0 | 3327 | 0 | 0 / 0 | 0 |
+| 2 | 2–3 | Bezel 0.2.26 | 3137 | 73 | 1 / 36 | 0 + 80 |
+| 3 | 2–3 | Pele 1.13.0 | 3130 | 82 | 0 / 36 | 0 + 79 |
+| 4 | 4 | Latias Merman 0.10.0 | 2978 | 190 | 1 / 16 | 0 + 142 |
+| 5 | 5 | Agentic Mermaid 0.5.6 | 2265 | 106 | 545 / 121 | 0 + 290 |
+| 6 | 6–7 | Mermaid Dart 0.3.2 | 1971 | 425 | 0 / 838 | 0 + 93 |
+| 6 | 6–7 | Mermaid Flutter 0.3.2 (same parser as Mermaid Dart 0.3.2) | 1971 | 425 | 0 / 838 | 0 + 93 |
+| 8 | 8–9 | Mermaid RS Renderer 0.3.1 | 1478 | 495 | 417 / 771 | 0 + 166 |
+| 9 | 8–10 | Frankenmermaid 0.5.0 | 1338 | 1192 | 287 / 353 | 0 + 157 |
+| 10 | 10–11 | Termaid 0.12.0 | 1075 | 1152 | 700 / 297 | 0 + 103 |
+| 11 | 9–11 | Zombie Mermaid 5.17.0 | 1045 | 1215 | 0 / 646 | 0 + 421 |
+| 12 | 12 | XMermaid 0.4.2 | 893 | 2064 | 1 / 271 | 0 + 98 |
+| 13 | 13 | Mermaid ASCII 1.6.1 | 718 | 954 | 2 / 1651 | 0 + 2 |
+| 14 | 14–16 | Figurehead v0.4.3 | 362 | 1131 | 0 / 1834 | 0 + 0 |
+| 15 | 14–16 | ASCII Mermaid 0.1.0 | 356 | 1576 | 0 / 1382 | 0 + 13 |
+| 16 | 14–17 | Merslim 0.2.3 | 319 | 1771 | 612 / 515 | 0 + 110 |
+| 17 | 17–18 | Ondine 0.0.3 | 303 | 53 | 1 / 2965 | 0 + 5 |
+| 18 | 18–20 | Beautiful Mermaid 1.1.3 | 238 | 1654 | 0 / 1432 | 0 + 3 |
+| 19 | 16–20 | Crafter Mermaid 0.0.3 | 230 | 1663 | 1033 / 290 | 0 + 111 |
+| 20 | 20–22 | VitePress Plugin Diagram 0.3.2 | 143 | 1075 | 0 / 2102 | 0 + 7 |
+| 21 | 21–24 | DSH Mermaid GB SVG 0.1.5 | 128 | 666 | 0 / 2533 | 0 + 0 |
+| 21 | 21–23 | OpenCode Merman 2.3.0 | 128 | 1115 | 0 / 2076 | 0 + 8 |
+| 23 | 18–24 | Kitlangton Merman 0.2.1 | 59 | 281 | 2752 / 29 | 0 + 206 |
+| 24 | 20–24 | MermaidTUI 0.0.6 | 0 | 53 | 3056 / 0 | 0 + 218 |
+| — | — | Grok renderer git-2bdd1d6a6369 | n/a | n/a | n/a | n/a |
+| — | — | Loom renderer 0.10.0 | n/a | n/a | n/a | n/a |
+| — | — | MermaidText git-a6b0c7657b94 | n/a | n/a | n/a | n/a |
+
+**Common population:** the 5 candidates with the most verified passes, on the scored files in which none of them has an unassessed callback (37 files), compared on the 1,141 of 3,327 callbacks that every one of them has a verdict for. Outside this population their order is not decided.
+
+| Project | Passed / 1141 |
+| --- | --- |
+| Pele 1.13.0 | 1111 |
+| Bezel 0.2.26 | 1110 |
+| Latias Merman 0.10.0 | 1099 |
+| Agentic Mermaid 0.5.6 | 922 |
+| Mermaid Dart 0.3.2 | 812 |
+
+### Binding coverage
+
+How each reference-qualified callback ended for each project, over the 3,327-callback scored population and over all 7,346 qualified callbacks. Passes and native failures are known outcomes; so are native unsupported verdicts the pinned Mermaid oracle verified (the refused source is valid Mermaid) and capability assessments a recorded review confirmed, counted in the last two columns of the scored half. The rest are unassessed.
+
+- **Native failures**: an original assertion failed, or the candidate's own code faulted.
+- **Native unsupported**: the candidate's own code reported that it cannot do this (its parser or detector refused the diagram type, or its parse returned another diagram kind).
+- **Capability assessments**: Trident decided from the candidate's source, types or interface that the capability is absent (a family its bridge table does not list, Mermaid's database API, a concept its model does not carry). Each names its basis; the capability review checks them against the installed artifacts.
+- **Adapter limitations**: Trident has no binding, view or value for what the test needs.
+
+A project whose public interface exposes few parsers or no model can render well and still have most callbacks in the last three columns.
+
+| Project | Passed (scored) | Native failures (scored) | Native unsupported (scored) | Capability assessments (scored) | Adapter limitations (scored) | Verified refusals (scored) | Confirmed absences (scored) | Passed (all) | Native failures (all) | Native unsupported (all) | Capability assessments (all) | Adapter limitations (all) |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Bezel 0.2.26 | 3,137 | 73 | 5 | 95 | 17 | 1 | 36 | 3,279 | 82 | 9 | 232 | 3,744 |
+| Pele 1.13.0 | 3,130 | 82 | 4 | 95 | 16 | 0 | 36 | 3,398 | 96 | 13 | 243 | 3,596 |
+| Latias Merman 0.10.0 | 2,978 | 190 | 5 | 110 | 44 | 1 | 16 | 3,019 | 234 | 9 | 510 | 3,574 |
+| Agentic Mermaid 0.5.6 | 2,265 | 106 | 712 | 197 | 47 | 545 | 121 | 2,271 | 106 | 898 | 493 | 3,578 |
+| Mermaid Dart 0.3.2 | 1,971 | 425 | 0 | 921 | 10 | 0 | 838 | 1,984 | 451 | 0 | 1,388 | 3,523 |
+| Mermaid Flutter 0.3.2 | 1,971 | 425 | 0 | 921 | 10 | 0 | 838 | 1,984 | 451 | 0 | 1,388 | 3,523 |
+| Mermaid RS Renderer 0.3.1 | 1,478 | 495 | 452 | 858 | 44 | 417 | 771 | 1,478 | 495 | 609 | 1,197 | 3,567 |
+| Frankenmermaid 0.5.0 | 1,338 | 1,192 | 296 | 443 | 58 | 287 | 353 | 1,338 | 1,234 | 341 | 819 | 3,614 |
+| Termaid 0.12.0 | 1,075 | 1,152 | 753 | 312 | 35 | 700 | 297 | 1,075 | 1,152 | 930 | 642 | 3,547 |
+| Zombie Mermaid 5.17.0 | 1,045 | 1,215 | 0 | 729 | 338 | 0 | 646 | 1,059 | 1,237 | 0 | 1,178 | 3,872 |
+| XMermaid 0.4.2 | 893 | 2,064 | 1 | 330 | 39 | 1 | 271 | 910 | 2,129 | 1 | 656 | 3,650 |
+| Mermaid ASCII 1.6.1 | 718 | 954 | 2 | 1,651 | 2 | 2 | 1,651 | 719 | 955 | 3 | 2,160 | 3,509 |
+| Figurehead v0.4.3 | 362 | 1,131 | 0 | 1,834 | 0 | 0 | 1,834 | 362 | 1,134 | 0 | 2,339 | 3,511 |
+| ASCII Mermaid 0.1.0 | 356 | 1,576 | 0 | 1,385 | 10 | 0 | 1,382 | 356 | 1,578 | 0 | 1,889 | 3,523 |
+| Merslim 0.2.3 | 319 | 1,771 | 675 | 551 | 11 | 612 | 515 | 319 | 1,773 | 944 | 784 | 3,526 |
+| Ondine 0.0.3 | 303 | 53 | 5 | 2,965 | 1 | 1 | 2,965 | 320 | 81 | 9 | 3,407 | 3,529 |
+| Beautiful Mermaid 1.1.3 | 238 | 1,654 | 0 | 1,435 | 0 | 0 | 1,432 | 238 | 1,656 | 0 | 1,941 | 3,511 |
+| Crafter Mermaid 0.0.3 | 230 | 1,663 | 1,141 | 290 | 3 | 1,033 | 290 | 230 | 1,666 | 1,480 | 458 | 3,512 |
+| VitePress Plugin Diagram 0.3.2 | 143 | 1,075 | 0 | 2,102 | 7 | 0 | 2,102 | 144 | 1,090 | 0 | 2,602 | 3,510 |
+| OpenCode Merman 2.3.0 | 128 | 1,115 | 0 | 2,076 | 8 | 0 | 2,076 | 129 | 1,123 | 0 | 2,578 | 3,516 |
+| DSH Mermaid GB SVG 0.1.5 | 128 | 666 | 0 | 2,533 | 0 | 0 | 2,533 | 128 | 668 | 0 | 3,051 | 3,499 |
+| Kitlangton Merman 0.2.1 | 59 | 281 | 2,958 | 29 | 0 | 2,752 | 29 | 59 | 292 | 3,360 | 126 | 3,509 |
+| MermaidTUI 0.0.6 | 0 | 53 | 3,274 | 0 | 0 | 3,056 | 0 | 0 | 56 | 3,744 | 46 | 3,500 |
 
 ## Equal-weight synthesis
 
 | Possible rank | Project | DaveBench / 100 | Drawing / 100 | Fidelity / 100 | Overall / 100 ↑ |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Mermaid 12.3.0 | 97.02 | 96.85–98.43 | 100.00 | 97.96–98.48 |
-| 2–11 | Mermaid RS Renderer 0.3.1 | 97.24 | 85.04–93.70 | 20.16–68.54 | 67.48–86.49 |
-| 2–11 | Agentic Mermaid 0.5.6 | 79.48 | 96.85–97.24 | 30.59–79.13 | 68.97–85.29 |
-| 2–11 | Bezel 0.2.24 | 97.32 | 98.43–99.21 | 43.19–91.75 | 79.65–96.09 |
-| 2–11 | Latias Merman 0.9.3 | 84.50 | 78.35–78.74 | 39.95–88.86 | 67.60–84.04 |
-| 2–11 | Pele 1.13.0 | 97.32 | 98.43–99.21 | 44.42–93.57 | 80.05–96.70 |
-| 2–11 | Mermaid Dart 0.3.2 | 83.01 | 91.34–94.49 | 28.95–77.44 | 67.77–84.98 |
-| 2–12 | Termaid 0.12.0 | 95.83 | 85.04 | 14.67–62.78 | 65.18–81.22 |
-| 2–12 | Ondine 0.0.3 | 97.27 | 94.49–95.28 | 4.15–52.19 | 65.30–81.58 |
-| 2–13 | Frankenmermaid 0.4.0 | 92.20 | 84.65–88.58 | 18.05–67.07 | 64.97–82.62 |
-| 2–14 | Mermaid Flutter 0.3.2 | 83.01 | n/a | 28.95–77.44 | 55.98–80.23 |
-| 10–20 | Loom renderer 0.10.0 | 55.51 | 81.10 | 10.24–58.30 | 48.95–64.97 |
-| 8–21 | XMermaid 0.4.2 | 50.67 | 77.17–83.46 | 12.17–61.79 | 46.67–65.31 |
-| 11–21 | Zombie Mermaid 5.14.4 | 47.47 | 83.07–84.65 | 13.33–61.15 | 47.95–64.42 |
-| 12–25 | MermaidText git-a6b0c7657b94 | 35.39 | 69.29 | 8.70–56.48 | 37.79–53.72 |
-| 12–25 | Grok renderer git-2bdd1d6a6369 | 35.39 | 69.29 | 8.70–56.48 | 37.79–53.72 |
-| 12–26 | Mermaid ASCII 1.6.1 | 29.88 | 60.63 | 9.83–57.57 | 33.45–49.36 |
-| 12–26 | Merslim 0.2.3 | 48.14 | 54.72–59.45 | 4.34–52.19 | 35.73–53.26 |
-| 12–26 | ASCII Mermaid 0.1.0 | 41.36 | 59.84 | 4.82–52.64 | 35.34–51.28 |
-| 12–26 | Beautiful Mermaid 1.1.3 | 38.13 | 68.90 | 3.21–51.01 | 36.75–52.68 |
-| 13–26 | Crafter Mermaid 0.0.3 | 38.60 | 49.21–55.91 | 3.13–50.94 | 30.31–48.48 |
-| 15–26 | OpenCode Merman 2.2.5 | 18.93 | 63.78 | 1.72–49.47 | 28.14–44.06 |
-| 15–26 | VitePress Plugin Diagram 0.3.2 | 29.66 | 32.28–51.18 | 1.96–49.74 | 21.30–43.53 |
-| 15–26 | Figurehead v0.4.3 | 30.40 | 37.01 | 4.93–52.72 | 24.11–40.04 |
-| 15–26 | DSH Mermaid GB SVG 0.1.5 | 28.61 | 44.88–56.69 | 1.74–49.37 | 25.08–44.89 |
-| 17–26 | Kitlangton Merman 0.2.1 | 13.49 | 50.39 | 0.80–48.58 | 21.56–37.49 |
-| 27 | MermaidTUI 0.0.6 | 1.71 | 10.24 | 0.00–47.64 | 3.98–19.87 |
+| 1 | Mermaid 12.3.0 | 100.00 | 96.85–98.43 | 100.00 | 98.95–99.48 |
+| 2–3 | Bezel 0.2.26 | 97.61 | 98.43–99.21 | 94.29–96.69 | 96.77–97.84 |
+| 2–3 | Pele 1.13.0 | 97.61 | 98.43–99.21 | 94.08–96.45 | 96.70–97.76 |
+| 4–5 | Agentic Mermaid 0.5.6 | 79.75 | 96.85–97.24 | 68.08–76.80 | 81.56–84.60 |
+| 4–5 | Latias Merman 0.10.0 | 77.28 | 79.53–89.37 | 89.51–93.78 | 82.11–86.81 |
+| 6–8 | Mermaid Dart 0.3.2 | 83.26 | 91.34–95.28 | 59.24–62.04 | 77.95–80.19 |
+| 6–9 | Mermaid RS Renderer 0.3.1 | 97.53 | 85.04–94.49 | 44.42–49.41 | 75.67–80.48 |
+| 7–9 | Frankenmermaid 0.5.0 | 93.83 | 85.04–91.34 | 40.22–44.94 | 73.03–76.70 |
+| 9–10 | Termaid 0.12.0 | 92.68 | 85.04 | 32.31–35.41 | 70.01–71.04 |
+| 10–11 | Loom renderer 0.10.0 | 55.53 | 81.10 | n/a | 68.32 |
+| 6–13 | Mermaid Flutter 0.3.2 | 83.26 | 43.31–96.85 | 59.24–62.04 | 61.94–80.72 |
+| 11–13 | Zombie Mermaid 5.17.0 | 67.71 | 90.94–92.13 | 31.41–44.06 | 63.36–67.97 |
+| 11–13 | Ondine 0.0.3 | 97.61 | 94.49–97.24 | 9.11–9.26 | 67.07–68.04 |
+| 14–15 | MermaidText git-a6b0c7657b94 | 35.35 | 69.29 | n/a | 52.32 |
+| 14–15 | Grok renderer git-2bdd1d6a6369 | 35.35 | 69.29 | n/a | 52.32 |
+| 14–16 | XMermaid 0.4.2 | 50.82 | 77.17–83.46 | 26.84–29.79 | 51.61–54.69 |
+| 17–18 | Merslim 0.2.3 | 48.18 | 54.72–59.45 | 9.59–12.89 | 37.50–40.17 |
+| 17–18 | Beautiful Mermaid 1.1.3 | 38.04 | 68.90 | 7.15–7.24 | 38.03–38.06 |
+| 19–20 | Mermaid ASCII 1.6.1 | 29.82 | 60.63 | 21.58–21.64 | 37.34–37.36 |
+| 19–20 | ASCII Mermaid 0.1.0 | 41.48 | 59.84 | 10.70–11.09 | 37.34–37.47 |
+| 21 | Crafter Mermaid 0.0.3 | 38.94 | 49.21–57.09 | 6.91–10.25 | 31.69–35.42 |
+| 22–23 | OpenCode Merman 2.3.0 | 18.83 | 63.78 | 3.85–4.09 | 28.82–28.90 |
+| 22–25 | DSH Mermaid GB SVG 0.1.5 | 28.55 | 44.88–57.48 | 3.85 | 25.76–29.96 |
+| 23–25 | Figurehead v0.4.3 | 30.34 | 37.01 | 10.88 | 26.08 |
+| 23–26 | VitePress Plugin Diagram 0.3.2 | 29.60 | 32.28–51.18 | 4.30–4.51 | 22.06–28.43 |
+| 25–26 | Kitlangton Merman 0.2.1 | 13.53 | 50.39–51.18 | 1.77–7.97 | 21.90–24.22 |
+| 27 | MermaidTUI 0.0.6 | 1.72 | 10.24 | 0.00–6.55 | 3.99–6.17 |

@@ -11,6 +11,8 @@
 import { readFileSync } from 'node:fs'
 
 export const GAP_CAUSES: [name: string, pattern: RegExp][] = [
+  ['View not reviewed for this version', /^view not reviewed for /],
+  ['Native capability not yet bound', /\bimplements .* natively \(.*\); Trident does not bind it yet/],
   ['Langium AST view', /Langium AST|AST field|Native AST type/],
   ['Layout data (getData)', /getData/],
   ['Host configuration', /configuration/i],
@@ -24,13 +26,32 @@ export const GAP_CAUSES: [name: string, pattern: RegExp][] = [
 
 export const gapCause = (reason: string) => GAP_CAUSES.find(([, pattern]) => pattern.test(reason))?.[0] ?? 'Other'
 
-/** Unassessed callbacks per project and cause, from each row's gapReasons. */
+/** Unsupported verdicts no per-assertion review has confirmed; scored as unassessed. A
+ * result merged before outcome kinds were recorded lists them under this one cause. */
+export const UNREVIEWED_UNSUPPORTED = 'Unsupported (unreviewed; scored as unassessed)'
+/** The candidate's own code reported it cannot do this (outcome-kinds.ts). */
+export const NATIVE_UNSUPPORTED = 'Native unsupported (the candidate reported it; unassessed)'
+/** Trident's capability assessment from source, by its basis (outcome-kinds.ts). */
+export const capabilityAssessmentCause = (basis: string) => `Capability assessment: ${basis} (unassessed)`
+
+/** Unassessed callbacks per project and cause, from each row's gapReasons and, for
+ * results scored under the current definition, its unsupported verdicts: native ones
+ * apart from Trident's capability assessments, each under its basis. */
 export function gapsByCause(result: any) {
   const table: Record<string, Record<string, number>> = {}
   for (const row of result.results) {
     if (row.project === 'mermaid-js/mermaid') continue
     const causes: Record<string, number> = {}
     for (const [reason, count] of Object.entries(row.gapReasons ?? {}) as [string, number][]) { const cause = gapCause(reason); causes[cause] = (causes[cause] ?? 0) + count }
+    const sum = (counts: Record<string, unknown> | undefined) => Object.values(counts ?? {}).reduce((total: number, count) => total + Number(count), 0)
+    if (row.assessmentBases) {
+      const native = sum(row.nativeUnsupportedReasons)
+      if (native) causes[NATIVE_UNSUPPORTED] = native
+      for (const [basis, count] of Object.entries(row.assessmentBases) as [string, number][]) if (count) causes[capabilityAssessmentCause(basis)] = count
+    } else {
+      const unsupported = sum(row.unsupportedReasons)
+      if (unsupported) causes[UNREVIEWED_UNSUPPORTED] = unsupported
+    }
     table[row.project] = causes
   }
   return table

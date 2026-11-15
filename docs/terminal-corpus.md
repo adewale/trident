@@ -139,8 +139,9 @@ without changing the frozen source bytes or original measurement receipts.
 
 The initial freeze deliberately marks drawing expectations **unreviewed**.
 Neither labels, source tags, a research origin nor Mermaid reference agreement
-can supply a drawing pass. Independently reviewed facts must bind the exact
-source hash, identify observer gaps and distinguish valid, invalid and dialect
+can supply a drawing pass. Reviewed facts (from a review session separate from
+the transcription; the [terminal source review](evidence/terminal-source-review-2026-10-31/README.md)
+was an AI-agent session run by the maintainer) must bind the exact source hash, identify observer gaps and distinguish valid, invalid and dialect
 inputs. Unsupported families/layouts remain unknown against the full planned
 inventory. An unknown is a Trident measurement gap, not proof of a renderer defect.
 

@@ -5,9 +5,20 @@
 // against the project's own type definitions or parser source at the pinned version.
 // A view never parses source text, never re-splits a display string into fields and
 // never fills in a value the native model does not carry:
-//   - a field the model carries under another name or encoding is translated;
+//   - a field the model carries under another name or encoding is translated, including
+//     an encoding by omission that the project's own types or parser document (OpenCode
+//     omits a note's 'over' placement; zombie-mermaid omits the marker of a plain
+//     arrowhead), and a structural root the model expresses by having no parent
+//     (Mermaid's C4 'global' boundary, a state document's 'root');
+//   - the one exception: where the model leaves a value unset because the source did not
+//     write it, and Mermaid's own parser stores a documented default for that same
+//     unwritten value, the view reads Mermaid's default (direction 'TB', a sequence box's
+//     'transparent' fill, an untyped C4 Boundary's 'system', a commit's NORMAL type, a
+//     state's 'default' type, '' for unwritten text). The native model must establish that
+//     the value was unwritten: a model that keeps no such field at all gets no default;
 //   - a concept the model does not carry at all is declared absent with its reason,
-//     and reading it is that project's unsupported operation (a known nonpass);
+//     and reading it is that project's unsupported operation (unassessed in scoring,
+//     scoring.ts);
 //   - anything else the tests read stays a Trident gap.
 
 
@@ -74,8 +85,10 @@ function flowchartView(model, hooks) {
   view.getVertices = () => new Map(nodes().map(([id, fields]) => [id, vertex(id, fields)]))
   view.getEdges = () =>
     edges().map(fields => {
-      if (fields.type === undefined && !(absent.edge ?? {}).type) return hooks.unavailable('Unmapped native flowchart edge markers')
-      return record({ text: '', labelType: 'text', ...fields }, 'edge', EDGE_FIELDS, absent.edge ?? {}, hooks)
+      // An edge may name fields absent for that edge alone (VERTEX_ABSENT).
+      const { [VERTEX_ABSENT]: only, ...rest } = fields
+      if (rest.type === undefined && !(absent.edge ?? {}).type && !(only ?? {}).type) return hooks.unavailable('Unmapped native flowchart edge markers')
+      return record({ text: '', labelType: 'text', ...rest }, 'edge', EDGE_FIELDS, { ...(absent.edge ?? {}), ...(only ?? {}) }, hooks)
     })
   if (subgraphs) view.getSubGraphs = () => subgraphs().map(fields => record(fields, 'subgraph', SUBGRAPH_FIELDS, absent.subgraph ?? {}, hooks))
   else if (absent.getSubGraphs) view.getSubGraphs = () => hooks.unsupported(absent.getSubGraphs)
@@ -238,6 +251,8 @@ function xmermaidGraph(graph, _project, hooks) {
 // click link); edges with one ArrowType word naming the line and both ends; subgraphs in
 // graph.subgraphs with their source key, children and members (nested members included);
 // style statements kept per target in style_refs. Edges keep no length or id.
+// 0.5.0: a subgraph's cluster (ir.clusters[subgraph.cluster]) lists the classes a `class`
+// statement gave it (`classes`, absent when none; model-concept review 2026-11-14).
 const FRANKEN_SHAPE = { Rect: 'square', Rounded: 'round', Stadium: 'stadium', Subroutine: 'subroutine', Cylinder: 'cylinder', Circle: 'circle', DoubleCircle: 'doublecircle', Diamond: 'diamond', Hexagon: 'hexagon', Parallelogram: 'lean_right', InvParallelogram: 'lean_left', Trapezoid: 'trapezoid', InvTrapezoid: 'inv_trapezoid', Asymmetric: 'odd' }
 function frankenArrow(word) {
   const match = /^(Double)?(Dotted|Thick)?(Arrow|Line|Circle|Cross)(Both)?$/.exec(word ?? '')
@@ -278,7 +293,8 @@ function frankenGraph(ir, _project, hooks) {
     subgraphs: () =>
       ordered.map(group => {
         const nested = new Set((group.children ?? []).flatMap(child => groups[child].members ?? []))
-        return { id: group.key, title: label(group.title) ?? group.key, nodes: [...(group.members ?? []).filter(member => !nested.has(member)).map(member => ids[member]), ...(group.children ?? []).map(child => groups[child].key)], dir: group.direction ?? undefined }
+        const cluster = typeof group.cluster === 'number' ? ir.clusters?.[group.cluster] : undefined
+        return { id: group.key, title: label(group.title) ?? group.key, nodes: [...(group.members ?? []).filter(member => !nested.has(member)).map(member => ids[member]), ...(group.children ?? []).map(child => groups[child].key)], dir: group.direction ?? undefined, ...(cluster ? { classes: [...(cluster.classes ?? [])] } : {}) }
       }),
     direction: directionOf(ir.direction),
     absent: {
@@ -295,9 +311,23 @@ function frankenGraph(ir, _project, hooks) {
 // styles (from style statements), link styles and click interactions are separate maps.
 // Mermaid has no start-only edge type: such an edge keeps its own spelling, which no
 // Mermaid edge type equals.
-function mermaidGraphView(name) {
+// `edgeIds`: the model's MermaidEdge also keeps a written edge id (`A e1@--> B`) and a
+// written `e1@{ animate: true }` (zombie-mermaid 5.16.0 and 5.17.0, core
+// dist/shared/index.d.ts MermaidEdge.id and .animate, and parses of both). A written id
+// is Mermaid's user-defined id; without one Mermaid generates `L_<start>_<end>_<n>`, which
+// the model does not keep (absent for that edge), and records isUserDefinedId false. An
+// unwritten animate is undefined in both.
+// `class S1 c` on a subgraph is recorded in the same classAssignments map, keyed by the
+// subgraph id (zombie-mermaid 5.17.0, beautiful-mermaid 1.1.3 and ascii-mermaid 0.1.0
+// parses; model-concept review 2026-11-14).
+function mermaidGraphView(name, { edgeIds = false } = {}) {
   return (graph, _project, hooks) => {
     const get = (map, key) => (map instanceof Map ? map.get(key) : undefined)
+    const assignedClasses = id => {
+      const assigned = get(graph.classAssignments, id)
+      if (typeof assigned === 'string' && /\s|,/.test(assigned)) return hooks.unavailable(`${name} class assignment of several classes`)
+      return assigned ? [assigned] : []
+    }
     const flat = []
     const walk = group => {
       const children = (group.children ?? []).map(child => (typeof child === 'string' ? undefined : child)).filter(Boolean)
@@ -325,17 +355,18 @@ function mermaidGraphView(name) {
           const start = edge.hasArrowStart ? headOf(edge.startMarker ?? 'arrow') : 'none', end = edge.hasArrowEnd ? headOf(edge.endMarker ?? 'arrow') : 'none'
           const type = edgeType(start, end) ?? (end === 'none' && start ? `${name}:start-only-${start}` : undefined)
           const style = graph.linkStyles instanceof Map ? styleStrings(get(graph.linkStyles, index)) : undefined
-          return { start: edge.source, end: edge.target, text: edge.label ?? '', type, stroke: strokeOf(edge.style), ...(graph.linkStyles instanceof Map ? { style: style.length ? style : undefined } : {}) }
+          const ids = !edgeIds ? {} : typeof edge.id === 'string' ? { id: edge.id, isUserDefinedId: true } : { isUserDefinedId: false, [VERTEX_ABSENT]: { id: `${name} keeps no generated edge id (Mermaid generates L_<start>_<end>_<n> for an edge written without one)` } }
+          return { start: edge.source, end: edge.target, text: edge.label ?? '', type, stroke: strokeOf(edge.style), ...(graph.linkStyles instanceof Map ? { style: style.length ? style : undefined } : {}), ...ids, ...(edgeIds ? { animate: typeof edge.animate === 'boolean' ? edge.animate : undefined } : {}) }
         }),
-      subgraphs: () => flat,
+      subgraphs: () => (graph.classAssignments instanceof Map ? flat.map(group => ({ ...group, classes: assignedClasses(group.id) })) : flat),
       direction: directionOf(graph.direction),
       absent: {
         vertex: {
           ...(graph.classAssignments instanceof Map ? {} : { classes: `${name}'s graph keeps no class assignments` }),
           ...(graph.interactions instanceof Map ? {} : { link: `${name}'s graph keeps no click links`, tooltip: `${name}'s graph keeps no tooltips` }),
         },
-        edge: { length: `${name}'s edge model keeps no link length`, id: `${name}'s edge model keeps no edge ids`, ...(graph.linkStyles instanceof Map ? {} : { style: `${name}'s graph keeps no link styles` }), interpolate: `${name}'s edge model keeps no curve`, animate: `${name}'s edge model keeps no animation` },
-        subgraph: { classes: `${name}'s subgraph model keeps no classes` },
+        edge: { length: `${name}'s edge model keeps no link length`, ...(edgeIds ? {} : { id: `${name}'s edge model keeps no edge ids`, animate: `${name}'s edge model keeps no animation` }), ...(graph.linkStyles instanceof Map ? {} : { style: `${name}'s graph keeps no link styles` }), interpolate: `${name}'s edge model keeps no curve` },
+        subgraph: graph.classAssignments instanceof Map ? {} : { classes: `${name}'s subgraph model keeps no classes` },
       },
     }
   }
@@ -421,7 +452,7 @@ const FLOWCHART = {
   'Latias94/merman': latiasGraph,
   'evangwt/xmermaid': xmermaidGraph,
   'Dicklesworthstone/frankenmermaid': frankenGraph,
-  'dfadler/zombie-mermaid': mermaidGraphView('zombie-mermaid'),
+  'dfadler/zombie-mermaid': mermaidGraphView('zombie-mermaid', { edgeIds: true }),
   'lukilabs/beautiful-mermaid': mermaidGraphView('beautiful-mermaid'),
   'kais-radwan/ascii-mermaid': mermaidGraphView('ascii-mermaid'),
 }
@@ -492,26 +523,35 @@ const CLASS = {
   }),
 }
 // zombie-mermaid ClassRelationship: type and markerAt ('from' | 'to' | 'both'). Realization
-// (..|>) and dependency (..>) are dotted by definition; the model has no line style for the
-// other types, and 'association' covers both a plain link (--) and an arrow (-->).
+// (..|>) and dependency (..>) are dotted by definition. beautiful-mermaid 1.1.3
+// (class/types.ts) and ascii-mermaid share the vocabulary without a line style for the other
+// types, and their 'association' covers both a plain link (--) and an arrow (-->).
+// zombie-mermaid 5.16.0 and 5.17.0 (mermaid-parser dist/shared/index.d.ts RelationshipType and
+// ClassRelationship.dashed) name a plain link 'link' and a dotted one 'dashed-link', so its
+// 'association' is the arrow (-->, Mermaid's DEPENDENCY end on a solid line), and record
+// `dashed` on a type that is solid by default (`A ..() B`); its parser rejects dotted
+// composition and aggregation (`*..`, `o..`). Model-concept review 2026-11-14.
 const ZOMBIE_RELATION = { inheritance: [1, 0], realization: [1, 1], composition: [2], aggregation: [0], dependency: [3, 1], lollipop: [4] }
-CLASS['dfadler/zombie-mermaid'] = raw => ({
+const ZOMBIE_5_16_RELATION = { ...ZOMBIE_RELATION, association: [3, 0], link: ['none', 0], 'dashed-link': ['none', 1] }
+const zombieClasses = (name, typed) => raw => ({
   classes: () => raw.classes.map(item => [item.id, { label: item.label, annotations: item.annotation ? [item.annotation] : item.annotations ?? [], members: item.attributes ?? [], methods: item.methods ?? [] }]),
   relations: () =>
     raw.relationships.map(rel => {
-      const [code, line] = ZOMBIE_RELATION[rel.type] ?? []
+      const [code, written] = (typed ? ZOMBIE_5_16_RELATION : ZOMBIE_RELATION)[rel.type] ?? []
+      const line = written ?? (typed && code !== undefined ? (rel.dashed ? 1 : 0) : undefined)
       const extra = { relationTitle1: card(rel.fromCardinality), relationTitle2: card(rel.toCardinality), ...(rel.label ? { title: rel.label } : {}) }
       if (code === undefined) return { id1: rel.from, id2: rel.to, ...extra }
       const relation = { type1: rel.markerAt === 'to' ? 'none' : code, type2: rel.markerAt === 'from' ? 'none' : code, ...(line !== undefined ? { lineType: line } : {}) }
-      if (line === undefined) Object.defineProperty(relation, LINE_ABSENT, { value: "zombie-mermaid's class relation has no line style for this type" })
+      if (line === undefined) Object.defineProperty(relation, LINE_ABSENT, { value: `${name}'s class relation has no line style for this type` })
       return { id1: rel.from, id2: rel.to, relation, ...extra }
     }),
-  absent: { relation: { relation: "zombie-mermaid records a plain link (--) and an arrow (-->) as the same 'association'" } },
+  absent: { relation: { relation: `${name} records a plain link (--) and an arrow (-->) as the same 'association'` } },
 })
+CLASS['dfadler/zombie-mermaid'] = zombieClasses('zombie-mermaid', true)
 // beautiful-mermaid 1.1.3 class/types.ts: the same ClassRelationship vocabulary (markerAt
-// 'from' | 'to', no lollipop) and no class notes.
-CLASS['lukilabs/beautiful-mermaid'] = raw => CLASS['dfadler/zombie-mermaid'](raw)
-CLASS['kais-radwan/ascii-mermaid'] = raw => CLASS['dfadler/zombie-mermaid'](raw)
+// 'from' | 'to', no lollipop, no link types, no dashed flag) and no class notes.
+CLASS['lukilabs/beautiful-mermaid'] = zombieClasses('beautiful-mermaid', false)
+CLASS['kais-radwan/ascii-mermaid'] = zombieClasses('ascii-mermaid', false)
 // XMermaid class: members are one display list and relations are normalized child -> parent.
 CLASS['evangwt/xmermaid'] = raw => ({
   classes: () => raw.classes.map(item => [item.id, { label: item.label }]),
@@ -832,7 +872,8 @@ const C4 = {
   'dfadler/zombie-mermaid': raw => {
     const parentOf = {}, flat = []
     const walk = (group, parent) => {
-      flat.push({ alias: group.alias, label: text(group.label), type: { text: group.type ?? 'system' }, parentBoundary: parent })
+      // zombie-mermaid records every boundary's type, already in Mermaid's spelling.
+      flat.push({ alias: group.alias, label: text(group.label), type: { text: group.type }, parentBoundary: parent })
       for (const alias of group.elementAliases ?? []) parentOf[alias] = group.alias
       for (const child of group.children ?? []) walk(child, group.alias)
     }
@@ -1298,9 +1339,13 @@ const AST_VIEWS = { 'crabtalk/bezel': PORT_AST, 'Latias94/merman': PORT_AST, 'ob
 // (padding, look, compiled styles, colour slots, curve defaults, minimum widths, edge CSS
 // and arrowhead styles, collapsed-subgraph metadata) are not the candidate's to supply, so
 // reading them is unsupported.
-const LAYOUT_RENDERER_ONLY = Object.fromEntries(['padding', 'look', 'cssCompiledStyles', 'labelStyle', 'colorIndex', 'minWidth', 'curve', 'arrowheadStyle', 'metadata', 'width', 'height', 'rx', 'ry'].map(field => [field, "Mermaid's renderer decides this layout field; it is not part of a parse result"]))
+const LAYOUT_RENDERER_ONLY = Object.fromEntries(['padding', 'look', 'cssCompiledStyles', 'labelStyle', 'colorIndex', 'minWidth', 'curve', 'arrowheadStyle', 'metadata', 'width', 'height', 'rx', 'ry', 'stepDuration', 'showStepNumber'].map(field => [field, "Mermaid's renderer decides this layout field; it is not part of a parse result"]))
 const LAYOUT_NODE_FIELDS = ['id', 'label', 'labelType', 'parentId', 'cssStyles', 'cssClasses', 'dir', 'domId', 'link', 'linkTarget', 'tooltip', 'icon', 'pos', 'img', 'assetWidth', 'assetHeight', 'constraint', 'isGroup', 'shape']
-const LAYOUT_EDGE_FIELDS = ['id', 'isUserDefinedId', 'start', 'end', 'type', 'label', 'labelType', 'labelpos', 'thickness', 'minlen', 'classes', 'arrowTypeStart', 'arrowTypeEnd', 'style', 'pattern', 'animate', 'animation']
+// A step edge's step and stepCount (FlowDB getData: the largest positive-integer step) come
+// from the written `e1@{ step: n }`; they are read only from an edge record that keeps a
+// step, so a model that drops steps leaves them unmapped rather than silently absent.
+const LAYOUT_EDGE_FIELDS = ['id', 'isUserDefinedId', 'start', 'end', 'type', 'label', 'labelType', 'labelpos', 'thickness', 'minlen', 'classes', 'arrowTypeStart', 'arrowTypeEnd', 'style', 'pattern', 'animate', 'animation', 'step', 'stepCount']
+const isStepEdge = edge => Number.isInteger(edge.step) && edge.step > 0
 // A port that keeps Mermaid's own vertex records leaves `type` out for an undeclared shape,
 // exactly as Mermaid does; for any other model a missing type stays unmapped.
 const layoutShape = (vertex, mermaidVocabulary) => {
@@ -1348,8 +1393,11 @@ export function flowchartLayoutData(view, hooks, project) {
         shape: () => (isGroup ? 'rect' : layoutShape(vertex, mermaidVocabulary)),
       })))
     }
+    const keptStep = edge => typeof edge === 'object' && edge !== null && Object.keys(edge).includes('step')
+    const stepCount = () => edges.reduce((max, edge) => (keptStep(edge) && isStepEdge(edge) ? Math.max(max, edge.step) : max), 0)
     const layoutEdges = edges.map((edge, index) =>
       record(lazy({ start: edge.start, end: edge.end, labelpos: 'c' }, {
+        ...(keptStep(edge) && isStepEdge(edge) ? { step: () => edge.step, stepCount } : {}),
         id: () => ('id' in edge && edge.id ? edge.id : `L_${edge.start}_${edge.end}_${index}`), isUserDefinedId: () => edge.isUserDefinedId, type: () => edge.type ?? 'normal',
         label: () => edge.text, labelType: () => edge.labelType, thickness: () => edge.stroke, minlen: () => edge.length,
         classes: () => (edge.stroke === 'invisible' ? '' : 'edge-thickness-normal edge-pattern-solid flowchart-link'),

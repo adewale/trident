@@ -103,17 +103,24 @@ test('Ondine has no model, and an AST view claims only what a resolved database 
   expect(tree.nodes[1].classAnnotation).toBe('hl')
 })
 
-test('zombie-mermaid: crow\'s-foot words map to Mermaid cardinalities; an association is not a recorded marker', () => {
+test('zombie-mermaid: crow\'s-foot words map to Mermaid cardinalities; beautiful-mermaid\'s association is not a recorded marker', () => {
   const { hooks, log } = verdicts()
   const er = nativeSchemaView('dfadler/zombie-mermaid', 'er', { entities: [{ id: 'A', label: 'A', attributes: [] }, { id: 'B', label: 'B', attributes: [] }], relationships: [{ entity1: 'A', entity2: 'B', cardinality1: 'one', cardinality2: 'zero-many', label: 'has', identifying: false }] }, hooks)
   expect(er.getRelationships()[0].relSpec).toEqual({ cardA: 'ZERO_OR_MORE', cardB: 'ONLY_ONE', relType: 'NON_IDENTIFYING' })
-  const cls = nativeSchemaView('dfadler/zombie-mermaid', 'class', { classes: [], relationships: [{ from: 'A', to: 'B', type: 'realization', markerAt: 'to' }, { from: 'C', to: 'D', type: 'association', markerAt: 'to' }, { from: 'E', to: 'F', type: 'composition', markerAt: 'from' }] }, hooks)
+  const relationships = [{ from: 'A', to: 'B', type: 'realization', markerAt: 'to' }, { from: 'C', to: 'D', type: 'association', markerAt: 'to' }, { from: 'E', to: 'F', type: 'composition', markerAt: 'from' }]
+  // zombie-mermaid 5.16+ names -- 'link', so its 'association' is -->; a type solid by default is solid unless `dashed`.
+  const cls = nativeSchemaView('dfadler/zombie-mermaid', 'class', { classes: [], relationships }, hooks)
   const [realization, association, composition] = cls.getRelations()
   expect(realization.relation).toEqual({ type1: 'none', type2: cls.relationType.EXTENSION, lineType: cls.lineType.DOTTED_LINE })
-  expect(() => association.relation).toThrow('unsupported')
-  expect(log.at(-1)).toContain("same 'association'")
-  expect(composition.relation.type1).toBe(cls.relationType.COMPOSITION)
-  expect(() => composition.relation.lineType).toThrow('unsupported')
+  expect(association.relation).toEqual({ type1: 'none', type2: cls.relationType.DEPENDENCY, lineType: cls.lineType.LINE })
+  expect(composition.relation).toEqual({ type1: cls.relationType.COMPOSITION, type2: 'none', lineType: cls.lineType.LINE })
+  // beautiful-mermaid's 'association' covers -- and -->, and it keeps no line style for composition.
+  const beautiful = nativeSchemaView('lukilabs/beautiful-mermaid', 'class', { classes: [], relationships }, hooks).getRelations()
+  expect(() => beautiful[1].relation).toThrow('unsupported')
+  expect(log.at(-1)).toBe("unsupported: beautiful-mermaid records a plain link (--) and an arrow (-->) as the same 'association'")
+  expect(beautiful[2].relation.type1).toBe(cls.relationType.COMPOSITION)
+  expect(() => beautiful[2].relation.lineType).toThrow('unsupported')
+  expect(log.at(-1)).toBe("unsupported: beautiful-mermaid's class relation has no line style for this type")
 })
 
 test('XMermaid: exactly_one is ONLY_ONE, and normalized class relations are unsupported', () => {
@@ -218,7 +225,7 @@ test('C4 views: Mermaid shape types, the global boundary, and what each model ke
   const zombie = nativeSchemaView('dfadler/zombie-mermaid', 'c4', {
     variant: 'container',
     elements: [{ alias: 'web', kind: 'container', shape: 'default', external: false, label: 'Web', technology: 'React', description: 'UI' }, { alias: 'db', kind: 'container', shape: 'db', external: true, label: 'DB' }, { alias: 'p', kind: 'person', shape: 'default', external: false, label: 'P' }],
-    boundaries: [{ alias: 'sb', label: 'Sys', type: 'SYSTEM', elementAliases: ['web'], children: [{ alias: 'in', label: 'In', elementAliases: ['db'], children: [] }] }],
+    boundaries: [{ alias: 'sb', label: 'Sys', type: 'SYSTEM', elementAliases: ['web'], children: [{ alias: 'in', label: 'In', type: 'system', elementAliases: ['db'], children: [] }] }],
     relationships: [{ from: 'p', to: 'web', label: 'Uses', bidirectional: false, layout: 'up' }, { from: 'web', to: 'db', label: 'Reads', bidirectional: false, reversed: true, technology: 'SQL' }],
   }, hooks)
   expect(zombie.getC4Type()).toBe('C4Container')

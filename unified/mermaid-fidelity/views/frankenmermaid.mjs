@@ -1,4 +1,5 @@
-// Reviewed schema views for Frankenmermaid 0.4.0 (Dicklesworthstone/frankenmermaid).
+// Reviewed schema views for Frankenmermaid 0.4.0 and 0.5.0 (Dicklesworthstone/frankenmermaid);
+// views/reviewed-versions.mjs records what was compared for 0.5.0.
 //
 // Its Rust/WASM parse() returns one IR for every family: `diagram_type` names the family
 // the parser recognised, `nodes` (id, label index into `labels`, NodeShape word, classes),
@@ -174,8 +175,12 @@ function state(ir, hooks) {
   const composite = new Set(groups.filter(group => !/^__state_region_\d+$/.test(group.key)).map(group => group.key))
   const nested = new Set(groups.flatMap(group => group.members ?? []))
   // Mermaid's id for a pseudo-state is its document ('root' or the composite) + _start/_end.
+  // From 0.5.0 a start or end inside a later concurrency region is its own node, suffixed
+  // `___region_<n>`; Mermaid names it after the region's generated divider document id,
+  // which the IR does not keep.
   const idOf = index => {
     const id = ir.nodes[index].id, pseudo = STATE_PSEUDO.exec(id)
+    if (pseudo && /___region_\d+$/.test(pseudo[2] ?? '')) return hooks.unsupported(`${NAME} keeps a concurrency region's ${pseudo[1]} state without Mermaid's divider document id`)
     return pseudo ? `${pseudo[2] ?? 'root'}_${pseudo[1]}` : id
   }
   const refs = target => (ir.style_refs ?? []).filter(ref => ref.target && typeof ref.target === 'object' && Object.keys(ref.target)[0] === target)

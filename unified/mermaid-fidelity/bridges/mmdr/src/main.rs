@@ -96,14 +96,29 @@ const KINDS: [&str; 23] = [
 /// The message parse_mermaid bails with when its detector finds no diagram header.
 const NO_HEADER: &str = "unknown or missing Mermaid diagram header";
 
+/// A family is answered by what mmdr's own public `parse_mermaid` does with the source.
+/// For a family its DiagramKind has no variant for (railroad, treeview, venn, ...), its
+/// detector either finds no header or, when the first line looks like flowchart edges,
+/// falls back to Flowchart (parser.rs detect_diagram_kind): the kind it parsed, or its own
+/// refusal, is the native observation (outcome-kinds.ts NATIVE_OBSERVED). A rejection by
+/// whichever parser it chose is not a verdict on the requested family, so it is reported as
+/// mmdr declining the source, never as that family's syntax error. Mermaid's cross-family
+/// `<shared>` request is not a family mmdr could parse.
 fn run(family: &str, source: &str) -> Reply {
-    if !KINDS.iter().any(|kind| family_matches(kind, family)) {
+    let known = KINDS.iter().any(|kind| family_matches(kind, family));
+    if !known && family == "<shared>" {
         return Reply::Unsupported(format!("mmdr has no {family} parser (its DiagramKind has no such variant)"));
     }
     match mermaid_rs_renderer::parse_mermaid(source) {
         Err(error) => {
             let message = format!("{error:#}");
-            if message == NO_HEADER { Reply::Unsupported(message) } else { Reply::ParseError(message) }
+            if message == NO_HEADER {
+                Reply::Unsupported(message)
+            } else if !known {
+                Reply::Unsupported(format!("mmdr declined this source (its DiagramKind has no {family} variant; parse_mermaid failed: {message})"))
+            } else {
+                Reply::ParseError(message)
+            }
         }
         Ok(output) => {
             let kind = output.graph.kind.to_json();

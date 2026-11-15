@@ -8,8 +8,9 @@ import { projectPublicDatabase } from '../upstream-fidelity-projection.mjs'
 import { persistentBridge } from './bridge-client.mjs'
 import { nativeAstView, mermaidConstants } from './schema-views.mjs'
 import { importFamily } from './namespace.mjs'
-import { parseAgenticSource, agenticDiagnostic } from './agentic-parser.mjs'
-import { agenticRenderer } from './agentic-renderer.ts'
+import { parseAgenticSource } from './agentic-parser.mjs'
+import { unsupportedKind, type UnsupportedKind, type UnsupportedProvenance } from './outcome-kinds.ts'
+import { unboundNativeCapability } from './native-capabilities.mjs'
 
 const job = JSON.parse(readFileSync(process.env.TRIDENT_FIDELITY_JOB!, 'utf8'))
 // Parallel test files run in separate worker processes; each appends to its own part.
@@ -24,6 +25,7 @@ const configKeys = (value: any) => Object.keys(value ?? {}).filter(key => key !=
 /** Candidate parse calls see the configuration in effect; one without a configuration interface is a gap. */
 function configuredCall() {
   if (!hostConfig || !configKeys(hostConfig).length) return undefined
+  touch('host-config')
   if (job.target.configInterface) return hostConfig
   return gap(`Host configuration in effect for this parse (${configKeys(hostConfig).join(', ')}); the candidate's interface takes source text only`)
 }
@@ -33,18 +35,94 @@ let api: any,
   definitions = new Map<string, any>(),
   configurations: any,
   language: any
-let active: { protocol: string; expectedFailure: boolean; id: string; file: string; name: string; fullName: string; index: number; gaps: Set<string>; calls: number; rejections: number; unsupported: string[]; faults: string[] } | undefined
+let active: { protocol: string; expectedFailure: boolean; id: string; file: string; name: string; fullName: string; index: number; gaps: Set<string>; calls: number; rejections: number; unsupported: string[]; unsupportedKinds: UnsupportedKind[]; faults: string[]; surfaces?: Set<Surface>; source?: string; refusedSources?: string[] } | undefined
+/** Mermaid surfaces other than parsing a source and reading its model that a test touched
+ * (scoring.ts scopes them out): its database methods called, spied on or inspected
+ * directly; the parser -> database call protocol; helper and module exports; host
+ * configuration supplied outside the source; renderers and styles; Mermaid's own
+ * detection pipeline. Recorded where the binding is reached, whether or not this
+ * candidate binds it, so the record describes the test rather than the candidate. */
+export type Surface = 'database-api' | 'parser-protocol' | 'helper-import' | 'host-config' | 'renderer' | 'pipeline'
+function touch(surface: Surface | undefined) {
+  if (surface && active?.surfaces && !failureReport()) active.surfaces.add(surface)
+}
 const contexts = new Map<string, any>(),
   deferredValues = new WeakMap<object, string>(),
-  ownDatabases = new WeakSet<object>()
+  ownDatabases = new WeakSet<object>(),
+  // Mermaid's database module of a family (`import * as timelineDB from './timelineDb.js'`),
+  // bound to the candidate's own model like the module's getters, by its context.
+  databaseModules = new WeakMap<object, any>()
+/** Nesting of parser -> database calls being delivered to a test's database or spy. */
+let forwarding = 0
+/** The methods of a candidate's own database class along its prototype chain, each with
+ * the prototype that defines it. */
+function nativeMethods(nativeClass: any) {
+  const methods = new Map<string, object>()
+  for (let proto = typeof nativeClass === 'function' ? nativeClass.prototype : undefined; proto && proto !== Object.prototype; proto = Object.getPrototypeOf(proto))
+    for (const name of Object.getOwnPropertyNames(proto)) if (name !== 'constructor' && !methods.has(name) && typeof Object.getOwnPropertyDescriptor(proto, name)?.value === 'function') methods.set(name, proto)
+  return methods
+}
+/**
+ * The parser -> database protocol of a candidate whose parse result is an instance of its
+ * own database class (a port that keeps Mermaid's database records, such as Pele): its
+ * parser builds the model by calling that class's methods. While `run` parses, every
+ * outermost call the candidate's parser makes on a method that `receiver` accepts (a test's
+ * own `yy` database, or a spy the test installed on the database) is delivered to it too,
+ * with the candidate's own arguments, before the candidate's method runs. Nothing is
+ * translated or invented: the receiver sees the calls the candidate's parser made, and the
+ * candidate's own database still builds its model. Returns the delivered method names; with
+ * none, `run` is not called.
+ */
+function forwardNativeCalls<T>(nativeClass: any, receiver: (name: string) => ((...args: any[]) => unknown) | undefined, run: () => T): { forwarded: string[]; value?: T } {
+  const patched: [object, string, PropertyDescriptor][] = []
+  for (const [name, proto] of nativeMethods(nativeClass)) if (receiver(name)) patched.push([proto, name, Object.getOwnPropertyDescriptor(proto, name)!])
+  if (!patched.length) return { forwarded: [] }
+  let depth = 0
+  for (const [proto, name, descriptor] of patched) {
+    const original = descriptor.value
+    Object.defineProperty(proto, name, {
+      ...descriptor,
+      value: function (this: any, ...args: any[]) {
+        depth++
+        try {
+          if (depth === 1) {
+            forwarding++
+            try { receiver(name)?.(...args) } finally { forwarding-- }
+          }
+          return original.apply(this, args)
+        } finally {
+          depth--
+        }
+      },
+    })
+  }
+  try {
+    return { forwarded: patched.map(([, name]) => name), value: run() }
+  } finally {
+    for (const [proto, name, descriptor] of patched) Object.defineProperty(proto, name, descriptor)
+  }
+}
+const isMock = (value: any) => typeof value === 'function' && value._isMockFunction === true
+/** Record one unsupported verdict with its provenance (outcome-kinds.ts): the
+ * candidate's own refusal or result, a bridge's reply, or Trident's own assessment. */
+function recordUnsupported(reason: string, provenance: UnsupportedProvenance, audit = active) {
+  if (!audit) return
+  const kind = unsupportedKind(reason, provenance)
+  audit.unsupported.push(reason)
+  audit.unsupportedKinds.push(kind)
+  // The source the candidate refused, so the refusal can be checked against Mermaid's own parse.
+  if (kind === 'native' && audit.source !== undefined && audit.refusedSources && !audit.refusedSources.includes(audit.source)) audit.refusedSources.push(audit.source)
+}
 /** An operation the candidate's real interface does not offer. The candidate's
  * interface is parse(source) -> its own model; Mermaid's mutable database API and
- * jison callback protocol are not part of it. Recorded as a known nonpass. */
-function unsupportedOperation(reason: string): never {
+ * jison callback protocol are not part of it. Recorded as the raw 'unsupported'
+ * disposition; scoring leaves it unassessed unless evidence verifies it (verification.ts). Trident's judgement is a
+ * capability assessment unless `provenance` says the candidate's own code reported it. */
+function unsupportedOperation(reason: string, provenance: UnsupportedProvenance = 'trident'): never {
   // The verdict comes from the candidate's own interface, so it counts as exercised.
   if (active && !failureReport()) {
     active.calls++
-    active.unsupported.push(reason)
+    recordUnsupported(reason, provenance)
   }
   throw Error('Unsupported candidate operation: ' + reason)
 }
@@ -77,6 +155,15 @@ const RENDERER_LAYOUT: Record<string, Record<string, string>> = {
 }
 const CLEARS_ON_REJECTION = new Set(['usecase'])
 const mermaidDatabaseMember = (key: unknown) => typeof key === 'string' && (DATABASE_OPERATION.test(key) || DATABASE_API.has(key))
+/** Mermaid's database API (or, with no member, the jison callback protocol) is the
+ * candidate's unsupported operation, unless the capability review found that its public
+ * interface implements it natively: then it is a Trident gap until a binding calls it. */
+function absentDatabaseCapability(family: string, member: string | undefined, reason: string): never {
+  touch(member === undefined ? 'parser-protocol' : 'database-api')
+  const native = job.target.tool === 'mermaid' ? undefined : unboundNativeCapability(job.target.project, job.target.version, family, member)
+  if (native) return gap(native)
+  return unsupportedOperation(reason)
+}
 export class AdapterGap extends Error {}
 function gap(reason: string): never {
   if (!failureReport()) active?.gaps.add(reason)
@@ -93,12 +180,13 @@ function invokeParser(call: () => any) {
     throw error
   }
 }
-function deferred(reason: string): any {
+function deferred(reason: string, surface?: Surface): any {
   if (active && !failureReport()) active.gaps.add(reason)
+  touch(surface)
   const value = new Proxy(function () {}, {
     get(_t, key) {
       if (key === 'then' || key === 'asymmetricMatch' || key === 'toJSON') return undefined
-      return deferred(reason + '.' + String(key))
+      return deferred(reason + '.' + String(key), surface)
     },
     apply() {
       return gap(reason)
@@ -111,10 +199,10 @@ function deferred(reason: string): any {
   return value
 }
 /** A deferred value that records its gap only when used: read, compared or inspected.
- * Only Agentic renderer members absent from the candidate use it; database and
- * module namespace reads are rejected outright. */
+ * Only the unbound Mermaid Diagram renderer uses it; database and module namespace
+ * reads are rejected outright. */
 function untilUsed(reason: string): any {
-  const use = (key: unknown) => deferred(reason + (key === undefined ? '' : '.' + String(key)))
+  const use = (key: unknown) => deferred(reason + (key === undefined ? '' : '.' + String(key)), 'renderer')
   const value: any = new Proxy(function () {}, {
     get(_t, key) {
       if (key === 'then' || key === 'asymmetricMatch' || key === 'toJSON') return undefined
@@ -244,7 +332,7 @@ export function begin(task: any) {
   if (index === undefined) throw new AdapterGap('TRIDENT_ADAPTER_GAP: Callback is absent from the collected file')
   const names = [task.name]
   for (let suite = task.suite; suite; suite = suite.suite) if (suite.name) names.unshift(suite.name)
-  active = { protocol: job.target.tool === 'mermaid' ? 'pinned-source-control-v1' : 'native-operations-v2', expectedFailure: !!task.fails, id: task.id, file: task.file.filepath, index, name: names.join(' > '), fullName: names.join(' '), gaps: new Set(), calls: 0, rejections: 0, unsupported: [], faults: [] }
+  active = { protocol: job.target.tool === 'mermaid' ? 'pinned-source-control-v1' : 'native-operations-v2', expectedFailure: !!task.fails, id: task.id, file: task.file.filepath, index, name: names.join(' > '), fullName: names.join(' '), gaps: new Set(), calls: 0, rejections: 0, unsupported: [], unsupportedKinds: [], faults: [], surfaces: new Set(), refusedSources: [] }
   if (job.target.tool === 'mermaid') configurations?.reset?.()
   hostConfig = undefined
   const c = contexts.get(task.file.filepath)
@@ -255,14 +343,19 @@ export function begin(task: any) {
     const title = String(task.name)
     const selected = file.declarations.filter((d: any) => d.name === title || title.startsWith(d.name.split(/%[sdifjo#]|\$\w+/)[0]))
     const used = new Set<string>(selected.length ? [...selected.flatMap((d: any) => d.identifiers ?? []), ...(file.helperIdentifiers ?? [])] : (file.fileIdentifiers ?? []))
-    for (const [name, reason] of c.unavailableImports) if (used.has(name)) active.gaps.add('Unavailable imported value used by original test: ' + name + ' (' + reason + ')')
+    for (const [name, reason] of c.unavailableImports)
+      if (used.has(name)) {
+        active.gaps.add('Unavailable imported value used by original test: ' + name + ' (' + reason + ')')
+        touch(/^Native host configuration/.test(reason) ? 'host-config' : 'helper-import')
+      }
   }
 }
 export function finish(task: any) {
   if (!active || active.id !== task.id) throw new AdapterGap('TRIDENT_ADAPTER_GAP: Unbalanced test audit ownership')
   if (job.target.tool !== 'mermaid' && !active.calls && !active.unsupported.length) active.gaps.add('No candidate operation was exercised by this test')
-  const gaps = [...active.gaps]
-  appendFileSync(auditFile, JSON.stringify({ ...active, gaps }) + '\n')
+  const gaps = [...active.gaps], surfaces = [...(active.surfaces ?? [])].sort()
+  const { source: _source, ...record } = active
+  appendFileSync(auditFile, JSON.stringify({ ...record, gaps, surfaces }) + '\n')
   const reason = gaps.join('; ')
   active = undefined
   if (reason && task.result?.state !== 'skip') throw new AdapterGap('TRIDENT_ADAPTER_GAP: ' + reason)
@@ -282,14 +375,14 @@ function bridgeReply(stdout: string, family: string, label: string) {
   if (reply.adapterGap) return gap(reply.adapterGap)
   if (reply.candidateFault) return candidateFault(reply.candidateFault)
   if (reply.unsupported) {
-    active?.unsupported.push(reply.unsupported)
+    recordUnsupported(reply.unsupported, reply.native ? 'native' : 'bridge')
     throw Error(reply.unsupported)
   }
   if (reply.error) {
     const e = reply.error
     if (/^(?:TypeError|ReferenceError|RangeError)$/.test(e.name)) return candidateFault(e.name + ': ' + e.message)
     if (/Unsupported|UnknownDiagram/.test(e.name) || /unsupported diagram|unknown diagram|unrecognized diagram type|unsupported .*diagram type/i.test(e.message)) {
-      active?.unsupported.push(e.message)
+      recordUnsupported(e.message, 'native')
       throw Error(e.message)
     }
     if (!/^(?:ParseError|MermaidSyntaxError|MermaidParseError|SyntaxError)$/.test(e.name) && !/parse error|parsing failed|invalid (?:syntax|flowchart)|syntax error/i.test(e.message)) return gap('Unclassified native parser refusal: ' + e.message)
@@ -299,24 +392,55 @@ function bridgeReply(stdout: string, family: string, label: string) {
   if (reply.value?.kind && reply.value.diagram && reply.value.kind !== family) return gap('Native generic parser returned ' + reply.value.kind + '; requested ' + family + ' parser operation is not available')
   return reply.value?.kind && reply.value.diagram ? reply.value.diagram : reply.value
 }
+/** One request to the target's out-of-process bridge: its reply output, or a gap. */
+function bridgeOutput(request: Record<string, unknown>): string {
+  const [command, ...args] = job.target.bridge.command
+  if (job.target.bridge.persistent) {
+    // The same bridge, loaded once per test file and answering one request per line.
+    bridgeClient ??= persistentBridge(command, args, job.target.bridge.cwd, 10_000)
+    const reply = bridgeClient.call(request)
+    if (reply.failure) return gap('Parser bridge failed: ' + reply.failure)
+    return reply.line
+  }
+  // The project's own parser, in its own language, behind a per-call process.
+  const child = spawnSync(command, args, { input: JSON.stringify(request), cwd: job.target.bridge.cwd, encoding: 'utf8', timeout: 10_000, maxBuffer: 16 * 1024 * 1024 })
+  if (child.error || child.status !== 0) return gap('Parser bridge failed: ' + (child.error?.message ?? child.stderr.slice(0, 400)))
+  return child.stdout
+}
+let bridgeDatabase: { members?: Record<string, string[]>; failure?: string } | undefined
+/** The Mermaid database members a stateful bridge (bridges.ts `database`) binds for a
+ * family, or undefined for a target without one. Asked once per test file. */
+function bridgedMembers(family: string): { members: Set<string>; failure?: string } | undefined {
+  if (job.target.tool !== 'bridge' || !job.target.bridge.database) return undefined
+  if (!bridgeDatabase) {
+    // Describing the bridge is setup, not an operation of whichever test asks first.
+    const caseAudit = active
+    active = undefined
+    try {
+      bridgeDatabase = { members: bridgeReply(bridgeOutput({ describe: 'database' }), family, 'Parser bridge database description') }
+    } catch (error) {
+      bridgeDatabase = { failure: 'Parser bridge database description failed: ' + String((error as Error)?.message ?? error) }
+    } finally {
+      active = caseAudit
+    }
+  }
+  return { members: new Set(bridgeDatabase.members?.[family] ?? []), failure: bridgeDatabase.failure }
+}
+/** Whether a test's argument reaches a bridge as itself: JSON's own values only, so that
+ * no Map, Set, function, NaN or class instance is silently changed on the way. */
+function transportable(value: unknown): boolean {
+  if (value === null || value === undefined || typeof value === 'string' || typeof value === 'boolean') return true
+  if (typeof value === 'number') return Number.isFinite(value)
+  if (Array.isArray(value)) return value.every(transportable)
+  return typeof value === 'object' && Object.getPrototypeOf(value) === Object.prototype && Object.values(value as object).every(transportable)
+}
 function nativeParse(family: string, source: string) {
   active && active.calls++
+  if (active) active.source = source
+  // A shared test asks for Mermaid's cross-family detection, not a family parser.
+  if (family === '<shared>') touch('pipeline')
   const config = configuredCall()
-  if (job.target.tool === 'bridge' && job.target.bridge.persistent) {
-    // The same bridge, loaded once per test file and answering one request per line.
-    const [command, ...args] = job.target.bridge.command
-    bridgeClient ??= persistentBridge(command, args, job.target.bridge.cwd, 10_000)
-    const reply = bridgeClient.call({ family, source })
-    if (reply.failure) return gap('Parser bridge failed: ' + reply.failure)
-    return bridgeReply(reply.line, family, 'Parser bridge')
-  }
-  if (job.target.tool === 'bridge') {
-    // The project's own parser, in its own language, behind a per-call process.
-    const [command, ...args] = job.target.bridge.command
-    const child = spawnSync(command, args, { input: JSON.stringify({ family, source }), cwd: job.target.bridge.cwd, encoding: 'utf8', timeout: 10_000, maxBuffer: 16 * 1024 * 1024 })
-    if (child.error || child.status !== 0) return gap('Parser bridge failed: ' + (child.error?.message ?? child.stderr.slice(0, 400)))
-    return bridgeReply(child.stdout, family, 'Parser bridge')
-  }
+  if (job.target.tool === 'bridge') return bridgeReply(bridgeOutput({ family, source }), family, 'Parser bridge')
   if (job.target.tool === 'agentic') {
     try {
       const parsed = invokeParser(() => parseAgenticSource(api, family, source))
@@ -331,7 +455,7 @@ function nativeParse(family: string, source: string) {
       if (/^Candidate parser fault:/.test(String(error?.message))) throw error
       if (!/^(?:MermaidSyntaxError|MermaidParseError|ParseError|SyntaxError)$/.test(String(error?.name))) return gap('Unclassified Agentic source parser refusal: ' + String(error?.message ?? error))
       active && active.rejections++
-      throw family === 'agentflow' ? agenticDiagnostic(error, { unavailable: gap, unsupported: unsupportedOperation }) : error
+      throw error
     }
     if (typeof api.parseRegisteredMermaid !== 'function') return gap('Agentic no longer exports its editing parser and has no reviewed source parser for ' + family)
     const result = invokeParser(() => api.parseRegisteredMermaid(source))
@@ -343,7 +467,7 @@ function nativeParse(family: string, source: string) {
       throw Error(JSON.stringify(result.error))
     }
     if (['opaque', 'preserved'].includes(result.value.body.kind)) {
-      active?.unsupported.push('Actual native parse returned ' + result.value.body.kind)
+      recordUnsupported('Actual native parse returned ' + result.value.body.kind, 'native')
       throw Error('Native semantic support unavailable')
     }
     return { ...result.value.body, ...(result.value.meta?.title !== undefined ? { title: result.value.meta.title } : {}), ...(result.value.meta?.accessibility?.title !== undefined ? { accessibilityTitle: result.value.meta.accessibility.title } : {}), ...(result.value.meta?.accessibility?.descr !== undefined ? { accessibilityDescription: result.value.meta.accessibility.descr } : {}) }
@@ -431,7 +555,7 @@ function nativeParse(family: string, source: string) {
       const name = String(error?.name ?? ''),
         message = String(error?.message ?? error)
       if (/Unsupported|UnknownDiagram/.test(name) || /unsupported diagram|unknown diagram|unrecognized diagram type|unsupported .*diagram type/i.test(message)) {
-        active?.unsupported.push(message)
+        recordUnsupported(message, 'native')
         throw error
       }
       if (!/^(?:ParseError|MermaidSyntaxError|MermaidParseError|SyntaxError)$/.test(name) && !/parse error|parsing failed|invalid (?:syntax|flowchart)|syntax error/i.test(message)) return gap('Unclassified native parser refusal: ' + message)
@@ -446,7 +570,7 @@ function nativeParse(family: string, source: string) {
   } catch (error: any) {
     if (error instanceof AdapterGap) throw error
     if (error.code === 'unsupported-diagram') {
-      active?.unsupported.push(error.message)
+      recordUnsupported(error.message, 'native')
       throw error
     }
     if (!['syntax', 'semantic'].includes(error.code)) return gap('Unclassified native exception: ' + String(error))
@@ -513,7 +637,7 @@ function nativeAst(family: string, source: string): any {
 function projectView(family: string, raw: any) {
   if (raw == null) return {}
   try {
-    return projectPublicDatabase(job.target.tool, family, raw, (reason: string) => gap(reason), (reason: string) => unsupportedOperation(reason), job.target.project)
+    return projectPublicDatabase(job.target.tool, family, raw, (reason: string) => gap(reason), (reason: string) => unsupportedOperation(reason), job.target.project, job.target.version)
   } catch (error) {
     return gap('Native schema projection failed: ' + String(error))
   }
@@ -550,6 +674,8 @@ function context(family: string) {
     try {
       const initial = ['native', 'zombie', 'bridge'].includes(job.target.tool) ? undefined : nativeParse(family, examples[family] ?? family)
       if (initial?.constructor?.name !== 'Object') Constructor = initial?.constructor
+      // The candidate's own database class, whose methods its parser calls (forwardNativeCalls).
+      if (Constructor && typeof Constructor === 'function') c.nativeClass ??= Constructor
     } catch {
     } finally {
       active = caseAudit
@@ -560,35 +686,51 @@ function context(family: string) {
     // header-only diagram has no empty model, and such reads stay gaps.
     // A candidate that does not parse the family at all says so for the header-only
     // diagram too; reading that database is then its unsupported operation.
-    let empty: { raw?: any; unsupported?: string } | null | undefined, parsed = false
+    let empty: { raw?: any; unsupported?: string; native?: boolean } | null | undefined, parsed = false
     const emptyModel = () => {
       if (empty !== undefined) return empty
       const header = (examples[family] ?? '').split('\n')[0]
       const caseAudit = active
-      const probe: any = { gaps: new Set(), unsupported: [], faults: [], calls: 0, rejections: 0 }
+      const probe: any = { gaps: new Set(), unsupported: [], unsupportedKinds: [], faults: [], calls: 0, rejections: 0 }
       active = probe
       try {
         empty = header ? { raw: nativeParse(family, header) } : null
       } catch {
-        empty = probe.unsupported.length ? { unsupported: String(probe.unsupported[0]) } : null
+        empty = probe.unsupported.length ? { unsupported: String(probe.unsupported[0]), native: probe.unsupportedKinds[0] === 'native' } : null
       } finally {
         active = caseAudit
       }
       return empty
     }
+    // A stateful bridge's database (bridges.ts `database`): the candidate's own model, changed
+    // only by its own public methods. `history` is what this database holds: the parse it
+    // starts from and the member calls made on it since, which the bridge replays.
+    const bridged = bridgedMembers(family)
+    let history: object[] = []
     const clear = () => {
       raw = Constructor ? new Constructor() : undefined
       view = raw ? projectView(family, raw) : {}
       parsed = Boolean(Constructor)
+      history = []
     }
     clear()
+    const spiedMembers = () => [...(bridged?.members ?? [])].filter(name => Object.hasOwn(target, name) && isMock(target[name]))
     const target: any = Object.assign(Object.create(null), {
       clear,
       parse(source: string) {
         parsed = true
         try {
-          raw = nativeParse(family, source)
+          // A spy the test installed on this database (vi.spyOn(flowDb, 'setClickEvent'))
+          // observes the calls the candidate's own parser makes on its database class.
+          const spied = forwardNativeCalls(Constructor, name => (Object.hasOwn(target, name) && isMock(target[name]) ? target[name] : undefined), () => nativeParse(family, source))
+          raw = spied.forwarded.length ? spied.value : nativeParse(family, source)
           view = projectView(family, raw)
+          if (bridged) history = [{ parse: source }]
+          // A bridge's parser calls its own database methods out of process, where no spy
+          // can observe them: once the candidate has accepted the source, the spy's
+          // expectations are the parser -> database protocol.
+          const unobserved = spiedMembers()
+          if (unobserved.length) absentDatabaseCapability(family, undefined, `${family} parser calls on its database observed by a spy (${unobserved.join(', ')}; Mermaid's parser -> database protocol)`)
         } catch (error) {
           // usecase.chevrotain.ts clears publication on rejection. Stateless
           // candidate source parsers likewise publish no failed model; do not
@@ -599,6 +741,41 @@ function context(family: string) {
       },
     })
     const inspectDatabase = () => gap(family + ' native database namespace is not bound')
+    // A Mermaid database member the candidate's own database class implements. A test may
+    // spy on it: the spy then sees the calls the candidate's parser makes (target.parse), and
+    // a direct call reaches the candidate's method on this database.
+    const nativeMember = (key: unknown): boolean => typeof key === 'string' && mermaidDatabaseMember(key) && (nativeMethods(Constructor).has(key) || Boolean(bridged?.members.has(key)))
+    // A member call on a bridge's database: the bridge replays this database's history and
+    // then the call, on the candidate's own model. A database the test has not parsed into
+    // is a fresh one, which the bridge makes (bridges.ts `new`), unless the candidate does
+    // not parse the family at all.
+    const callBridged = (key: string, args: any[]) => {
+      if (!history.length) {
+        const model = emptyModel()
+        if (model?.unsupported) return unsupportedOperation(model.unsupported, model.native ? 'native' : 'trident')
+        history = [{ new: (examples[family] ?? '').split('\n')[0] }]
+      }
+      if (!transportable(args)) return gap(`${family} database ${key}: an argument is not a JSON value the bridge receives unchanged`)
+      active && active.calls++
+      const operation = { call: key, args }
+      const reply = bridgeReply(bridgeOutput({ family, database: [...history, operation] }), family, 'Parser bridge database')
+      history = [...history, operation]
+      raw = reply.model
+      view = projectView(family, raw)
+      parsed = true
+      // The candidate's own method raised this error; its database keeps what the method did.
+      if (reply.error) throw Error(String(reply.error.message))
+      return reply.result
+    }
+    const memberOf = (key: string) => (...args: any[]) => {
+      // While the candidate's parser drives its own database, the spy only observes the call.
+      if (forwarding) return undefined
+      if (bridged?.members.has(key)) return callBridged(key, args)
+      const value = view[key] ?? raw?.[key]
+      if (typeof value !== 'function') return unsupportedOperation(`${family} database ${key} (the candidate exposes a parser, not Mermaid's database API)`)
+      active && active.calls++
+      return value.apply(raw, args)
+    }
     const proxy: any = new Proxy(target, {
       ownKeys: inspectDatabase, getPrototypeOf: inspectDatabase, setPrototypeOf: inspectDatabase,
       isExtensible: inspectDatabase, preventExtensions: inspectDatabase,
@@ -608,8 +785,15 @@ function context(family: string) {
         if (key === 'getLogger' && typeof value === 'function') return true
         return inspectDatabase()
       },
-      defineProperty: inspectDatabase, deleteProperty: inspectDatabase,
+      defineProperty(t, key, descriptor) {
+        if (mermaidDatabaseMember(key)) touch('parser-protocol')
+        // vi.spyOn installs its spy (and later restores the member) by defining it.
+        if (nativeMember(key) && typeof descriptor.value === 'function') return Reflect.defineProperty(t, key, { configurable: true, enumerable: true, writable: true, value: descriptor.value })
+        return inspectDatabase()
+      },
+      deleteProperty: inspectDatabase,
       get(t, key: string) {
+        if (key !== 'setGen' && mermaidDatabaseMember(key)) touch('database-api')
         if (Object.hasOwn(t, key)) return t[key]
         if (Object.hasOwn(Object.prototype, key)) return gap(family + '.db.' + key)
         if (key === 'then') return undefined
@@ -624,10 +808,14 @@ function context(family: string) {
         const constants = job.target.tool === 'mermaid' ? undefined : mermaidConstants(job.target.project, family, false)
         if (constants && key in constants && !(key in view)) return constants[key]
         const layout = job.target.tool === 'mermaid' ? undefined : RENDERER_LAYOUT[family]?.[key]
-        if (layout) return unsupportedOperation(layout)
+        if (layout) {
+          touch('renderer')
+          return unsupportedOperation(layout)
+        }
+        if (typeof key === 'string' && bridged?.members.has(key)) return (...args: any[]) => callBridged(key, args)
         if (!parsed && raw === undefined && !(key in view) && typeof key === 'string') {
           const model = emptyModel()
-          if (model?.unsupported) return unsupportedOperation(model.unsupported)
+          if (model?.unsupported) return unsupportedOperation(model.unsupported, model.native ? 'native' : 'trident')
           if (model && /^get[A-Z]/.test(key)) {
             raw = model.raw
             try {
@@ -652,7 +840,8 @@ function context(family: string) {
         }
         // Reading Mermaid's database API (to call it, spy on it or check that it exists) is
         // an operation the candidate does not offer.
-        if (mermaidDatabaseMember(key)) return unsupportedOperation(`${family} database ${key} (the candidate exposes a parser, not Mermaid's database API)`)
+        if (bridged?.failure && mermaidDatabaseMember(key)) return gap(bridged.failure)
+        if (mermaidDatabaseMember(key)) return absentDatabaseCapability(family, key, `${family} database ${key} (the candidate exposes a parser, not Mermaid's database API)`)
         // typeof, truthiness and caught calls cannot prove a missing native member.
         // Reject the read itself, including during module setup.
         return gap(family + '.db.' + String(key))
@@ -661,11 +850,16 @@ function context(family: string) {
       // Mermaid database member checks the parser -> database call protocol, which a
       // candidate parser never drives, even when its own model has a same-named method.
       getOwnPropertyDescriptor(t, key) {
-        if (!(key in t) && key !== 'setGen' && mermaidDatabaseMember(key)) return unsupportedOperation(`${family} database ${String(key)} spied on or inspected (Mermaid's parser -> database protocol)`)
+        if (key !== 'setGen' && mermaidDatabaseMember(key)) touch('parser-protocol')
+        if (Object.hasOwn(t, key) && nativeMember(key)) return Reflect.getOwnPropertyDescriptor(t, key)
+        if (!(key in t) && nativeMember(key)) return { configurable: true, enumerable: true, writable: true, value: memberOf(String(key)) }
+        if (!(key in t) && key !== 'setGen' && mermaidDatabaseMember(key)) return absentDatabaseCapability(family, String(key), `${family} database ${String(key)} spied on or inspected (Mermaid's parser -> database protocol)`)
         return inspectDatabase()
       },
       has(t, key) {
-        if (!(key in t) && key !== 'setGen' && mermaidDatabaseMember(key)) return unsupportedOperation(`${family} database ${String(key)} spied on or inspected (Mermaid's parser -> database protocol)`)
+        if (key !== 'setGen' && mermaidDatabaseMember(key)) touch('database-api')
+        if (nativeMember(key)) return true
+        if (!(key in t) && key !== 'setGen' && mermaidDatabaseMember(key)) return absentDatabaseCapability(family, String(key), `${family} database ${String(key)} spied on or inspected (Mermaid's parser -> database protocol)`)
         return inspectDatabase()
       },
     })
@@ -678,10 +872,23 @@ function context(family: string) {
     yy: c.db,
     parse(source: string) {
       if (job.target.tool !== 'mermaid') {
-        // A test that installs its own yy object checks Mermaid's jison callback
-        // protocol; a candidate parser returns its model instead of driving that object.
-        if (!ownDatabases.has(c.parser.yy)) return unsupportedOperation(family + ' parser driving a caller-supplied database (Mermaid jison yy callback protocol)')
-        return c.parser.yy.parse(source)
+        const yy = c.parser.yy
+        if (ownDatabases.has(yy)) return yy.parse(source)
+        // Mermaid's own database module for this family (`timeline.yy = timelineDB`) is the
+        // database the module's getters read: the candidate's model, as for its other exports.
+        const bound = databaseModules.get(yy)
+        if (bound) return bound.db.parse(source)
+        if (yy && deferredValues.has(yy)) return gap(family + ' parser yy is an unbound value: ' + deferredValues.get(yy))
+        // A test that installs its own yy object (a mockDB of vi.fn members) checks the
+        // parser -> database calls. A candidate whose parser drives its own database class
+        // makes those calls; they reach the test's database as the candidate made them.
+        const delivered = forwardNativeCalls(c.nativeClass, name => (typeof yy?.[name] === 'function' ? (...args: any[]) => yy[name](...args) : undefined), () => nativeParse(family, source))
+        if (delivered.forwarded.length) return undefined
+        // Otherwise the candidate's own parser still decides whether it accepts the source:
+        // its refusal of the diagram type or its syntax rejection is its own outcome. An
+        // accepted parse returns the candidate's model and drives no database the test supplied.
+        nativeParse(family, source)
+        return absentDatabaseCapability(family, undefined, family + ' parser driving a caller-supplied database (Mermaid jison yy callback protocol)')
       }
       const definition = definitionFor(family, source)
       if (!definition) return gap(family + ': reference diagram unavailable')
@@ -712,7 +919,7 @@ function boundModule(read: (key: string | symbol) => any, c: any, locals: Record
     set: inspectUnbound, defineProperty: inspectUnbound, deleteProperty: inspectUnbound,
     get(_target, key) {
       if (namespace && key === 'then') return undefined
-      const resolved = read(key), result = resolved === missingExport ? deferred(source + '.' + String(key)) : resolved
+      const resolved = read(key), result = resolved === missingExport ? deferred(source + '.' + String(key), 'helper-import') : resolved
       const reason = (typeof result === 'object' && result) || typeof result === 'function' ? deferredValues.get(result) : undefined
       if (reason) {
         if (Object.hasOwn(locals, key)) c.unavailableImports.set(locals[String(key)], reason)
@@ -760,10 +967,12 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       configurations?.setSiteConfig?.(value)
     },
     getConfig() {
+      touch('host-config')
       if (job.target.tool !== 'mermaid' && active) return gap('Native host configuration getter is not bound')
       return configurations?.getConfig?.() ?? c.config
     },
     getSiteConfig() {
+      touch('host-config')
       if (job.target.tool !== 'mermaid' && active) return gap('Native site configuration getter is not bound')
       return configurations?.getSiteConfig?.() ?? c.config
     },
@@ -776,9 +985,9 @@ export function moduleFor(family: string, source: string, file: string, locals: 
   const setLogLevel = () => undefined
   if (/config\.js$/.test(source)) {
     const exports: Record<PropertyKey, any> = { ...config, default: config }
-    return bindDynamic(key => Object.hasOwn(exports, key) ? exports[key] : deferred('Native host configuration export is not bound: ' + String(key)))
+    return bindDynamic(key => Object.hasOwn(exports, key) ? exports[key] : deferred('Native host configuration export is not bound: ' + String(key), 'host-config'))
   }
-  if (/diagramAPI\.js$/.test(source)) return bind({ ...config, setLogLevel, get log() { return deferred('Logger side effects are not bound to the candidate') }, default: config })
+  if (/diagramAPI\.js$/.test(source)) return bind({ ...config, setLogLevel, get log() { return deferred('Logger side effects are not bound to the candidate', 'helper-import') }, default: config })
   // The public package registers every diagram at import; candidates need no registry.
   if (/diagram-orchestration\.js$/.test(source)) return bind({ addDiagrams: () => undefined })
   // A diagram module's `diagram` definition: the family's parser and database.
@@ -787,7 +996,7 @@ export function moduleFor(family: string, source: string, file: string, locals: 
       const definition = definitions.get(family)
       return bind({ diagram: definition ? { ...definition, parser: c.parser, db: c.db } : deferred(family + ': reference diagram unavailable') })
     }
-    return bind({ diagram: { parser: c.parser, db: c.db, get renderer() { return gap('Mermaid renderer module') }, get styles() { return gap('Mermaid diagram styles') } } })
+    return bind({ diagram: { parser: c.parser, db: c.db, get renderer() { touch('renderer'); return gap('Mermaid renderer module') }, get styles() { touch('renderer'); return gap('Mermaid diagram styles') } } })
   }
   if (/(?:^|\/)Diagram\.js$/.test(source)) {
     if (job.target.tool === 'mermaid')
@@ -806,7 +1015,10 @@ export function moduleFor(family: string, source: string, file: string, locals: 
     if (family === '<shared>')
       return bind({
         Diagram: {
-          fromText: () => unsupportedOperation("Diagram.fromText in a shared test (Mermaid's diagram detection, type ids and registry)"),
+          fromText: () => {
+            touch('pipeline')
+            return unsupportedOperation("Diagram.fromText in a shared test (Mermaid's diagram detection, type ids and registry)")
+          },
         },
       })
     return bind({
@@ -822,21 +1034,14 @@ export function moduleFor(family: string, source: string, file: string, locals: 
               db.parse(typeof text === 'string' ? text : text.raw)
             } catch {}
           else db.parse(typeof text === 'string' ? text : text.raw)
-          const renderer = job.target.tool === 'agentic' ? agenticRenderer(api, {
-            beforeCall: configuredCall,
-            called: () => { active && active.calls++ },
-            refused: () => { active && active.rejections++ },
-            fault: reason => { active?.faults.push(reason); throw Error('Candidate renderer fault: ' + reason) },
-            unavailable: gap,
-            missing: member => untilUsed('Native renderer does not expose Mermaid renderer member ' + member),
-            hasInlineTarget: id => typeof document !== 'undefined' && Boolean(document.getElementById(id)),
-          }) : undefined
-          return { type: family, db, parser: c.parser, renderer: renderer ?? untilUsed('Mermaid Diagram renderer is not bound to the candidate') }
+          // Fidelity compares parser models. No candidate's renderer is bound in Mermaid's
+          // renderer protocol, so a test that draws is a Trident binding gap for everyone.
+          return { type: family, db, parser: c.parser, renderer: untilUsed('Mermaid Diagram renderer is not bound to the candidate') }
         },
       },
     })
   }
-  if (/logger/.test(source)) return bind({ get log() { return deferred('Logger side effects are not bound to the candidate') }, setLogLevel })
+  if (/logger/.test(source)) return bind({ get log() { return deferred('Logger side effects are not bound to the candidate', 'helper-import') }, setLogLevel })
   if (/language\/index|language\/generated|language\/\w+\/module\.js$/.test(source)) {
     if (job.target.tool === 'mermaid')
       return bindDynamic(key => {
@@ -895,8 +1100,8 @@ export function moduleFor(family: string, source: string, file: string, locals: 
     }
     return bind({ default: parser, parser })
   }
-  if (/(?:[dD][bB]|[aA]st)\.js$|\/db\.js$/.test(source))
-    return bindDynamic(key => {
+  if (/(?:[dD][bB]|[aA]st)\.js$|\/db\.js$/.test(source)) {
+    const databaseModule = bindDynamic(key => {
       if (typeof key !== 'string' || Object.hasOwn(Object.prototype, key)) return undefined
       if (key === 'default' || key === 'db') return c.db
       if (/(?:DB|Db)$/.test(key))
@@ -909,6 +1114,12 @@ export function moduleFor(family: string, source: string, file: string, locals: 
         const value = c.db[key]
         // Bind only an observed getter, while reading the current parse on each call.
         if (job.target.tool !== 'mermaid' && /^get[A-Z]\w*$/.test(key) && typeof value === 'function') return (...args: any[]) => c.db[key](...args)
+        // An imported database operation is read once at import; its calls are what the test touches.
+        if (job.target.tool !== 'mermaid' && key !== 'setGen' && mermaidDatabaseMember(key) && typeof value === 'function')
+          return (...args: any[]) => {
+            touch('database-api')
+            return value(...args)
+          }
         return value
       } catch (error) {
         // Missing named imports can remain unused; direct database reads cannot.
@@ -916,6 +1127,9 @@ export function moduleFor(family: string, source: string, file: string, locals: 
         throw error
       }
     })
+    databaseModules.set(databaseModule, c)
+    return databaseModule
+  }
   if (/mermaidAPI/.test(source)) {
     if (job.target.tool !== 'mermaid') {
       // Mermaid's public parse() for this file's family is the candidate's own parser;

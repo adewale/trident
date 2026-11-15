@@ -1,0 +1,497 @@
+[
+  {
+    "project": "Latias94/merman",
+    "format": "svg",
+    "id": "docs/syntax/flowchart.md:1129",
+    "position": 665,
+    "family": "flowchart",
+    "tier": "T2 completes where reference fails",
+    "reason": "reference (Mermaid SVG) failed this accepted input"
+  },
+  {
+    "project": "Latias94/merman",
+    "format": "svg",
+    "id": "docs/syntax/zenuml.md:146",
+    "position": 1321,
+    "family": "zenuml",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "3 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "Latias94/merman",
+    "format": "svg",
+    "id": "docs/syntax/eventmodeling.md:402",
+    "position": 524,
+    "family": "eventmodeling",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "Latias94/merman",
+    "format": "svg",
+    "id": "docs/syntax/zenuml.md:254",
+    "position": 1329,
+    "family": "zenuml",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "3 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "Latias94/merman",
+    "format": "svg",
+    "id": "docs/syntax/gitgraph.md:600",
+    "position": 805,
+    "family": "gitgraph",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "Latias94/merman",
+    "format": "svg",
+    "id": "docs/syntax/sequenceDiagram.md:1137",
+    "position": 1048,
+    "family": "sequence",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "mermaid-js/mermaid",
+    "format": "svg",
+    "id": "docs/syntax/zenuml.md:146",
+    "position": 1321,
+    "family": "zenuml",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "3 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "mermaid-js/mermaid",
+    "format": "svg",
+    "id": "docs/syntax/eventmodeling.md:402",
+    "position": 524,
+    "family": "eventmodeling",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "mermaid-js/mermaid",
+    "format": "svg",
+    "id": "docs/config/setup/mermaid/interfaces/Mermaid.md:63",
+    "position": 62,
+    "family": "flowchart",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "mermaid-js/mermaid",
+    "format": "svg",
+    "id": "docs/syntax/gitgraph.md:600",
+    "position": 805,
+    "family": "gitgraph",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "mermaid-js/mermaid",
+    "format": "svg",
+    "id": "docs/syntax/sequenceDiagram.md:1137",
+    "position": 1048,
+    "family": "sequence",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "mermaid-js/mermaid",
+    "format": "svg",
+    "id": "docs/syntax/gantt.md:399",
+    "position": 773,
+    "family": "gantt",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "crabtalk/bezel",
+    "format": "svg",
+    "id": "docs/syntax/flowchart.md:1129",
+    "position": 665,
+    "family": "flowchart",
+    "tier": "T2 completes where reference fails",
+    "reason": "reference (Mermaid SVG) failed this accepted input"
+  },
+  {
+    "project": "crabtalk/bezel",
+    "format": "svg",
+    "id": "docs/syntax/eventmodeling.md:402",
+    "position": 524,
+    "family": "eventmodeling",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "crabtalk/bezel",
+    "format": "svg",
+    "id": "docs/syntax/eventmodeling.md:283",
+    "position": 513,
+    "family": "eventmodeling",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "crabtalk/bezel",
+    "format": "svg",
+    "id": "docs/config/setup/mermaid/interfaces/Mermaid.md:63",
+    "position": 62,
+    "family": "flowchart",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "crabtalk/bezel",
+    "format": "svg",
+    "id": "docs/syntax/gitgraph.md:600",
+    "position": 805,
+    "family": "gitgraph",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "crabtalk/bezel",
+    "format": "svg",
+    "id": "docs/syntax/sequenceDiagram.md:1137",
+    "position": 1048,
+    "family": "sequence",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "obsidianmd/pele",
+    "format": "svg",
+    "id": "docs/syntax/flowchart.md:1129",
+    "position": 665,
+    "family": "flowchart",
+    "tier": "T2 completes where reference fails",
+    "reason": "reference (Mermaid SVG) failed this accepted input"
+  },
+  {
+    "project": "obsidianmd/pele",
+    "format": "svg",
+    "id": "docs/syntax/eventmodeling.md:402",
+    "position": 524,
+    "family": "eventmodeling",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "obsidianmd/pele",
+    "format": "svg",
+    "id": "docs/syntax/eventmodeling.md:283",
+    "position": 513,
+    "family": "eventmodeling",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "obsidianmd/pele",
+    "format": "svg",
+    "id": "docs/config/setup/mermaid/interfaces/Mermaid.md:63",
+    "position": 62,
+    "family": "flowchart",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "obsidianmd/pele",
+    "format": "svg",
+    "id": "docs/syntax/gitgraph.md:600",
+    "position": 805,
+    "family": "gitgraph",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "obsidianmd/pele",
+    "format": "svg",
+    "id": "docs/syntax/sequenceDiagram.md:1137",
+    "position": 1048,
+    "family": "sequence",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "wevm/ondine",
+    "format": "svg",
+    "id": "docs/syntax/flowchart.md:1129",
+    "position": 665,
+    "family": "flowchart",
+    "tier": "T2 completes where reference fails",
+    "reason": "reference (Mermaid SVG) failed this accepted input"
+  },
+  {
+    "project": "wevm/ondine",
+    "format": "svg",
+    "id": "docs/syntax/eventmodeling.md:402",
+    "position": 524,
+    "family": "eventmodeling",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "wevm/ondine",
+    "format": "svg",
+    "id": "docs/syntax/eventmodeling.md:283",
+    "position": 513,
+    "family": "eventmodeling",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "wevm/ondine",
+    "format": "svg",
+    "id": "docs/config/setup/mermaid/interfaces/Mermaid.md:63",
+    "position": 62,
+    "family": "flowchart",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "wevm/ondine",
+    "format": "svg",
+    "id": "docs/syntax/gitgraph.md:600",
+    "position": 805,
+    "family": "gitgraph",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "wevm/ondine",
+    "format": "svg",
+    "id": "docs/syntax/sequenceDiagram.md:1137",
+    "position": 1048,
+    "family": "sequence",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "1jehuang/mermaid-rs-renderer",
+    "format": "svg",
+    "id": "docs/syntax/flowchart.md:1129",
+    "position": 665,
+    "family": "flowchart",
+    "tier": "T2 completes where reference fails",
+    "reason": "reference (Mermaid SVG) failed this accepted input"
+  },
+  {
+    "project": "1jehuang/mermaid-rs-renderer",
+    "format": "svg",
+    "id": "docs/syntax/zenuml.md:146",
+    "position": 1321,
+    "family": "zenuml",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "3 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "1jehuang/mermaid-rs-renderer",
+    "format": "svg",
+    "id": "docs/syntax/zenuml.md:254",
+    "position": 1329,
+    "family": "zenuml",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "3 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "1jehuang/mermaid-rs-renderer",
+    "format": "svg",
+    "id": "docs/syntax/zenuml.md:306",
+    "position": 1332,
+    "family": "zenuml",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "3 of 5 other top-6 projects failed it"
+  },
+  {
+    "project": "1jehuang/mermaid-rs-renderer",
+    "format": "svg",
+    "id": "docs/syntax/gitgraph.md:600",
+    "position": 805,
+    "family": "gitgraph",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "1jehuang/mermaid-rs-renderer",
+    "format": "svg",
+    "id": "docs/syntax/sequenceDiagram.md:1137",
+    "position": 1048,
+    "family": "sequence",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "Dicklesworthstone/frankenmermaid",
+    "format": "terminal",
+    "id": "docs/config/directives.md:106",
+    "position": 42,
+    "family": "other",
+    "tier": "T1 reference-rejected rendered",
+    "reason": "reference rejects this input; project rendered it"
+  },
+  {
+    "project": "Dicklesworthstone/frankenmermaid",
+    "format": "terminal",
+    "id": "docs/config/8.6.0_docs.md:82",
+    "position": 11,
+    "family": "flowchart",
+    "tier": "T1 reference-rejected rendered",
+    "reason": "reference rejects this input; project rendered it"
+  },
+  {
+    "project": "Dicklesworthstone/frankenmermaid",
+    "format": "terminal",
+    "id": "docs/syntax/flowchart.md:1129",
+    "position": 665,
+    "family": "flowchart",
+    "tier": "T2 completes where reference fails",
+    "reason": "reference (Mermaid SVG) failed this accepted input"
+  },
+  {
+    "project": "Dicklesworthstone/frankenmermaid",
+    "format": "terminal",
+    "id": "docs/syntax/zenuml.md:226",
+    "position": 1327,
+    "family": "zenuml",
+    "tier": "T3 only this project in group",
+    "reason": "no other top-3 terminal project completed it"
+  },
+  {
+    "project": "Dicklesworthstone/frankenmermaid",
+    "format": "terminal",
+    "id": "docs/syntax/venn.md:223",
+    "position": 1255,
+    "family": "venn",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 2 other top-3 projects failed it"
+  },
+  {
+    "project": "Dicklesworthstone/frankenmermaid",
+    "format": "terminal",
+    "id": "docs/syntax/wardley.md:30",
+    "position": 1256,
+    "family": "wardley",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 2 other top-3 projects failed it"
+  },
+  {
+    "project": "Dicklesworthstone/frankenmermaid",
+    "format": "terminal",
+    "id": "docs/syntax/classDiagram.md:1208",
+    "position": 437,
+    "family": "class",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 2 other top-3 projects failed it"
+  },
+  {
+    "project": "wevm/ondine",
+    "format": "terminal",
+    "id": "docs/syntax/flowchart.md:1129",
+    "position": 665,
+    "family": "flowchart",
+    "tier": "T2 completes where reference fails",
+    "reason": "reference (Mermaid SVG) failed this accepted input"
+  },
+  {
+    "project": "wevm/ondine",
+    "format": "terminal",
+    "id": "docs/syntax/venn.md:223",
+    "position": 1255,
+    "family": "venn",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 2 other top-3 projects failed it"
+  },
+  {
+    "project": "wevm/ondine",
+    "format": "terminal",
+    "id": "docs/syntax/wardley.md:30",
+    "position": 1256,
+    "family": "wardley",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 2 other top-3 projects failed it"
+  },
+  {
+    "project": "wevm/ondine",
+    "format": "terminal",
+    "id": "docs/syntax/classDiagram.md:1208",
+    "position": 437,
+    "family": "class",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 2 other top-3 projects failed it"
+  },
+  {
+    "project": "wevm/ondine",
+    "format": "terminal",
+    "id": "docs/syntax/gitgraph.md:600",
+    "position": 805,
+    "family": "gitgraph",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "wevm/ondine",
+    "format": "terminal",
+    "id": "docs/syntax/sequenceDiagram.md:1137",
+    "position": 1048,
+    "family": "sequence",
+    "tier": "T5 stratified fill",
+    "reason": "completed; distinct family fill"
+  },
+  {
+    "project": "fasouto/termaid",
+    "format": "terminal",
+    "id": "docs/config/8.6.0_docs.md:82",
+    "position": 11,
+    "family": "flowchart",
+    "tier": "T1 reference-rejected rendered",
+    "reason": "reference rejects this input; project rendered it"
+  },
+  {
+    "project": "fasouto/termaid",
+    "format": "terminal",
+    "id": "docs/syntax/flowchart.md:1129",
+    "position": 665,
+    "family": "flowchart",
+    "tier": "T2 completes where reference fails",
+    "reason": "reference (Mermaid SVG) failed this accepted input"
+  },
+  {
+    "project": "fasouto/termaid",
+    "format": "terminal",
+    "id": "docs/syntax/zenuml.md:270",
+    "position": 1330,
+    "family": "zenuml",
+    "tier": "T3 only this project in group",
+    "reason": "no other top-3 terminal project completed it"
+  },
+  {
+    "project": "fasouto/termaid",
+    "format": "terminal",
+    "id": "docs/syntax/classDiagram.md:855",
+    "position": 415,
+    "family": "class",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 2 other top-3 projects failed it"
+  },
+  {
+    "project": "fasouto/termaid",
+    "format": "terminal",
+    "id": "docs/syntax/zenuml.md:146",
+    "position": 1321,
+    "family": "zenuml",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 2 other top-3 projects failed it"
+  },
+  {
+    "project": "fasouto/termaid",
+    "format": "terminal",
+    "id": "docs/syntax/zenuml.md:254",
+    "position": 1329,
+    "family": "zenuml",
+    "tier": "T4 completes where a near peer fails",
+    "reason": "1 of 2 other top-3 projects failed it"
+  }
+]

@@ -5,8 +5,10 @@ retained SVG and terminal drawings. It invokes no renderer and collects no new
 timings. The current profile, `drawing-structure-v2`, qualifies flowchart, class,
 state, ER and sequence topology in SVG and terminal output, plus SVG quadrant
 point/caption box clearance. Other families and unsupported representations remain unassessed.
-These diagnostic axes are separate from the existing label benchmark and do not
-change its score or the equal-weight synthesis.
+`drawing:structure` is an optional diagnostic, not a benchmark. It never changes a
+Drawing Correctness, DaveBench or Mermaid Fidelity score, a rank or the
+equal-weight synthesis. The README lists it with the other
+[diagnostics](../README.md#diagnostics).
 
 ```sh
 bun commands.ts drawing:structure --run RETAINED_DRAWING_RUN --out FRESH_DIRECTORY
@@ -80,3 +82,41 @@ These are named geometric constraints, not an aesthetic ranking. Other charts,
 edge/node clearance, arbitrary graph families and
 terminal overlap still need qualified profiles. The report retains this missing
 work instead of presenting a partial profile as complete visual correctness.
+
+## Source obligations
+
+The same run writes `obligations.json` (profile `drawing-source-obligations-v1`):
+for every retained case row, the obligations its reviewed source contract
+requires, grouped into three categories, each passed, failed or unassessed.
+
+- **Relationships:** drawn edges, class and entity relations, transitions and
+  ordered messages, judged by the topology checks above (SVG painted routes,
+  markers and caption ownership; terminal relationship facts).
+- **Geometry:** group containment, chart values drawn as position or size, and
+  regression geometry. Admitted observers: SVG and terminal group containment,
+  SVG quadrant points and pie slice weights, SVG node overlap and edge/node
+  clearance from `layout:observe`, and the regression orthogonal-approach check.
+- **Layout:** explicitly required source order.
+
+Which obligations apply depends only on the case's source, so it is the same
+for every project and format. A category passes only when every applicable
+obligation in it passed, fails when any failed, and is otherwise unassessed. A
+failed prerequisite such as node ownership leaves a relationship unassessed,
+not failed. A renderer failure or inadmissible output fails every applicable
+obligation and is reported separately as "no drawing". Pie slice weights, the
+one observer admitted for this profile, has its own positive and negative
+controls, which run with every replay alongside controls for the other
+obligation observers.
+
+Still without an admitted observer, so unassessed: SVG xy, packet, gantt,
+journey and treemap geometry (gantt's duration check fails on Mermaid's own
+output), block grid placement, relationships in C4, architecture, gitgraph,
+mindmap and ZenUML, and all terminal chart geometry.
+
+`scripts/merge-drawing-results.ts --obligations obligations.json` attaches the
+per-lane summary to the published Drawing result, and `--reviews DIRECTORY`
+attaches bounded manual reviews (see
+[docs/evidence/drawing-reviews-2026-11-14](evidence/drawing-reviews-2026-11-14/)).
+`RESULTS.md` then shows both beside each Drawing format's league table, as
+alphabetical tables that are not rankings. Neither changes a label verdict, a
+count, a rank or the synthesis.

@@ -19,7 +19,7 @@ test('persistent terminal calls await the actual API, return only timing and out
     const ok = await worker.call('source', 'one', 2000), error = await worker.call('reject', 'two', 2000), empty = await worker.call('empty', 'three', 2000)
     expect(ok.outcome).toBe('completed'); expect(ok.ms).toBeGreaterThanOrEqual(15)
     expect(error.outcome).toBe('error'); expect(error.ms).toBeGreaterThanOrEqual(15)
-    expect(empty).toMatchObject({ outcome: 'invalid', invalid: 'empty output' }); expect(empty.ms).toBeGreaterThanOrEqual(15)
+    expect(empty).toMatchObject({ outcome: 'invalid', invalid: 'draws nothing' }); expect(empty.ms).toBeGreaterThanOrEqual(15)
     expect(Object.keys(ok).sort()).toEqual(['ms', 'outcome'])
   } finally { worker.close() }
 })
@@ -67,7 +67,7 @@ test('native terminal calls count exit status, admit only usable text, and kill 
   const errorText = await terminalCliCall({ ...artifact, args: ['-e', `process.stdin.resume();process.stdin.on('end',()=>{process.stdout.write('Error: unsupported diagram');process.exit(0)})`] }, 'source', root, 2000)
   expect(errorText).toMatchObject({ outcome: 'invalid', invalid: 'error message: unsupported diagram' })
   const silent = await terminalCliCall({ ...artifact, args: ['-e', `process.stdin.resume();process.stdin.on('end',()=>process.exit(0))`] }, 'source', root, 2000)
-  expect(silent).toMatchObject({ outcome: 'invalid', invalid: 'empty output' })
+  expect(silent).toMatchObject({ outcome: 'invalid', invalid: 'draws nothing' })
   const rejected = await terminalCliCall({ ...artifact, args: ['-e', 'process.exit(2)'] }, 'source', root, 2000)
   expect(rejected.outcome).toBe('error')
   const timeout = await terminalCliCall({ ...artifact, args: ['-e', 'setTimeout(()=>{},10000)'] }, 'source', root, 30)

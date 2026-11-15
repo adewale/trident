@@ -1,5 +1,8 @@
 import { campaignPlan, assertCampaignCoverage, planDigest } from './campaign-plan.ts'
-import { drawingAssessmentProfiles, drawingObserverSources, verifyDrawingObserver } from '../fidelity/drawing/observer-contract.ts'
+import { drawingAssessmentProfiles, drawingObserverSources, verifyDrawingObserver, verifyPngObserver } from '../fidelity/drawing/observer-contract.ts'
+import { assessPngLabels, pngDrawingLaneApplies, pngLabelProfile, pngReadingRecord, type PngReading } from '../fidelity/drawing/png-labels.ts'
+import { PngTextReader } from '../fidelity/drawing/png-reader.ts'
+import { NativePngDrawingWorker, verifiedDrawingBundle } from './drawing-native-png.ts'
 import { DrawingOutputStorageError, retainDrawingOutput, type RetainedDrawingOutput } from '../fidelity/drawing/retained-output.ts'
 import { atomicWrite, checkpointDue, reserveResultDirectory } from './result-storage.ts'
 import { readFileSync, writeFileSync, existsSync, mkdtempSync, rmSync } from 'node:fs'
@@ -20,6 +23,7 @@ import { communityDeclaresOutput, communityModuleOutputSupported } from './commu
 import { comparisonProjects } from './lineage.ts'
 import { assertBenchmarkExecutionAllowed } from '../ci-policy.ts'
 import { svgTextValidity, terminalTextValidity } from './davebench-validity.ts'
+import { assessmentFonts } from '../fidelity/drawing/assessment-fonts.ts'
 
 class InadmissibleOutput extends Error {}
 class InvocationTimeout extends Error {}
@@ -50,15 +54,22 @@ const nativeCall = async (artifact: any, source: string, format: string) => {
     if (temporary) rmSync(temporary, { recursive: true, force: true })
   }
 }
+const declaredFormats = (node: any) => ['svg', 'terminal', 'png'].filter(format => communityDeclaresOutput(node, format))
+const drawsFormat = (node: any, format: string) => format === 'png' ? pngDrawingLaneApplies(declaredFormats(node)) : communityDeclaresOutput(node, format)
+/** Selected projects whose PNG lane needs the sealed native drawing bundle. */
+export function pngLanesNeedingBundle(catalog: any, projects: readonly string[], formats: readonly string[]) {
+  if (!formats.includes('png')) return []
+  return projects.filter(project => { const node = catalog.nodes.find((node: any) => node.id === project); return node && node.benchmark?.adapter === 'native-flutter' && drawsFormat(node, 'png') })
+}
 export async function main(args = process.argv.slice(2)) {
   if (args.includes('--help')) {
-    console.log('drawing:correctness --prepared IMAGE_ARTIFACTS --terminal-prepared TERMINAL_ARTIFACTS --catalog FROZEN_CATALOG --out FRESH_DIR [--projects IDS] [--case ID_FRAGMENTS] [--formats svg,terminal]\nLabel assessment of SVG and terminal outputs, one per case/output. PNG is not part of Drawing Correctness. No timing repeats.')
+    console.log('drawing:correctness --prepared IMAGE_ARTIFACTS --terminal-prepared TERMINAL_ARTIFACTS --catalog FROZEN_CATALOG --out FRESH_DIR [--projects IDS] [--case ID_FRAGMENTS] [--formats svg,terminal,png] [--native-png-bundle SEALED_DRAWING_BUNDLE]\nLabel assessment of SVG, terminal and native PNG outputs, one per case/output. PNG applies only to projects whose own interface draws PNG and that have no SVG or terminal output; it is read by OCR under the ' + pngLabelProfile + ' profile, where an unread label is unknown. The native Flutter drawing bundle (native-flutter/build-drawing.sh) runs under a private Xvfb display. No timing repeats.')
     return
   }
   assertBenchmarkExecutionAllowed()
   const opts = new Map<string, string>()
   for (let i = 0; i < args.length; i += 2) {
-    if (!['--prepared', '--terminal-prepared', '--catalog', '--out', '--projects', '--case', '--formats'].includes(args[i]!) || !args[i + 1]) throw Error('Invalid drawing arguments')
+    if (!['--prepared', '--terminal-prepared', '--catalog', '--out', '--projects', '--case', '--formats', '--native-png-bundle'].includes(args[i]!) || !args[i + 1]) throw Error('Invalid drawing arguments')
     opts.set(args[i]!, args[i + 1]!)
   }
   for (const key of ['--prepared', '--terminal-prepared', '--catalog', '--out']) if (!opts.has(key)) throw Error('Missing ' + key)
@@ -67,9 +78,15 @@ export async function main(args = process.argv.slice(2)) {
   if (existsSync(out)) throw Error('Use a fresh result directory')
   const catalog = read(opts.get('--catalog')!),
     projects = comparisonProjects(catalog, opts.get('--projects')?.split(',') ?? catalog.nodes.map((n: any) => n.id)).included
-  const formats = opts.get('--formats')?.split(',') ?? ['svg', 'terminal']
-  if (formats.includes('png')) throw Error('PNG is not part of Drawing Correctness: OCR cannot read diagram labels reliably. Select svg and/or terminal')
-  if (formats.some(f => !['svg', 'terminal'].includes(f))) throw Error('Unknown drawing format')
+  const formats = opts.get('--formats')?.split(',') ?? ['svg', 'terminal', 'png']
+  if (formats.some(f => !['svg', 'terminal', 'png'].includes(f))) throw Error('Unknown drawing format')
+  // Verified before any directory is reserved: a changed or unsealed bundle collects nothing.
+  const pngBundle = formats.includes('png') && opts.has('--native-png-bundle') ? resolve(opts.get('--native-png-bundle')!) : undefined
+  const pngManifest = pngBundle ? verifiedDrawingBundle(pngBundle) : undefined
+  // Refused before collecting: a run without the bundle would record the lane as blocked,
+  // and merging it would replace published PNG results with that block.
+  const needsBundle = pngBundle ? [] : pngLanesNeedingBundle(catalog, projects, formats)
+  if (needsBundle.length) throw Error('The native PNG lane of ' + needsBundle.join(', ') + ' needs its sealed drawing bundle: supply --native-png-bundle native-flutter/app/build/drawing-bundle (built by native-flutter/build-drawing.sh), or leave PNG out with --formats svg,terminal')
   const images = read(opts.get('--prepared')!),
     terminals = read(opts.get('--terminal-prepared')!)
   const cases = drawingCases().filter(
@@ -86,9 +103,12 @@ export async function main(args = process.argv.slice(2)) {
   const contractSha256 = planDigest(cases.map(test => ({ id: test.id, source: test.source, expected: test.expected, sourceGaps: test.sourceGaps })))
   const assessmentProfiles = drawingAssessmentProfiles(formats), observerSources = drawingObserverSources(formats)
   const outputs: RetainedDrawingOutput[] = [], observerChecks: Record<string, unknown> = {}
+  // Which fonts judged the labels: SVG clipping and glyph proofs depend on them.
+  const fonts = assessmentFonts(), assessmentEnvironments = Object.fromEntries(formats.map(format => [format, { fonts }]))
   const lanes = projects.flatMap(project => {
     const node = catalog.nodes.find((node: any) => node.id === project)!
-    return formats.filter(format => communityDeclaresOutput(node, format)).map(format => {
+    return formats.filter(format => drawsFormat(node, format)).map(format => {
+      if (format === 'png') return { project, version: plannedBenchmarkVersion(node), format, ...(pngManifest && node.benchmark?.adapter === 'native-flutter' ? { operand: { bundleSha256: pngManifest.bundleSha256 } } : {}) }
       const peer = (format === 'svg' ? images : terminals).find((peer: any) => peer.node.id === project)
       let artifact = peer?.artifact
       if (format === 'svg' && peer) { try { artifact = latestBenchmarkRenderingArtifact(peer) } catch { artifact = undefined } }
@@ -103,6 +123,7 @@ export async function main(args = process.argv.slice(2)) {
   const rows: any[] = [],
     blocked: any[] = []
   const pythonRuntimes = new Map<string, ReturnType<typeof pythonRenderer>>()
+  const pngBindings: any[] = [], pngReader = formats.includes('png') ? new PngTextReader() : undefined
   // The collection's own times: published dates come from these, never from a later merge.
   const startedAt = new Date().toISOString()
   const save = (state = 'running', force = false) => {
@@ -121,15 +142,15 @@ export async function main(args = process.argv.slice(2)) {
       JSON.stringify(
         {
           benchmark: 'Drawing Correctness',
-          state, plan, assessmentPolicy: labelPolicy, assessmentProfiles, observerSources, observerChecks, outputs,
-          runtimeBindings: [...pythonRuntimes].map(([project, runtime]) => ({ project, format: 'terminal', binding: runtime.identity })),
+          state, plan, assessmentPolicy: labelPolicy, assessmentPolicies: Object.fromEntries(formats.map(format => [format, format === 'png' ? labelPolicy + '/' + pngLabelProfile : labelPolicy])), assessmentProfiles, observerSources, observerChecks, assessmentEnvironments, outputs,
+          runtimeBindings: [...[...pythonRuntimes].map(([project, runtime]) => ({ project, format: 'terminal', binding: runtime.identity })), ...pngBindings],
           startedAt,
           updatedAt: new Date().toISOString(),
           selection: opts.get('--case') ? 'functional subset' : 'full shared corpus',
           corpus: { cases: cases.length, ids: cases.map(c => c.id), contractSha256, seed: 'reviewed Terminal Drawing Facts, invalid controls excluded', regressions: 'corpus/drawing-regressions.json' },
           versionsFrozenAt: catalog.benchmarkVersionsCheckedAt,
-          method: 'Label assessment: SVG labels must pass browser visibility, canvas and clipping checks, or a bounded pixel comparison proving the complete original glyphs remain visible against their actual backdrop. Unsupported observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is not assessed.',
-          assessmentLimits: { invocationMs: 15000, svgObserverMs: 8000, terminalWorkerMs: 20000, terminalRectangleWork: terminalLabelWorkBudget, compileLabelPlan, labelPolicy },
+          method: 'Label assessment: SVG labels must pass browser visibility, canvas and clipping checks, or a bounded pixel comparison proving the complete original glyphs remain visible against their actual backdrop. Unsupported observations remain unassessed. Terminal labels retain their reading order, with wrapping joined within observed frames; a label found only as whole words wrapped across successive rows outside a frame has no established owner and is unknown, not missing. Clipping measured in a fallback face because the declared primary font is not installed is environment-dependent and unavailable, not failed; assessmentEnvironments records the fontconfig families that judged the run. Raw Mermaid syntax is rejected. Edges, arrow direction, layout and styling are not scored. PNG is assessed only for a project whose own interface draws PNG and that has no SVG or terminal output, under the weaker ' + pngLabelProfile + ' profile: a label-blind OCR reader must read every label whole in confident words for a pass; an unread label is unknown, never missing; raw syntax read confidently, a uniform raster or ink on an empty diagram fail; absence of raw syntax is observed, not proved.',
+          assessmentLimits: { pngWorkerMs: 15000, pngReaderMs: 180000, invocationMs: 15000, svgObserverMs: 8000, terminalWorkerMs: 20000, terminalRectangleWork: terminalLabelWorkBudget, compileLabelPlan, labelPolicy },
           rows,
           blocked,
         },
@@ -142,7 +163,8 @@ export async function main(args = process.argv.slice(2)) {
   const browser = await chromium.launch({ headless: true, executablePath: process.env.TRIDENT_CHROMIUM_EXECUTABLE ?? defaultChromium(chromium) })
   const assessmentContext = await browser.newContext({ javaScriptEnabled: false })
   await assessmentContext.route('**/*', route => route.abort())
-  for (const format of formats) observerChecks[format] = await verifyDrawingObserver(format, assessmentContext)
+  if (pngReader) await pngReader.start()
+  for (const format of formats) observerChecks[format] = format === 'png' ? await verifyPngObserver(assessmentContext, pngReader!) : await verifyDrawingObserver(format, assessmentContext)
   const bounded = async <T>(work: Promise<T>, label: string, ms = 8000): Promise<T> => {
     let timer: ReturnType<typeof setTimeout>
     try {
@@ -300,11 +322,43 @@ export async function main(args = process.argv.slice(2)) {
           await worker?.close()
         }
       } else if (formats.includes('terminal') && communityDeclaresOutput(node, 'terminal')) blocked.push({ project, format: 'terminal', reason: terminalPeer?.error ?? 'No prepared terminal artifact supplied' })
+      if (formats.includes('png') && drawsFormat(node, 'png')) {
+        const version = plannedBenchmarkVersion(node)
+        if (node.benchmark?.adapter !== 'native-flutter') blocked.push({ project, format: 'png', reason: 'No native PNG drawing binding for adapter ' + node.benchmark?.adapter })
+        else if (!pngBundle) blocked.push({ project, format: 'png', reason: 'No sealed native PNG drawing bundle supplied (--native-png-bundle)' })
+        else {
+          const worker = new NativePngDrawingWorker(pngBundle, pngManifest)
+          try {
+            for (const test of cases) {
+              console.log(project, test.id, 'PNG')
+              // A stopped worker gets one fresh start for the same input, as terminal workers do.
+              let result = await worker.call(test.source)
+              if (result.outcome === 'stopped') result = await worker.call(test.source)
+              if (result.outcome !== 'completed') {
+                rows.push({ project, version, format: 'png', caseId: test.id, status: result.outcome === 'invalid' ? 'invalid-format' : 'renderer-failure', reason: (result.outcome === 'invalid' ? 'Inadmissible PNG output: ' : result.outcome === 'timeout' ? 'Renderer timed out: ' : result.outcome === 'stopped' ? 'Renderer process stopped on this input, also in a fresh worker: ' : '') + result.reason.slice(0, 400) })
+                save()
+                continue
+              }
+              outputs.push(retainDrawingOutput(out, project, test, 'png', result.png))
+              const reading: PngReading = await pngReader!.read(result.png)
+              const assessed = assessPngLabels(test, reading, labelPlans.get(test.id))
+              rows.push({ project, version, format: 'png', caseId: test.id, status: assessed.status, reason: assessed.reason, leaked: assessed.leaked, reading: pngReadingRecord(reading) })
+              save()
+            }
+            if (planDigest(verifiedDrawingBundle(pngBundle)) !== planDigest(pngManifest)) throw Error('Native drawing bundle changed during collection')
+            pngBindings.push({ project, format: 'png', binding: { bundleSha256: pngManifest.bundleSha256, target: pngManifest.target, sdk: pngManifest.sdk, worker: worker.identity, boundary: 'mermaid_flutter.renderToPng(source, pixelRatio: 1) in the sealed release drawing target under a private Xvfb display; in-app PNG admission as DaveBench', reader: pngReader!.identity } })
+          } catch (error) {
+            if (error instanceof DrawingOutputStorageError) throw error
+            blocked.push({ project, format: 'png', reason: String(error).slice(0, 400) })
+          } finally { await worker.close() }
+        }
+      }
       save('running', true)
     }
     for (const runtime of pythonRuntimes.values()) runtime.assertUnchanged()
     save('complete')
   } finally {
+    await pngReader?.close()
     await assessmentContext.close()
     await browser.close()
   }

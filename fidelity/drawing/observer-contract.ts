@@ -3,13 +3,20 @@ import { evidenceBytesDigest, evidenceDigest } from '../../portable/evidence-con
 import type { DrawingCase } from './corpus.ts'
 import { assessSvgLabels, assessTerminalLabels, labelPolicy, terminalLabelWorkBudget } from './labels.ts'
 import { svgLabelProfile } from './svg-label-observer.ts'
+import { assessPngLabels, pngControlCanvas, pngControlCase, pngControls, pngLabelProfile, pngWordConfidence } from './png-labels.ts'
+import type { PngTextReader } from './png-reader.ts'
 
 const controls = [
   { name: 'visible-label', text: 'Alpha', status: 'correct' },
   { name: 'missing-label', text: 'Beta', status: 'incorrect' },
   { name: 'source-leak', text: 'Alpha flowchart LR A[Alpha]', status: 'incorrect' },
 ] as const
-interface Control { name: string; text: string; status: 'correct' | 'incorrect'; label?: string; hidden?: boolean }
+interface Control { name: string; text: string; status: 'correct' | 'incorrect' | 'unknown'; label?: string; hidden?: boolean }
+/** A label wrapped across rows outside a walled box has no established owner. */
+const terminalControls: readonly Control[] = [
+  { name: 'wrapped-unwalled-label', label: 'first pointerenter or focus', text: 'A --- first pointerenter or ---> B\n            focus', status: 'unknown' },
+  { name: 'wrapped-label-word-absent', label: 'first pointerenter or focus', text: 'A --- first pointerenter or ---> B\n            blur', status: 'incorrect' },
+]
 const svgControlLabels: readonly Control[] = [
   { name: 'sanitized-control-label', label: '\u001b[31mAlpha', text: 'Alpha', status: 'correct' },
   { name: 'wrong-sanitized-control-label', label: '\u001b[31mAlpha', text: 'Beta', status: 'incorrect' },
@@ -26,13 +33,37 @@ const htmlControls = [
   { name: 'html-font-box-overflow', height: 18, status: 'correct' },
   { name: 'html-clipped-glyphs', height: 12, status: 'incorrect' },
 ] as const
+/** A clipped label whose declared face is missing here was measured in a fallback face. */
+const fontControls = [
+  { name: 'absent-font-clipping-environment-dependent', family: '"Trident Absent Control Face", monospace', status: 'unknown' },
+  { name: 'generic-font-clipping-fails', family: 'monospace', status: 'incorrect' },
+] as const
 export function drawingAssessmentProfiles(formats: readonly string[]) {
-  return Object.fromEntries(formats.map(format => [format, evidenceDigest({ policy: labelPolicy, controls: format === 'svg' ? [...controls, ...htmlControls] : controls, ...(format === 'svg' ? { profile: svgLabelProfile, svgControlLabels, visiblePaintRequired: true, glyphWitnessRequiredForOutlines: true } : { terminalRectangleWork: terminalLabelWorkBudget, displayCells: true }) })]))
+  return Object.fromEntries(formats.map(format => [format, format === 'png'
+    ? evidenceDigest({ policy: labelPolicy, profile: pngLabelProfile, wordConfidence: pngWordConfidence, controls: pngControls, canvas: pngControlCanvas, missingLabelsUnknown: true, rawSyntaxAbsenceProved: false })
+    : evidenceDigest({ policy: labelPolicy, controls: format === 'svg' ? [...controls, ...htmlControls, ...fontControls] : [...controls, ...terminalControls], ...(format === 'svg' ? { profile: svgLabelProfile, svgControlLabels, visiblePaintRequired: true, glyphWitnessRequiredForOutlines: true } : { terminalRectangleWork: terminalLabelWorkBudget, displayCells: true }) })]))
 }
 /** Producer bytes are provenance, separate from the observable assessment policy. */
 export function drawingObserverSources(formats: readonly string[]) {
   const common = ['labels.ts', 'observer-contract.ts']
-  return Object.fromEntries(formats.map(format => [format, Object.fromEntries([...common, ...(format === 'svg' ? ['svg-label-observer.ts', 'svg-glyph-witness.ts', 'empty.ts', '../paint.ts'] : ['../terminal-display.ts', '../terminal-rectangles.ts'])].map(file => [file, evidenceBytesDigest(readFileSync(new URL(file, import.meta.url)))]))]))
+  return Object.fromEntries(formats.map(format => [format, Object.fromEntries([...common, ...(format === 'svg' ? ['svg-label-observer.ts', 'svg-glyph-witness.ts', 'empty.ts', '../paint.ts'] : format === 'png' ? ['png-labels.ts', 'png-reader.ts', 'png_text_reader.py'] : ['../terminal-display.ts', '../terminal-rectangles.ts'])].map(file => [file, evidenceBytesDigest(readFileSync(new URL(file, import.meta.url)))]))]))
+}
+/** Every PNG control, read by the collection's own reader and judged by the
+ * collection's own judge. Rendered by Chromium from fixed SVG at 1x. */
+export async function verifyPngObserver(context: any, reader: PngTextReader) {
+  const observed = []
+  const page = await context.newPage()
+  try {
+    await page.setViewportSize({ width: pngControlCanvas.width, height: pngControlCanvas.height })
+    for (const control of pngControls) {
+      await page.setContent(`<!doctype html><style>html,body{margin:0;background:#fff}</style><svg xmlns="http://www.w3.org/2000/svg" width="${pngControlCanvas.width}" height="${pngControlCanvas.height}" style="display:block;font:${pngControlCanvas.font}">${control.svg}</svg>`)
+      const png = await page.screenshot({ type: 'png', clip: { x: 0, y: 0, width: pngControlCanvas.width, height: pngControlCanvas.height } })
+      const verdict = assessPngLabels(pngControlCase(control), await reader.read(png))
+      if (verdict.status !== control.status && verdict.status !== control.alsoAccepts) throw Error('Drawing observer failed independent control: png ' + control.name + ' (' + verdict.status + ': ' + (verdict.reason ?? '') + ')')
+      observed.push({ name: control.name, status: verdict.status })
+    }
+  } finally { await page.close() }
+  return observed
 }
 export async function verifyDrawingObserver(format: string, context?: any) {
   // Independently authored source facts and counterexamples, not renderer output.
@@ -41,7 +72,7 @@ export async function verifyDrawingObserver(format: string, context?: any) {
     return { id: 'observer-control', source: 'flowchart LR\nA[' + label + ']', family: 'flowchart', expected: graph, sourceGaps: [], terminal: { expected: { graph } } } as unknown as DrawingCase
   }
   const observed = []
-  const selected: readonly Control[] = format === 'svg' ? [...controls, ...svgControlLabels] : controls
+  const selected: readonly Control[] = format === 'svg' ? [...controls, ...svgControlLabels] : [...controls, ...terminalControls]
   for (const control of selected) {
     const test = fixture(control.label ?? 'Alpha')
     let verdict
@@ -59,6 +90,17 @@ export async function verifyDrawingObserver(format: string, context?: any) {
     const page = await context.newPage()
     try {
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><foreignObject x="10" y="10" width="200" height="60"><div xmlns="http://www.w3.org/1999/xhtml" style="font:20px/20px sans-serif;white-space:nowrap;color:black;background:white;overflow:hidden;width:100px;height:${control.height}px">ABC</div></foreignObject></svg>`
+      await page.setContent(svg)
+      const verdict = await assessSvgLabels(sample, page, svg)
+      if (verdict.status !== control.status) throw Error('Drawing observer failed independent control: svg ' + control.name + ' (' + verdict.status + ')')
+      observed.push({ name: control.name, status: verdict.status })
+    } finally { await page.close() }
+  }
+  if (format === 'svg') for (const control of fontControls) {
+    const sample = fixture('ABCDEFGH')
+    const page = await context.newPage()
+    try {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100"><foreignObject x="10" y="10" width="200" height="60"><div xmlns="http://www.w3.org/1999/xhtml" style="font:20px/30px ${control.family.replaceAll('"', '&quot;')};white-space:nowrap;color:black;background:white;overflow:hidden;width:40px;height:30px">ABCDEFGH</div></foreignObject></svg>`
       await page.setContent(svg)
       const verdict = await assessSvgLabels(sample, page, svg)
       if (verdict.status !== control.status) throw Error('Drawing observer failed independent control: svg ' + control.name + ' (' + verdict.status + ')')

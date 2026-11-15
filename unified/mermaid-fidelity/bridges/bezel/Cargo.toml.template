@@ -12,6 +12,7 @@ path = "src/main.rs"
 
 [dependencies]
 bezel-mermaid = { path = "{{BEZEL_CRATE}}" }
+serde = "1"
 serde_json = { version = "1", features = ["preserve_order"] }
 
 [workspace]

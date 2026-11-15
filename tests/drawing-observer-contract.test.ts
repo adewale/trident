@@ -22,7 +22,7 @@ test('capture storage failure blocks collection without blaming a successful ren
   expect(run.blocked[0].reason).toContain('Drawing output storage failed')
 })
 test('terminal observer exercises independent positive and negative controls', async () => {
-  expect((await verifyDrawingObserver('terminal')).map(row => row.status)).toEqual(['correct', 'incorrect', 'incorrect'])
+  expect((await verifyDrawingObserver('terminal')).map(row => row.status)).toEqual(['correct', 'incorrect', 'incorrect', 'unknown', 'incorrect'])
   expect(drawingAssessmentProfiles(['terminal']).terminal).toBe(drawingAssessmentProfiles(['svg', 'terminal']).terminal)
 })
 

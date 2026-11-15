@@ -50,6 +50,8 @@ assessment runs. The replay used Playwright's pinned Chromium 145.0.7632.6 (buil
 loses its glyph proof and becomes unknown under the 0.3.0 observer too. Raw runs do
 not yet record the assessing machine's fonts.
 
+Later note: collections and reassessments made after this replay record them, as each format's fontconfig family list and its SHA-256 in `assessmentEnvironments`.
+
 ```sh
 mkdir -p .cache/drawing-replay
 git show v0.3.0:results/release/captures/drawing-capture-2026-11-09.tar.gz | tar -xzf - -C .cache/drawing-replay

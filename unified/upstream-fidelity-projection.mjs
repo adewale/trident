@@ -14,6 +14,42 @@ const clone = (value, seen = new Map()) => {
   return out
 }
 
+// Mermaid database getters that return a Map, by family (the field each returns is declared
+// `new Map<...>()` or as a Map type in Mermaid's source): flowchart/flowDb.ts:60 classes,
+// er/erDb.ts:22 classes, state/stateDb.ts:137 states and :203 classes, requirement/
+// requirementDb.ts:29-32 requirements, elements and classes, class/classTypes.ts:200-202
+// notes and namespaces.
+const MERMAID_MAP_GETTERS = {
+  flowchart: ['getClasses'],
+  er: ['getClasses'],
+  state: ['getStates', 'getClasses'],
+  requirement: ['getRequirements', 'getElements', 'getClasses'],
+  class: ['getNotes', 'getNamespaces'],
+}
+/** A JSON object loses the insertion order of integer-like keys (JavaScript lists them first,
+ * ascending): such a map still answers lookups and its size; enumerating it is a gap. */
+class OrderLostMap extends Map {
+  constructor(entries, refuse) {
+    super(entries)
+    this.refuse = refuse
+  }
+  keys() { return this.refuse() }
+  values() { return this.refuse() }
+  entries() { return this.refuse() }
+  forEach() { return this.refuse() }
+  [Symbol.iterator]() { return this.refuse() }
+}
+/** A native map that reached Trident as a JSON object (a bridge prints a map that way), as
+ * the Map Mermaid's getter returns: the native keys and records, nothing added. Any other
+ * value is passed as it came. */
+function nativeMap(value, unavailable, label) {
+  if (!value || typeof value !== 'object' || value instanceof Map || Array.isArray(value) || Object.getPrototypeOf(value) !== Object.prototype) return clone(value)
+  const entries = Object.entries(clone(value))
+  if (entries.length < 2 || !entries.some(([key]) => /^(?:0|[1-9]\d*)$/.test(key))) return new Map(entries)
+  const reason = label + ': a JSON object from the bridge loses the declaration order of integer-like keys'
+  return new OrderLostMap(entries, () => (unavailable ? unavailable(reason) : (() => { throw Error(reason) })()))
+}
+
 /** Snapshot real getter returns immediately: several Mermaid diagram DBs are
  * shared singletons, and preparing a second source must not overwrite the first.
  * Mutation/internal helpers are never synthesized from original expectations. */
@@ -30,11 +66,13 @@ export function snapshotMermaidDatabase(db) {
 }
 
 /** Translate actual observed public field names, retaining representation gaps.
- * These projections do not promise Mermaid's private renderer/database API. */
-export function projectPublicDatabase(tool, family, raw, unavailable, unsupported, project) {
+ * These projections do not promise Mermaid's private renderer/database API. `version` is
+ * the candidate's measured version, for a reviewed view whose mapping differs between the
+ * reviewed versions of one project (views/reviewed-versions.mjs). */
+export function projectPublicDatabase(tool, family, raw, unavailable, unsupported, project, version) {
   if (tool === 'mermaid') return snapshotMermaidDatabase(raw)
   // A reviewed per-project view takes precedence over the generic field-name guesses.
-  const native = project && unavailable && unsupported ? nativeSchemaView(project, family, raw, { unavailable, unsupported }) : undefined
+  const native = project && unavailable && unsupported ? nativeSchemaView(project, family, raw, { unavailable, unsupported, version }) : undefined
   if (native?.whole) return native.whole
   // Frankenmermaid's IR is read only through reviewed views; the field-name guesses below
   // would misread its index-addressed graph.
@@ -46,7 +84,8 @@ export function projectPublicDatabase(tool, family, raw, unavailable, unsupporte
   if (native) return withLayout({ ...constants, ...projectPublicDatabase(tool, family, raw, unavailable), ...native })
   if (project && unsupported) return withLayout({ ...constants, ...projectPublicDatabase(tool, family, raw, unavailable) })
   if (family === 'mindmap' || family === 'gitgraph') return publicDatabaseView(tool, raw, family)
-  const view = { ...clone(raw) }, field = (name, property, object = raw) => { if (object && property in object) view[name] = () => clone(object[property]) }
+  const mapGetters = MERMAID_MAP_GETTERS[family] ?? []
+  const view = { ...clone(raw) }, field = (name, property, object = raw) => { if (object && property in object) view[name] = mapGetters.includes(name) ? () => nativeMap(object[property], unavailable, `${family} ${name}`) : () => clone(object[property]) }
   field('getDiagramTitle', 'title'); field('getAccTitle', raw && 'accTitle' in raw ? 'accTitle' : 'accessibilityTitle'); field('getAccDescription', raw && 'accDescr' in raw ? 'accDescr' : 'accessibilityDescription'); field('getDirection', 'direction')
   if (family === 'flowchart') {
     const graph = tool === 'agentic' ? raw.graph : raw
@@ -115,7 +154,14 @@ export function projectPublicDatabase(tool, family, raw, unavailable, unsupporte
   } else if (family === 'gantt') {
     field('getTasks', 'tasks'); field('getSections', 'sections'); field('getDateFormat', 'dateFormat'); field('getAxisFormat', 'axisFormat'); field('getDisplayMode', 'displayMode')
   } else if (family === 'timeline') {
-    field('getTasks', 'periods'); field('getSections', 'sections')
+    // timelineDb.js keeps sections as the written names, tasks as {id, section, type, task,
+    // score, events} and direction as the written 'LR' or 'TD'. Without a reviewed view only
+    // values already in those shapes pass through; any other encoding (section records,
+    // period records, 'LeftRight', a lower-case direction) is a gap, never a comparison.
+    const unmapped = detail => (unavailable ? unavailable('Unmapped native timeline schema: ' + detail) : undefined)
+    if (Array.isArray(raw.periods)) view.getTasks = () => (raw.periods.every(period => period && typeof period.task === 'string') ? clone(raw.periods) : unmapped('period records'))
+    if (Array.isArray(raw.sections)) view.getSections = () => (raw.sections.every(section => typeof section === 'string') ? clone(raw.sections) : unmapped('section records'))
+    if ('direction' in (raw ?? {})) view.getDirection = () => (['LR', 'TD'].includes(raw.direction) ? raw.direction : unmapped('direction ' + JSON.stringify(raw.direction)))
   } else if (family === 'requirement') {
     field('getRequirements', 'requirements'); field('getElements', 'elements'); field('getRelationships', 'relations')
   }

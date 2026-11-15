@@ -6,7 +6,7 @@ import { execFileSync } from 'node:child_process'
 import { createHash, randomUUID } from 'node:crypto'
 import { existsSync, readFileSync, realpathSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { davebenchAdmissionProfile, davebenchAdmission, davebenchRankings, type DavebenchRun } from './davebench-model.ts'
+import { davebenchAdmissionProfile, davebenchAdmission, davebenchRankings, recordOutcome, type DavebenchRun } from './davebench-model.ts'
 import { TerminalCallWorker } from './terminal-call-worker.ts'
 import { rendererMemoryLimitMb } from './process-memory.ts'
 import { tridentDirectory } from './trident-paths.ts'
@@ -74,13 +74,10 @@ export async function main(args = process.argv.slice(2)) {
         return value
       }
       for (const [index, input] of inventory.cases.slice(0, 30).entries()) await call(input.source, -index - 1)
-      const row: DavebenchRun = { project: 'pub:mermaid_flutter', version: artifact.version, format: 'png', run: round, boundaryKind: 'persistent-api', boundary: 'native Flutter renderToPng API; ' + (host ? 'app' : 'container/app') + ' startup excluded', attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {} }; runs.push(row)
+      const row: DavebenchRun = { project: 'pub:mermaid_flutter', version: artifact.version, format: 'png', run: round, boundaryKind: 'persistent-api', boundary: 'native Flutter renderToPng API; ' + (host ? 'app' : 'container/app') + ' startup excluded', pngPath: 'native', attempted: 0, completed: 0, failed: 0, timeouts: 0, totalMs: 0, invalid: 0, invalidReasons: {}, failures: {} }; runs.push(row)
       console.log(`pub:mermaid_flutter png ${round}/3`)
       for (const [index, input] of inventory.cases.entries()) {
-        const value = await call(input.source, index); row.attempted++; if (value.ms === null) row.untimedCalls = (row.untimedCalls ?? 0) + 1; else row.totalMs += value.ms
-        if (value.outcome === 'completed') row.completed++; else row.failed++
-        if (value.outcome === 'invalid') { row.invalid!++; const reason = value.invalid ?? 'invalid'; row.invalidReasons![reason] = (row.invalidReasons![reason] ?? 0) + 1; (row.rejected ??= {})[input.id] = reason }
-        if (value.outcome === 'timeout') row.timeouts++
+        recordOutcome(row, index, input.id, await call(input.source, index))
         if ((index + 1) % 100 === 0) save('running')
       }
       await close(); save('running'); console.log(`  ${row.completed}/${row.attempted}, ${(row.totalMs / 1000).toFixed(3)} s`)
