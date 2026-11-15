@@ -34,6 +34,9 @@
  *
  * A project whose Fidelity is not applicable (no public parse interface) has no row in
  * the ranking and no Fidelity component in the synthesis. */
+import { assessmentBasis } from './outcome-kinds.ts'
+import { unsupportedVerdicts } from './verification.ts'
+
 export const FIDELITY_SCORING_PROTOCOL = 'fidelity-scored-population-v3'
 const FIDELITY_SCORING_PROTOCOL_V2 = 'fidelity-scored-population-v2'
 /** Mermaid surfaces besides parse-and-read (runtime.ts Surface) that put a callback out of scope. */
@@ -61,6 +64,11 @@ export const fidelityScoringDefinition = {
  * model read, not an internal. */
 const INTERNAL_IMPORT_AT_SETUP = /^TRIDENT_ADAPTER_GAP: (?:(?:new )?\.{1,2}\/|Unavailable namespace export read during setup|Native module namespace is not bound)/
 
+/** Capability-assessment bases that state the test reads a Mermaid internal: a field
+ * Mermaid's renderer decides, or Mermaid's own detection pipeline (outcome-kinds.ts).
+ * Views report these, so the runtime's binding layer does not record them as surfaces. */
+const INTERNAL_BASES: Record<string, ScopeReason> = { 'renderer-layout': 'renderer', 'mermaid-pipeline': 'pipeline' }
+
 /** Each case's identity within its file (file + ordinal among the file's callbacks), which
  * separate runs keep even when they complete files in another order. */
 export function callbackKeys(cases: readonly { file: string }[]) {
@@ -84,7 +92,10 @@ export function fidelityScope(referenceCases: readonly { file: string; status: s
     if (control.status !== 'passed' || !isScoredFidelityFile(control.file)) return
     const key = referenceKeys[index]!, observations = byKey.map(cases => cases.get(key))
     const reasons = new Set<ScopeReason>()
-    for (const c of observations) for (const surface of c?.surfaces ?? []) if ((FIDELITY_SCOPED_SURFACES as readonly string[]).includes(surface)) reasons.add(surface)
+    for (const c of observations) {
+      for (const surface of c?.surfaces ?? []) if ((FIDELITY_SCOPED_SURFACES as readonly string[]).includes(surface)) reasons.add(surface)
+      if (c?.status === 'unsupported' && c.unsupportedKind !== 'native') for (const verdict of unsupportedVerdicts(c)) { const internal = INTERNAL_BASES[assessmentBasis(verdict)]; if (internal) reasons.add(internal) }
+    }
     if (setupInternal.has(control.file)) reasons.add('internal-import-at-setup')
     if (!reasons.size && observations.length && observations.every(c => c && c.calls === 0 && !['passed', 'failed', 'unsupported'].includes(c.status))) reasons.add('no-candidate-operation')
     if (reasons.size) out.set(key, [...reasons].sort())

@@ -123,6 +123,7 @@ export function fidelityOutcomes(reference: any, candidate: any, audit: any[], r
       ...(unsupportedKind ? { unsupportedKind } : {}),
       ...surfaces,
       ...(unsupportedKind === 'native' && evidence?.refusedSources?.length ? { refusedSources: evidence.refusedSources } : {}),
+      ...(status === 'unsupported' && result && evidence?.unsupported?.length ? { unsupportedVerdicts: [...new Set<string>(evidence.unsupported)] } : {}),
       calls: evidence?.calls ?? 0,
       rejections: evidence?.rejections ?? 0,
       reason: referenceEvidence?.expectedFailure

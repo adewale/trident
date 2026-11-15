@@ -30,8 +30,21 @@ export function verifiedRefusal(row: { status: string; reason?: unknown; unsuppo
   return row.refusedSources.every(source => verification.verdicts[sourceDigest(source)]?.accepted === true)
 }
 
-/** The parts of a callback's unsupported reason (runtime.ts joins verdicts with '; '). */
-const reasonParts = (reason: unknown) => [...new Set(String(reason ?? '').split('; ').map(part => part.trim()).filter(Boolean))]
+/** A callback's distinct unsupported verdicts. Case rows carry them as an array; rows
+ * collected before that carry only the reason, the verdicts joined with '; '. A verdict's
+ * own wording can contain '; ', so such a reason is read as one verdict, repeated or not.
+ * In the 14 November runs no callback has two distinct assessment verdicts (their audits
+ * record each verdict separately), so this reading loses nothing there. */
+export function unsupportedVerdicts(row: { reason?: unknown; unsupportedVerdicts?: string[] }) {
+  if (Array.isArray(row.unsupportedVerdicts)) return [...new Set(row.unsupportedVerdicts)]
+  const reason = String(row.reason ?? '').trim()
+  if (!reason) return []
+  for (let end = reason.indexOf('; '); end >= 0; end = reason.indexOf('; ', end + 2)) {
+    const verdict = reason.slice(0, end), repeats = (reason.length + 2) / (verdict.length + 2)
+    if (Number.isInteger(repeats) && Array(repeats).fill(verdict).join('; ') === reason) return [verdict]
+  }
+  return [reason]
+}
 
 export interface AssessmentConfirmations { confirmed(project: string, reason: string): boolean; files: number }
 
@@ -58,8 +71,8 @@ export function assessmentConfirmations(reviews: readonly any[]): AssessmentConf
 }
 
 /** Whether a case row is a capability assessment whose every reason a review confirmed. */
-export function confirmedAbsence(project: string, row: { status: string; reason?: unknown; unsupportedKind?: any }, confirmations: AssessmentConfirmations | undefined) {
+export function confirmedAbsence(project: string, row: { status: string; reason?: unknown; unsupportedKind?: any; unsupportedVerdicts?: string[] }, confirmations: AssessmentConfirmations | undefined) {
   if (!confirmations || outcomeKind(row) !== 'capability-assessment') return false
-  const parts = reasonParts(row.reason)
-  return parts.length > 0 && parts.every(reason => confirmations.confirmed(project, reason))
+  const verdicts = unsupportedVerdicts(row)
+  return verdicts.length > 0 && verdicts.every(reason => confirmations.confirmed(project, reason))
 }

@@ -48,3 +48,23 @@ test('verified refusals and confirmed absences are known nonpasses; the rest sta
 test('refusal verification reads the refused sources of native refusals only', () => {
   expect([...refusedSources([run([reference, a, b])]).values()].map(entry => [entry.source, [...entry.projects]])).toEqual([['graph TD;A-->B', ['a']], ['A-->B', ['a']]])
 })
+
+test('a verdict whose wording contains the separator is one verdict; repeats collapse', async () => {
+  const { unsupportedVerdicts } = await import('../unified/mermaid-fidelity/verification.ts')
+  const ondine = 'Ondine exposes no parsed model; render() reports acceptance or rejection only'
+  expect(unsupportedVerdicts({ reason: ondine })).toEqual([ondine])
+  expect(unsupportedVerdicts({ reason: ondine + '; ' + ondine })).toEqual([ondine])
+  expect(unsupportedVerdicts({ reason: 'a; b', unsupportedVerdicts: ['a', 'b', 'a'] })).toEqual(['a', 'b'])
+  const reviews = assessmentConfirmations([{ assessments: [{ basis: 'no-model', verdict: 'confirmed', projects: ['o'] }] }])
+  const { confirmedAbsence } = await import('../unified/mermaid-fidelity/verification.ts')
+  expect(confirmedAbsence('o', { status: 'unsupported', unsupportedKind: 'assessment', reason: ondine }, reviews)).toBe(true)
+  // With the verdict array, every distinct verdict must be confirmed.
+  expect(confirmedAbsence('o', { status: 'unsupported', unsupportedKind: 'assessment', reason: 'x', unsupportedVerdicts: [ondine, "o's model keeps no notes"] }, reviews)).toBe(false)
+})
+
+test('an assessment that a field is renderer output or pipeline behaviour scopes the callback out', () => {
+  const rows = [{ project: 'v', version: '1', missingFiles: [], cases: cases({ parse: { status: 'unsupported', unsupportedKind: 'assessment', reason: "Mermaid's renderer assigns container colour slots; they are not part of a parse result" }, db: { status: 'unsupported', unsupportedKind: 'assessment', reason: "Diagram.fromText in a shared test (Mermaid's diagram detection, type ids and registry)" } }) }]
+  const scope = fidelityScope(reference.cases, rows)
+  expect(scope.get(file + '\u00000')).toEqual(['renderer'])
+  expect(scope.get(file + '\u00001')).toEqual(['pipeline'])
+})
