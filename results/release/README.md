@@ -23,7 +23,9 @@ benchmark, build or test job running. Drawing Correctness (with the native PNG
 lane), its source obligations and Mermaid Fidelity were then recollected on the
 same host after the last harness changes, and Mermaid Fidelity once more on
 15 November after the runtime began recording which Mermaid surfaces each test
-touches (scoring v3; every candidate outcome matched the previous collection).
+touches (scoring v3), and a last time that day after the gap work bound Zombie
+Mermaid's text parsers, radar views and setup-time database members (598 of 176,736
+callback outcomes changed status; the rest matched).
 DaveBench's files are unchanged, because no DaveBench code changed after its
 collection. Every format has three complete repeats;
 153 runs account for 205,326 measured calls, with no blocked lanes or missing API
@@ -56,7 +58,8 @@ qualifies and that exercise a parser's public contract;
 Native refusals are failures where Mermaid recognises the refused source as a diagram
 (its parse accepts it, or its detector classifies it)
 ([verification](../../docs/evidence/fidelity-refusal-verification-2026-11-15.json)),
-and capability assessments where a recorded review confirmed them. It leaves <!-- fact:fidelity-unqualified -->0<!-- /fact --> callbacks
+and capability assessments where a recorded review confirmed them; the
+[unassessed list](../../docs/fidelity-unassessed.md) names who can close each remaining one. It leaves <!-- fact:fidelity-unqualified -->0<!-- /fact --> callbacks
 reference-unqualified and <!-- fact:fidelity-skipped -->18<!-- /fact --> skipped.
 The control executes pinned production source with its original compiler plugins
 and locked dependencies. The collector now requires sealed runtime admission,
@@ -118,7 +121,7 @@ cp dom-free-qualified.json unified/mermaid-fidelity/dom-free-files.json
 bun commands.ts mermaid:fidelity --upstream UPSTREAM --reference ORACLE --runtime RUNTIME --prepared artifacts/community-prepared.json --catalog CATALOG --reuse-reference fidelity-jsdom --projects emtyty/merslim --workers 2 --out fidelity-auto
 bun scripts/merge-drawing-results.ts --run drawing --out drawing-correctness.json --obligations structure/obligations.json --reviews docs/evidence/drawing-reviews-2026-11-14
 bun scripts/verify-fidelity-refusals.ts --out refusal-verification.json fidelity-jsdom
-bun scripts/merge-fidelity-runs.ts --catalog CATALOG --refusal-verification refusal-verification.json --assessment-reviews docs/evidence/fidelity-capability-review-2026-11-14.json,docs/evidence/fidelity-model-concept-review-2026-11-14.json --out mermaid-fidelity.json fidelity-jsdom
+bun scripts/merge-fidelity-runs.ts --catalog CATALOG --refusal-verification refusal-verification.json --assessment-reviews docs/evidence/fidelity-capability-review-2026-11-14.json,docs/evidence/fidelity-model-concept-review-2026-11-14.json,docs/evidence/fidelity-model-concept-review-2026-11-15.json --out mermaid-fidelity.json fidelity-jsdom
 bun commands.ts campaign:results --images images/results.json --terminal terminal/results.json --native-png native-png/results.json --out report
 # Publish the fresh numeric files, then regenerate tables and quoted facts.
 bun commands.ts results:snapshot
