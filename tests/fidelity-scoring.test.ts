@@ -53,12 +53,12 @@ test('an unsupported verdict is unassessed in scoring while its raw disposition 
   const { davebench, drawing, catalog } = synthesisInputs(['a'])
   const row = synthesiseBenchmarks(davebench, drawing, merged, catalog).find(r => r.project === 'a')!
   expect(row.fidelity).toEqual({ lower: 25, upper: 75 })
-  // Rendered: unsupported is not added to the nonpasses and stays inside the unassessed range.
+  // Rendered: unsupported without verification evidence is not added to the nonpasses and stays inside the unassessed range.
   const page = renderBenchmarkLeagues(davebench, drawing, merged, catalog).split('## Mermaid Fidelity')[1]!.split('## Equal-weight synthesis')[0]!
   expect(page).toContain('Passed / 4 ↑')
-  expect(page).toContain('Unsupported (counted as unassessed)')
-  expect(page).toContain('| 2 | 2 | a 1 | 1 | 1 | 2 | 2 + 0 |')
-  expect(page).toContain('The other 2 qualified callbacks')
+  expect(page).toContain('| Verified refusals / confirmed absences |')
+  expect(page).toContain('| 2 | 2 | a 1 | 1 | 1 | 0 / 0 | 2 + 0 |')
+  expect(page).toContain('the 2 qualified callbacks outside those folders are inventory')
 })
 
 test('results published under the earlier definition are read under it', () => {
@@ -81,7 +81,7 @@ test('a project without a public parse interface is n/a: no Fidelity row, rank o
   const page = renderBenchmarkLeagues(davebench, drawing, merged, catalog)
   const league = page.split('## Mermaid Fidelity')[1]!.split('## Equal-weight synthesis')[0]!
   expect(league).toContain('| — | — | private 1 | n/a | n/a | n/a | n/a |')
-  expect(league).toContain('| 2 | 2 | a 1 | 2 | 2 | 0 | 0 + 0 |')
+  expect(league).toContain('| 2 | 2 | a 1 | 2 | 2 | 0 / 0 | 0 + 0 |')
   expect(page.split('## Equal-weight synthesis')[1]).toMatch(/\| private 1 \| [^|]+ \| [^|]+ \| n\/a \|/)
   // An older run that still holds a row for the project cannot bring it back.
   const fromCatalogOnly = fidelityScoring({ ...merged, notApplicable: [], results: [...merged.results, { project: 'private', version: '1', scored: { passed: 4, failed: 0, unsupported: 0, 'trident-blocked': 0 } }] }, catalog)

@@ -32,6 +32,7 @@ export function renderBindingCoverage(fidelity: any, label?: (row: { project: st
   const names = label ? ['Project'] : ['Project', 'Version'], name = (row: any) => label ? label(row).replaceAll('|', '\\|') : `${row.project} | ${row.version}`
   const scoredPopulation = fidelity.scoredPopulation, qualifiedPopulation = fidelity.referenceQualifiedCallbacks
   if (!Number.isInteger(scoredPopulation) || !Number.isInteger(qualifiedPopulation)) throw Error('Binding coverage needs a result scored under the current Fidelity definition')
+  const v3 = fidelity.scoring?.protocol === 'fidelity-scored-population-v3'
   const rows = (fidelity.results ?? []).filter((row: any) => row.project !== 'mermaid-js/mermaid').map((row: any) => ({ row, ...kinds(row, scoredPopulation, qualifiedPopulation) }))
   rows.sort((a: any, b: any) => b.scored.passed - a.scored.passed || b.scored['native-failure'] - a.scored['native-failure'] || a.row.project.localeCompare(b.row.project))
   const cells = (counts: OutcomeCounts) => OUTCOME_KINDS.map(kind => number(counts[kind])).join(' | ')
@@ -39,7 +40,9 @@ export function renderBindingCoverage(fidelity: any, label?: (row: { project: st
   return [
     heading,
     '',
-    `How each reference-qualified callback ended for each project, over the ${number(scoredPopulation)}-callback scored population and over all ${number(qualifiedPopulation)} qualified callbacks. Only passes and native failures are known outcomes in the score; the other three are unassessed.`,
+    v3
+      ? `How each reference-qualified callback ended for each project, over the ${number(scoredPopulation)}-callback scored population and over all ${number(qualifiedPopulation)} qualified callbacks. Passes and native failures are known outcomes; so are native unsupported verdicts the pinned Mermaid oracle verified (the refused source is valid Mermaid) and capability assessments a recorded review confirmed, counted in the last two columns of the scored half. The rest are unassessed.`
+      : `How each reference-qualified callback ended for each project, over the ${number(scoredPopulation)}-callback scored population and over all ${number(qualifiedPopulation)} qualified callbacks. Only passes and native failures are known outcomes in the score; the other three are unassessed.`,
     '',
     "- **Native failures**: an original assertion failed, or the candidate's own code faulted.",
     "- **Native unsupported**: the candidate's own code reported that it cannot do this (its parser or detector refused the diagram type, or its parse returned another diagram kind).",
@@ -48,9 +51,9 @@ export function renderBindingCoverage(fidelity: any, label?: (row: { project: st
     '',
     'A project whose public interface exposes few parsers or no model can render well and still have most callbacks in the last three columns.',
     '',
-    `| ${names.join(' | ')} | ${header.map(title => title + ' (scored)').join(' | ')} | ${header.map(title => title + ' (all)').join(' | ')} |`,
-    `| ${names.map(() => '---').join(' | ')} | ${Array(OUTCOME_KINDS.length * 2).fill('---:').join(' | ')} |`,
-    ...rows.map(({ row, scored, qualified }: any) => `| ${name(row)} | ${cells(scored)} | ${cells(qualified)} |`),
+    `| ${names.join(' | ')} | ${header.map(title => title + ' (scored)').join(' | ')}${v3 ? ' | Verified refusals (scored) | Confirmed absences (scored)' : ''} | ${header.map(title => title + ' (all)').join(' | ')} |`,
+    `| ${names.map(() => '---').join(' | ')} | ${Array(OUTCOME_KINDS.length * 2 + (v3 ? 2 : 0)).fill('---:').join(' | ')} |`,
+    ...rows.map(({ row, scored, qualified }: any) => `| ${name(row)} | ${cells(scored)}${v3 ? ` | ${number(row.known.verifiedRefusals)} | ${number(row.known.confirmedAbsences)}` : ''} | ${cells(qualified)} |`),
     '',
   ].join('\n')
 }

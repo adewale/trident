@@ -49,6 +49,11 @@ export function publishedFacts(davebench: any, drawing: any, fidelity: any, name
     'fidelity-files': count(fidelity.selectedFiles),
     'fidelity-candidates': count(candidates.length),
     'fidelity-gaps': count(scored.reduce((sum: number, row: any) => sum + row.unassessed, 0)),
+    // v3: callbacks in the scored areas that test Mermaid internals, and the unsupported
+    // verdicts evidence made known nonpasses.
+    'fidelity-internals': count(fidelity.scopedOut?.internals ?? 0),
+    'fidelity-verified-refusals': count(scored.reduce((sum: number, row: any) => sum + row.verifiedRefusals, 0)),
+    'fidelity-confirmed-absences': count(scored.reduce((sum: number, row: any) => sum + row.confirmedAbsences, 0)),
     'fidelity-collected': day(fidelity.collectedThrough ?? fidelity.updatedAt),
     // One date, or the span from the first benchmark collected to the last.
     'campaign-collected': [...new Set([davebench.collection?.terminal?.finishedAt ?? davebench.collection?.images?.finishedAt, drawing.updatedAt, fidelity.collectedThrough ?? fidelity.updatedAt].filter(Boolean).sort().map(day))].filter((value, index, all) => index === 0 || index === all.length - 1).join(' to ') || 'unknown',

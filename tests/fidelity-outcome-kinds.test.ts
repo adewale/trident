@@ -61,7 +61,7 @@ const run = (results: any[]) => ({ pin: 'p', selection: 'all core package tests'
 const reference = { project: 'mermaid-js/mermaid', version: '12.3.0', missingFiles: [], cases: referenceCases }
 const row = (project: string, outcomes: [string, string?, string?][]) => ({ project, version: '1', missingFiles: [], cases: referenceCases.map((c, i) => { const [status, reason, unsupportedKind] = outcomes[i]!; return { ...c, status, ...(reason ? { reason } : {}), ...(unsupportedKind ? { unsupportedKind } : {}) } }) })
 
-test('merged results count each outcome kind per project; scoring is unchanged', () => {
+test('merged results count each outcome kind per project; unverified verdicts stay unassessed', () => {
   const merged = mergeFidelityRuns([run([reference, row('a', [
     ['passed'], ['failed', 'AssertionError'], ['unsupported', 'Unrecognized diagram type', 'native'], ['unsupported', "flowchart database addVertex (the candidate exposes a parser, not Mermaid's database API)", 'assessment'], ['trident-blocked', 'flowchart.db.getX'],
     ['unsupported', 'a has no flowchart parser', 'assessment'], ['passed'],
@@ -78,8 +78,8 @@ test('merged results count each outcome kind per project; scoring is unchanged',
   expect(fidelityScoring(merged).score(a)).toMatchObject({ passed: 1, nonpasses: 1, unassessed: 3 })
   const table = renderBindingCoverage(merged)
   expect(table).toContain('## Binding coverage')
-  expect(table).toContain('| Project | Version | Passed (scored) | Native failures (scored) | Native unsupported (scored) | Capability assessments (scored) | Adapter limitations (scored) | Passed (all) |')
-  expect(table).toContain('| a | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 1 | 1 | 2 | 1 |')
+  expect(table).toContain('| Project | Version | Passed (scored) | Native failures (scored) | Native unsupported (scored) | Capability assessments (scored) | Adapter limitations (scored) | Verified refusals (scored) | Confirmed absences (scored) | Passed (all) |')
+  expect(table).toContain('| a | 1 | 1 | 1 | 1 | 1 | 1 | 0 | 0 | 2 | 1 | 1 | 2 | 1 |')
   expect(table).not.toContain('mermaid-js/mermaid')
   // A row merged before outcome kinds were recorded cannot be rendered as if it had them.
   const { outcomeKinds: _kinds, ...legacy } = a

@@ -14,7 +14,7 @@ test('merging derives counts from the shared control population and keeps candid
   expect(merged.results[1]!.counts.passed).toBe(3)
   expect(merged.blocked).toEqual([{ project: 'c', reason: 'no binding' }])
   expect(merged.results[2]!.gapReasons).toEqual({ 'TRIDENT_ADAPTER_GAP: parser N': 3 })
-  expect(merged.results[1]!.perFile).toEqual([{ path: 'packages/mermaid/src/diagrams/x/x.spec.ts', counts: { passed: 3, failed: 1, 'reference-unqualified': 2, 'upstream-skipped': 1 } }])
+  expect(merged.results[1]!.perFile).toEqual([{ path: 'packages/mermaid/src/diagrams/x/x.spec.ts', counts: { passed: 3, failed: 1, 'reference-unqualified': 2, 'upstream-skipped': 1 }, scored: { passed: 3, nonpass: 1, unassessed: 0 } }])
 })
 
 test('a candidate with no assessable callback is unassessed, not a measured zero', () => {

@@ -42,16 +42,20 @@ export function commonFidelityComparison(fidelity: any, catalog?: any, size = CO
   const candidates = scoring.results.filter((row: any) => row.project !== 'mermaid-js/mermaid' && Array.isArray(row.perFile))
   if (candidates.length < 2) return undefined
   const members = [...candidates].sort((a: any, b: any) => scoring.score(b).passed - scoring.score(a).passed || String(a.project).localeCompare(String(b.project))).slice(0, size)
-  const files = (row: any) => new Map<string, Record<string, number>>(row.perFile.filter((entry: any) => isScoredFidelityFile(entry.path)).map((entry: any) => [entry.path, entry.counts]))
+  // v3 rows carry each file's in-scope callbacks (passed, known nonpass, unassessed);
+  // earlier rows are read by file, where every qualified callback of a scored file counts.
+  const files = (row: any) => new Map<string, { passed: number; nonpass: number; unassessed: number }>(row.perFile
+    .filter((entry: any) => scoring.v3 ? entry.scored : isScoredFidelityFile(entry.path))
+    .map((entry: any) => [entry.path, scoring.v3 ? entry.scored : { passed: entry.counts.passed ?? 0, nonpass: entry.counts.failed ?? 0, unassessed: (entry.counts.unsupported ?? 0) + (entry.counts['trident-blocked'] ?? 0) }]))
   const byMember = members.map(files)
-  const decided = (counts: Record<string, number> | undefined) => !!counts && !(counts.unsupported ?? 0) && !(counts['trident-blocked'] ?? 0) && (counts.passed ?? 0) + (counts.failed ?? 0) > 0
+  const decided = (counts: { passed: number; nonpass: number; unassessed: number } | undefined) => !!counts && !counts.unassessed && counts.passed + counts.nonpass > 0
   const commonFiles = [...byMember[0]!.keys()].filter(path => byMember.every(map => decided(map.get(path))))
-  const population = commonFiles.reduce((sum, path) => sum + (byMember[0]!.get(path)!.passed ?? 0) + (byMember[0]!.get(path)!.failed ?? 0), 0)
-  for (const map of byMember) if (commonFiles.reduce((sum, path) => sum + (map.get(path)!.passed ?? 0) + (map.get(path)!.failed ?? 0), 0) !== population) throw Error('Fidelity members disagree on the qualified callbacks of a common file')
+  const population = commonFiles.reduce((sum, path) => sum + byMember[0]!.get(path)!.passed + byMember[0]!.get(path)!.nonpass, 0)
+  for (const map of byMember) if (commonFiles.reduce((sum, path) => sum + map.get(path)!.passed + map.get(path)!.nonpass, 0) !== population) throw Error('Fidelity members disagree on the qualified callbacks of a common file')
   return {
     rule: `the ${members.length} candidates with the most verified passes, on the scored files in which none of them has an unassessed callback (${commonFiles.length} files)`,
     unit: 'callbacks', population, of: scoring.population,
-    rows: members.map((row: any, index: number) => ({ project: row.project, version: row.version, passed: commonFiles.reduce((sum, path) => sum + (byMember[index]!.get(path)!.passed ?? 0), 0) })).sort((a, b) => b.passed - a.passed),
+    rows: members.map((row: any, index: number) => ({ project: row.project, version: row.version, passed: commonFiles.reduce((sum, path) => sum + byMember[index]!.get(path)!.passed, 0) })).sort((a, b) => b.passed - a.passed),
   }
 }
 
