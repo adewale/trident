@@ -77,6 +77,10 @@ const styleStrings = styles => entriesOf(styles).filter(([, value]) => value !==
 
 /** A vertex may name fields absent for that vertex alone. */
 const VERTEX_ABSENT = Symbol('absent for this vertex')
+/** The members a model records as lost by a later subgraph to an earlier one (FlowDB's
+ * droppedSubGraphMembers, which getData reports in `other`), where the model records them.
+ * A symbol: it is a reading for the layout data, not a Mermaid database getter. */
+const DROPPED_SUBGRAPH_MEMBERS = Symbol('dropped subgraph members')
 /** One flowchart view from a project-specific reading of nodes, edges and groups. */
 function flowchartView(model, hooks) {
   const { nodes, edges, subgraphs, direction, absent } = model
@@ -93,6 +97,7 @@ function flowchartView(model, hooks) {
   if (subgraphs) view.getSubGraphs = () => subgraphs().map(fields => record(fields, 'subgraph', SUBGRAPH_FIELDS, absent.subgraph ?? {}, hooks))
   else if (absent.getSubGraphs) view.getSubGraphs = () => hooks.unsupported(absent.getSubGraphs)
   if (direction !== undefined) view.getDirection = () => direction
+  if (model.droppedSubGraphMembers) view[DROPPED_SUBGRAPH_MEMBERS] = model.droppedSubGraphMembers
   return view
 }
 
@@ -185,12 +190,17 @@ function termaidGraph(graph) {
 // Latias94/merman mirrors Mermaid's own field names; Rust's None arrives as null where
 // Mermaid leaves the field undefined, and a plain node carries shape null.
 const unset = object => Object.fromEntries(Object.entries(object).map(([key, value]) => [key, value === null ? undefined : value]))
+// It also records the members a later subgraph lost to an earlier one, as Mermaid's FlowDB
+// does: merman-model 0.10.0 FlowchartModel.dropped_subgraph_members ({ node, keptBy,
+// droppedFrom }), projected to `other.droppedSubGraphMembers` only when not empty
+// (families/flowchart/compat.rs).
 function latiasGraph(graph) {
   return {
     nodes: () => graph.nodes.map(node => [node.id, { ...unset(node), text: node.label, type: node.shape ?? undefined }]),
     edges: () => graph.edges.map(edge => ({ ...unset(edge), start: edge.from, end: edge.to, text: edge.label ?? '' })),
     subgraphs: () => graph.subgraphs.map(group => unset(group)),
     direction: graph.direction,
+    droppedSubGraphMembers: () => (graph.other?.droppedSubGraphMembers ?? []).map(({ node, keptBy, droppedFrom }) => ({ node, keptBy, droppedFrom })),
     absent: {},
   }
 }
@@ -1370,6 +1380,35 @@ const FLOWCHART_EDGE_STEP = {
   'crabtalk/bezel': "Bezel's edge model keeps no step; its edge metadata takes animate, animation and curve only", // 0.2.26 flowchart/types.rs Edge::apply_animation
   'adewale/agentic-mermaid': "agentic-mermaid's MermaidEdge keeps no step", // 0.5.6 types MermaidEdge
 }
+// Mermaid's getData `other` (flowDb.ts getData): `{}` when no subgraph lost a member to an
+// earlier one, else `{ droppedSubGraphMembers: [{ node, keptBy, droppedFrom }] }`. It is
+// parse state (FlowDB.addSubGraph records each drop), so it is read from a model that
+// records the drops (DROPPED_SUBGRAPH_MEMBERS). The models below record none: their
+// installed artifacts (sources, bundles, types or WASM) carry no dropped-member record at
+// all, so whether a member was dropped, and that none was, are both unknown to them.
+const NO_DROPPED_MEMBERS = {
+  'Dicklesworthstone/frankenmermaid': 'Frankenmermaid', 'dfadler/zombie-mermaid': 'zombie-mermaid', 'lukilabs/beautiful-mermaid': 'beautiful-mermaid',
+  'kais-radwan/ascii-mermaid': 'ascii-mermaid', '1jehuang/mermaid-rs-renderer': 'mermaid-rs-renderer', 'AlexanderGrooff/mermaid-ascii': 'mermaid-ascii',
+  'fasouto/termaid': 'termaid', 'obsidianmd/pele': 'Pele', 'crabtalk/bezel': 'Bezel', 'adewale/agentic-mermaid': 'agentic-mermaid',
+  'KlangHaus/vitepress-plugin-diagram': 'vitepress-plugin-mermaid-diagram', 'evangwt/xmermaid': 'XMermaid', 'kitlangton/merman': 'merman',
+  'anomalyco/opencode': 'merman (OpenCode)', 'emtyty/merslim': 'merslim', 'sandyyst/dsh-plugin-mermaid-gb-svg': 'dsh-plugin-mermaid-gb-svg',
+  'crafter-station/mermaid': 'Crafter', 'Mootikins/figurehead-rs': 'figurehead', 'orestesgaolin/mermaid': 'mermaid_core', 'pub:mermaid_flutter': 'mermaid_core',
+}
+/** The layout data's `other` for a model that does not record dropped members: inspecting
+ * it, or reading droppedSubGraphMembers, is that model's unsupported operation where it is
+ * reviewed to record none, and a Trident gap otherwise; never Mermaid's `{}`. */
+function unknownLayoutOther(project, hooks) {
+  const name = NO_DROPPED_MEMBERS[project]
+  const unknown = () => (name ? hooks.unsupported(`${name}'s flowchart model records no subgraph member lost to an earlier subgraph, so neither a dropped member nor its absence is known`) : hooks.unavailable('layout other.droppedSubGraphMembers'))
+  const key = 'droppedSubGraphMembers'
+  return new Proxy({}, {
+    get: (target, property) => (property === key ? unknown() : target[property]),
+    has: (target, property) => (property === key ? unknown() : property in target),
+    getOwnPropertyDescriptor: (target, property) => (property === key ? unknown() : Reflect.getOwnPropertyDescriptor(target, property)),
+    // Listed, so a whole-record comparison (toEqual({})) reads it rather than passing.
+    ownKeys: target => [...Reflect.ownKeys(target), key],
+  })
+}
 // A port that keeps Mermaid's own vertex records leaves `type` out for an undeclared shape,
 // exactly as Mermaid does; for any other model a missing type stays unmapped.
 const layoutShape = (vertex, mermaidVocabulary) => {
@@ -1441,7 +1480,10 @@ export function flowchartLayoutData(view, hooks, project) {
         style: () => edge.style ?? [], pattern: () => edge.stroke, animate: () => edge.animate, animation: () => edge.animation,
       }), 'layout edge', stepless ? STEPLESS_EDGE_FIELDS : LAYOUT_EDGE_FIELDS, absent, hooks)
     })
-    return record({ nodes, edges: layoutEdges, other: {} }, 'layout data', ['nodes', 'edges', 'other', 'config'], { config: "Mermaid's host configuration is not part of a parse result" }, hooks)
+    const recorded = view[DROPPED_SUBGRAPH_MEMBERS]
+    const dropped = typeof recorded === 'function' ? recorded() : undefined
+    const other = dropped ? (dropped.length ? { droppedSubGraphMembers: dropped } : {}) : unknownLayoutOther(project, hooks)
+    return record({ nodes, edges: layoutEdges, other }, 'layout data', ['nodes', 'edges', 'other', 'config'], { config: "Mermaid's host configuration is not part of a parse result" }, hooks)
   }
 }
 

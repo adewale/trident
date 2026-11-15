@@ -151,3 +151,28 @@ test("Latias94/merman keeps a written step and omits an unset one, so its steple
   expect(['step' in data.edges[3], 'stepCount' in data.edges[3]]).toEqual([false, false])
   expect(log).toEqual([])
 })
+
+// flowchart LR / subgraph lane1 / a / end / subgraph phase1 / a / end: Mermaid's getData
+// reports { droppedSubGraphMembers: [{ node: 'a', keptBy: 'lane1', droppedFrom: 'phase1' }] }
+// in `other`, and `{}` when no member was dropped (flowDb.ts getData).
+test("layout data's other reports dropped subgraph members from a model that records them, and never invents their absence", () => {
+  const latias = (other?: unknown) => ({ type: 'flowchart-v2', direction: 'LR', nodes: [{ id: 'a', label: 'a', labelType: 'text', shape: null, classes: [], styles: [] }], edges: [], subgraphs: [{ id: 'lane1', title: 'lane1', dir: null, labelType: 'text', classes: [], styles: [], nodes: ['a'] }, { id: 'phase1', title: 'phase1', dir: null, labelType: 'text', classes: [], styles: [], nodes: [] }], classDefs: {}, tooltips: {}, ...(other ? { other } : {}) })
+  const members = [{ node: 'a', keptBy: 'lane1', droppedFrom: 'phase1' }]
+  // merman-cli 0.10.0 parse: `other` only when a member was dropped.
+  const recorded = verdicts()
+  expect(projectPublicDatabase('bridge', 'flowchart', latias({ droppedSubGraphMembers: members }), recorded.hooks.unavailable, recorded.hooks.unsupported, 'Latias94/merman').getData().other).toEqual({ droppedSubGraphMembers: members })
+  expect(projectPublicDatabase('bridge', 'flowchart', latias(), recorded.hooks.unavailable, recorded.hooks.unsupported, 'Latias94/merman').getData().other).toEqual({})
+  expect(recorded.log).toEqual([])
+  // Pele 1.13.0 drops the member from phase1 and records nothing of it.
+  const pele = { type: 'flowchart', direction: 'LR', nodes: new Map([['a', { id: 'a', labelType: 'text', styles: [], classes: [], text: 'a', props: {} }]]), edges: [], subgraphs: [{ id: 'lane1', nodes: ['a'], title: 'lane1', classes: [], labelType: 'text' }, { id: 'phase1', nodes: [], title: 'phase1', classes: [], labelType: 'text' }] }
+  const absent = verdicts()
+  const other = projectPublicDatabase('bridge', 'flowchart', pele, absent.hooks.unavailable, absent.hooks.unsupported, 'obsidianmd/pele').getData().other
+  expect(() => other.droppedSubGraphMembers).toThrow('unsupported')
+  expect(() => expect(other).toEqual({})).toThrow('unsupported')
+  expect(absent.log[0]).toBe("unsupported: Pele's flowchart model records no subgraph member lost to an earlier subgraph, so neither a dropped member nor its absence is known")
+  // A model with no review of dropped members: a gap.
+  const unreviewed = verdicts()
+  const unknown = projectPublicDatabase('bridge', 'flowchart', pele, unreviewed.hooks.unavailable, unreviewed.hooks.unsupported, 'example/json-bridge').getData().other
+  expect(() => expect(unknown).toEqual({})).toThrow('gap')
+  expect(unreviewed.log).toEqual(['gap: layout other.droppedSubGraphMembers'])
+})
