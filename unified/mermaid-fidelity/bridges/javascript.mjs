@@ -5,7 +5,7 @@
 // bridge parses nothing itself and passes the native model through unchanged.
 //
 // argv: <project key> <project root or module path>
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { serve } from './common.mjs'
@@ -20,18 +20,28 @@ const PROJECTS = {
   // sequence, class, er, xychart, architecture, c4, pie, quadrant. Its renderer splits the
   // source with core's splitStatements before the statement-based parsers, and renders
   // stateDiagram sources through parseMermaid (core's detector reports them as flowchart).
+  // 5.16.0 adds parsers that take the source text itself (mermaid-parser dist/shared/
+  // index.d.ts: parseGitGraph(text), parseRadar(text), ...). Their views were reviewed
+  // against 5.17.0 output (views/reviewed-versions.mjs), so they are bound from 5.17.0 on.
   zombie: async root => {
     const scope = join(dirname(root), '@zombie-mermaid')
     const core = await load(join(scope, 'core/dist/index.js')), p = await load(join(scope, 'mermaid-parser/dist/index.js'))
     const split = parse => withInput(parse, core.splitStatements?.bind(core))
-    // 5.16.0 also exports parsers for these families. Trident has no reviewed binding or
-    // view for them yet, so a test of one is a Trident gap, not an operation zombie lacks.
-    const later = { gantt: 'parseGantt', gitgraph: 'parseGitGraph', journey: 'parseJourney', kanban: 'parseKanban', mindmap: 'parseMindmap', packet: 'parsePacket', radar: 'parseRadar', requirement: 'parseRequirementDiagram', sankey: 'parseSankey', timeline: 'parseTimeline' }
+    const [major, minor] = String(JSON.parse(readFileSync(join(scope, 'mermaid-parser/package.json'), 'utf8')).version).split('.').map(Number)
+    const reviewed = major > 5 || (major === 5 && minor >= 17)
+    // Called with the source alone: parseGantt's optional second argument (the date that
+    // fills in a year or day a dateFormat leaves out) keeps its own default.
+    const texts = { gantt: 'parseGantt', gitgraph: 'parseGitGraph', journey: 'parseJourney', kanban: 'parseKanban', mindmap: 'parseMindmap', packet: 'parsePacket', radar: 'parseRadar', requirement: 'parseRequirementDiagram', timeline: 'parseTimeline' }
+    const text = reviewed ? Object.fromEntries(Object.entries(texts).map(([family, name]) => [family, typeof p[name] === 'function' ? source => p[name](source) : undefined])) : {}
+    // The sankey parser (and, before 5.17.0, the parsers above) has no reviewed view, so a
+    // test of it is a Trident gap, not an operation zombie lacks.
+    const later = { sankey: 'parseSankey', ...(reviewed ? {} : texts) }
     return {
       name: 'zombie-mermaid',
       families: {
         flowchart: p.parseMermaid, state: p.parseMermaid, sequence: split(p.parseSequenceDiagram), class: split(p.parseClassDiagram), er: split(p.parseErDiagram),
         c4: split(p.parseC4Diagram), xychart: split(p.parseXYChart), architecture: split(p.parseArchitecture), pie: p.parsePieChart, quadrant: p.parseQuadrantChart,
+        ...text,
       },
       unbound: Object.fromEntries(Object.entries(later).filter(([, name]) => typeof p[name] === 'function')),
     }

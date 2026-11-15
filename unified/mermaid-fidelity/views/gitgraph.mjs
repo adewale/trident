@@ -1,6 +1,6 @@
 // Reviewed git graph views: Mermaid's gitGraph database getters and the Langium GitGraph
 // AST, read from each project's own parser model; and, for the same non-port projects, the
-// Radar, Treemap, Architecture and Railroad Langium ASTs (bottom of this file). See
+// Radar, Treemap, Architecture, Railroad and Packet Langium ASTs (bottom of this file). See
 // views/index.mjs for the module contract and schema-views.mjs for the doctrine; helpers
 // are used only inside functions.
 //
@@ -380,6 +380,76 @@ function merslim(_raw, hooks) {
   }, hooks)
 }
 
+// zombie-mermaid 5.17.0 parseGitGraph (mermaid-parser dist/shared/index.d.ts GitGraph,
+// GitCommit; checked against its output): commits in source order { id (the written id:, or
+// `<seq>-<7 hex>`), message (msg:, or the merge / cherry-pick text Mermaid composes), seq,
+// type NORMAL|REVERSE|HIGHLIGHT|MERGE|CHERRY_PICK, tags, parents, branch }, a merge adding
+// customType only when a type: was written and customId only when an id: was written;
+// branches as names in drawing order (Mermaid's getBranchesAsObjArray: by order:, ties in
+// creation order), the direction, a title and config.mainBranchName. It keeps no fork point
+// for a branch without commits, no creation order of the branches, no checked-out branch
+// or head, and drops accTitle / accDescr lines.
+/** Branch heads in a list that is not in Mermaid's creation order: lookups and the size
+ * answer, enumerating is unsupported. */
+class DrawingOrderHeads extends BranchHeads {
+  constructor(entries, hooks, reason) {
+    super(entries, hooks)
+    this.reason = reason
+  }
+  refuse() { return this.hooks.unsupported(this.reason) }
+  keys() { return this.refuse() }
+  values() { return this.refuse() }
+  entries() { return this.refuse() }
+  forEach() { return this.refuse() }
+  [Symbol.iterator]() { return this.refuse() }
+}
+function zombie(raw, hooks) {
+  const commits = raw.commits, main = raw.config?.mainBranchName
+  const view = gitView({
+    commits: () =>
+      commits.map(commit => {
+        const merge = commit.type === 'MERGE'
+        return {
+          merge,
+          fields: {
+            id: commit.id,
+            message: commit.message,
+            seq: commit.seq,
+            type: commitType(commit.type),
+            tags: commit.tags,
+            parents: commit.parents,
+            branch: commit.branch,
+            ...(merge ? { customType: commit.customType === undefined ? undefined : commitType(commit.customType), customId: commit.customId === true } : {}),
+          },
+        }
+      }),
+    branches: () =>
+      raw.branches.map(name => {
+        const newest = newestOn(commits, name)
+        if (newest) return [name, newest.id]
+        // The main branch moves only by its own commits; with no commits at all every head is null.
+        if (!commits.length || name === main) return [name, null]
+        return [name, no('zombie-mermaid keeps no fork point for a branch without commits')]
+      }),
+    branchOrder: () => raw.branches.map(name => ({ name })),
+    currentBranch: no("zombie-mermaid's git graph model keeps no checked-out branch"),
+    head: no("zombie-mermaid's git graph model keeps no checked-out head commit"),
+    direction: raw.direction,
+    accTitle: no("zombie-mermaid's git graph parser reads no accessibility title"),
+    accDescr: no("zombie-mermaid's git graph parser reads no accessibility description"),
+  }, hooks)
+  const heads = view.getBranches
+  return {
+    ...view,
+    // One branch is listed alike in either order.
+    getBranches: () => {
+      const map = heads()
+      return map.size < 2 ? map : new DrawingOrderHeads([...Map.prototype.entries.call(map)], hooks, 'zombie-mermaid lists branches in drawing order (by order:), not in the creation order of Mermaid\'s branch map')
+    },
+    getDiagramTitle: () => raw.title ?? '',
+  }
+}
+
 // ---------------------------------------------------------------------------------------
 // Langium GitGraph AST (packages/parser/src/language/gitGraph/gitGraph.langium): statements
 // Commit { id?, message?, tags[], type? }, Branch { name, order? }, Merge { branch, id?,
@@ -406,6 +476,8 @@ const AST_FIELDS = {
   Group: ['id', 'icon', 'title', 'in'],
   Railroad: ['rules', 'title', 'accTitle', 'accDescr'],
   RailroadRule: ['name', 'definition'],
+  // packet.langium at the pinned tag.
+  Packet: ['title', 'accTitle', 'accDescr', 'blocks'],
 }
 /** A Langium AST node whose Absent fields are unsupported. */
 function gitAst(type, fields, hooks) {
@@ -500,6 +572,21 @@ function dartRadar(raw, hooks) {
     axes: raw.axes.map(() => gitAst('Axis', { name: no(display), label: no(display) }, hooks)),
     curves: raw.curves.map(() => gitAst('Curve', { name: no(display), label: no(display), entries: no("mermaid_core resolves keyed curve entries to one value per axis; the written entries are not kept") }, hooks)),
     options: no('mermaid_core merges radar option defaults, so the written options are not kept'),
+  }, hooks)
+}
+// zombie-mermaid 5.17.0 Radar: axes and curves { name, label (the name when no label was
+// written) }, a curve's entries resolved to one value per axis in axis order (keyed entries
+// reordered), options with defaults applied, and the title; accTitle / accDescr lines are
+// dropped.
+function zombieRadar(raw, hooks) {
+  const label = item => written(item.label, item.name, 'zombie-mermaid stores an unlabelled radar axis or curve with its name as label')
+  return gitAst('Radar', {
+    title: raw.title,
+    accTitle: no("zombie-mermaid's radar parser reads no accessibility title"),
+    accDescr: no("zombie-mermaid's radar parser reads no accessibility description"),
+    axes: raw.axes.map(axis => gitAst('Axis', { name: axis.name, label: label(axis) }, hooks)),
+    curves: raw.curves.map(curve => gitAst('Curve', { name: curve.name, label: label(curve), entries: no("zombie-mermaid resolves a curve's entries to one value per axis in axis order; the written entries are not kept") }, hooks)),
+    options: no('zombie-mermaid applies radar option defaults, so the written options are not kept'),
   }, hooks)
 }
 function mmdrRadar(_raw, hooks) {
@@ -627,6 +714,17 @@ function termaidArchitecture(raw, hooks) {
   }, hooks)
 }
 
+// Packet. zombie-mermaid 5.17.0 Packet: blocks resolved to { start, end, label } (a written
+// single bit, bit range and `+<count>` all become start..end), rows cut from them, and the
+// title; accTitle / accDescr lines are dropped.
+const zombiePacket = (raw, hooks) =>
+  gitAst('Packet', {
+    title: raw.title,
+    accTitle: no("zombie-mermaid's packet parser reads no accessibility title"),
+    accDescr: no("zombie-mermaid's packet parser reads no accessibility description"),
+    blocks: no('zombie-mermaid resolves every packet field to start..end, so whether a single bit, a bit range or a +count was written is not kept'),
+  }, hooks)
+
 // Railroad. mermaid_core 0.3.2 RailroadDiagram { rules: RailroadRule { name, expr }, title }
 // keeps no accessibility text. Its expression parser drops a group's parentheses and folds
 // a one-item sequence or choice into its item (railroad.dart _parseSequence, _parseChoice),
@@ -651,12 +749,14 @@ export default {
       'evangwt/xmermaid': xmermaid,
       'Mootikins/figurehead-rs': figurehead,
       'emtyty/merslim': merslim,
+      'dfadler/zombie-mermaid': zombie,
     },
   },
   ast: {
     GitGraph: {
       'adewale/agentic-mermaid': agenticAst,
       'emtyty/merslim': merslimAst,
+      'dfadler/zombie-mermaid': graphOnlyAst(noStatements('zombie-mermaid'), raw => ({ title: raw.title, accTitle: no("zombie-mermaid's git graph parser reads no accessibility title"), accDescr: no("zombie-mermaid's git graph parser reads no accessibility description") })),
       'fasouto/termaid': graphOnlyAst(noStatements('termaid'), () => ({ title: no("termaid's git graph model keeps no title"), accTitle: no("termaid's git graph parser reads no accessibility title"), accDescr: no("termaid's git graph parser reads no accessibility description") })),
       'Yassimba/loom': graphOnlyAst(noStatements('Loom'), () => ({ accTitle: no("Loom's git graph parser reads no accessibility title"), accDescr: no("Loom's git graph parser reads no accessibility description") })),
       'anomalyco/opencode': graphOnlyAst(noStatements('OpenCode'), () => ({ title: no("OpenCode's git graph parser skips titles"), accTitle: no("OpenCode's git graph parser skips accessibility titles"), accDescr: no("OpenCode's git graph parser skips accessibility descriptions") })),
@@ -671,6 +771,10 @@ export default {
       'orestesgaolin/mermaid': dartRadar,
       'pub:mermaid_flutter': dartRadar,
       '1jehuang/mermaid-rs-renderer': mmdrRadar,
+      'dfadler/zombie-mermaid': zombieRadar,
+    },
+    Packet: {
+      'dfadler/zombie-mermaid': zombiePacket,
     },
     Treemap: {
       'adewale/agentic-mermaid': agenticTreemap,

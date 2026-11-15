@@ -1,0 +1,991 @@
+{
+  "project": "dfadler/zombie-mermaid",
+  "version": "5.17.0",
+  "package": "@zombie-mermaid/mermaid-parser (dist/index.js, types in dist/shared/index.d.ts)",
+  "date": "2026-11-15",
+  "purpose": "Probes of zombie-mermaid's text parsers behind the reviewed gitgraph, radar, packet, kanban, mindmap, timeline, journey, gantt and requirement views (views/gitgraph.mjs, views/misc.mjs; views/reviewed-versions.mjs 5.17.0). Each concept a view declares absent cites the probes that show the model does not carry it.",
+  "absentConcepts": [
+    {
+      "concept": "gitgraph getCurrentBranch / getHead",
+      "probes": [
+        "git-graph",
+        "git-checkout"
+      ],
+      "observation": "GitGraph keeps direction, title, branches, commits and config only: no checked-out branch or head after `checkout dev`"
+    },
+    {
+      "concept": "gitgraph getAccTitle / getAccDescription, GitGraph AST accTitle / accDescr",
+      "probes": [
+        "git-graph",
+        "git-checkout"
+      ],
+      "observation": "accTitle: and accDescr: lines are accepted and leave no field"
+    },
+    {
+      "concept": "gitgraph getBranches head of a branch without commits (other than main, or before any commit)",
+      "probes": [
+        "git-graph"
+      ],
+      "observation": "`empty` (cut from A) and `x` before its cherry-pick are listed by name only; no fork point is kept"
+    },
+    {
+      "concept": "gitgraph getBranches enumeration order",
+      "probes": [
+        "git-graph"
+      ],
+      "observation": "branches lists main, empty, x, develop: drawing order (order: 2 last), not creation order"
+    },
+    {
+      "concept": "GitGraph AST statements",
+      "probes": [
+        "git-graph"
+      ],
+      "observation": "commits are replayed into a commit list; checkouts and statement order are not kept"
+    },
+    {
+      "concept": "Radar AST accTitle / accDescr",
+      "probes": [
+        "radar",
+        "radar-accdescr"
+      ],
+      "observation": "accTitle: / accDescr: lines leave no field"
+    },
+    {
+      "concept": "Radar AST Axis.label / Curve.label when equal to the name",
+      "probes": [
+        "radar"
+      ],
+      "observation": "axis A without a label has label \"A\""
+    },
+    {
+      "concept": "Radar AST Curve.entries",
+      "probes": [
+        "radar"
+      ],
+      "observation": "c2 written {C: 3, A: 1, B: 2} is [1, 2, 3], as c1 written {1,2,3}"
+    },
+    {
+      "concept": "Radar AST options",
+      "probes": [
+        "radar"
+      ],
+      "observation": "options carries max null, min 0 and graticule circle that were not written"
+    },
+    {
+      "concept": "packet getAccTitle / getAccDescription, Packet AST accTitle / accDescr",
+      "probes": [
+        "packet"
+      ],
+      "observation": "acc lines leave no field"
+    },
+    {
+      "concept": "Packet AST blocks",
+      "probes": [
+        "packet-counts",
+        "packet-ranges"
+      ],
+      "observation": "`+8` / `8-23` / `24` and `0-7` / `+16` / `+1` give identical blocks"
+    },
+    {
+      "concept": "packet getPacket row block bits",
+      "probes": [
+        "packet"
+      ],
+      "observation": "words blocks are { start, end, label }; no bit count"
+    },
+    {
+      "concept": "kanban section icon, ticket, priority, assigned (getSections, getData section node ticket)",
+      "probes": [
+        "kanban",
+        "kanban-column-metadata"
+      ],
+      "observation": "a column keeps id, text, cards and className; ::icon(bomb) and @{ ticket, priority, icon, assigned } on a column leave no field"
+    },
+    {
+      "concept": "mindmap nodeId of a delimited node",
+      "probes": [
+        "mindmap"
+      ],
+      "observation": "root((the root)) and child1[c1] keep text and a source-order number, not root / child1"
+    },
+    {
+      "concept": "timeline task id and score",
+      "probes": [
+        "timeline"
+      ],
+      "observation": "periods are { section, label, events }"
+    },
+    {
+      "concept": "journey getAccTitle / getAccDescription",
+      "probes": [
+        "journey"
+      ],
+      "observation": "acc lines leave no field"
+    },
+    {
+      "concept": "gantt getAccTitle / getAccDescription",
+      "probes": [
+        "gantt"
+      ],
+      "observation": "acc lines leave no field"
+    },
+    {
+      "concept": "requirement getAccTitle / getAccDescription",
+      "probes": [
+        "requirement"
+      ],
+      "observation": "acc lines leave no field"
+    }
+  ],
+  "probes": {
+    "git-graph": {
+      "parser": "parseGitGraph",
+      "source": "gitGraph TB:\naccTitle: T\ncommit id:\"A\" tag:\"v1\" type:HIGHLIGHT\nbranch develop order: 2\nbranch empty\ncheckout develop\ncommit msg:\"hi\"\ncommit id:\"B\"\ncheckout main\nmerge develop id:\"M\" type:REVERSE tag:\"r\"\nbranch x\ncheckout x\ncherry-pick id:\"B\"\ncheckout main\nmerge x\n",
+      "output": {
+        "direction": "TB",
+        "branches": [
+          "main",
+          "empty",
+          "x",
+          "develop"
+        ],
+        "commits": [
+          {
+            "id": "A",
+            "message": "",
+            "seq": 0,
+            "type": "HIGHLIGHT",
+            "tags": [
+              "v1"
+            ],
+            "parents": [],
+            "branch": "main"
+          },
+          {
+            "id": "1-f47a74e",
+            "message": "hi",
+            "seq": 1,
+            "type": "NORMAL",
+            "tags": [],
+            "parents": [
+              "A"
+            ],
+            "branch": "develop"
+          },
+          {
+            "id": "B",
+            "message": "",
+            "seq": 2,
+            "type": "NORMAL",
+            "tags": [],
+            "parents": [
+              "1-f47a74e"
+            ],
+            "branch": "develop"
+          },
+          {
+            "id": "M",
+            "message": "merged branch develop into main",
+            "seq": 3,
+            "parents": [
+              "A",
+              "B"
+            ],
+            "branch": "main",
+            "type": "MERGE",
+            "tags": [
+              "r"
+            ],
+            "customType": "REVERSE",
+            "customId": true
+          },
+          {
+            "id": "4-1e8b36b",
+            "message": "cherry-picked  into x",
+            "seq": 4,
+            "parents": [
+              "M",
+              "B"
+            ],
+            "branch": "x",
+            "type": "CHERRY_PICK",
+            "tags": [
+              "cherry-pick:B"
+            ]
+          },
+          {
+            "id": "5-f50b3a2",
+            "message": "merged branch x into main",
+            "seq": 5,
+            "parents": [
+              "M",
+              "4-1e8b36b"
+            ],
+            "branch": "main",
+            "type": "MERGE",
+            "tags": []
+          }
+        ],
+        "config": {
+          "mainBranchName": "main",
+          "mainBranchOrder": 0,
+          "showCommitLabel": true,
+          "showBranches": true,
+          "rotateCommitLabel": true,
+          "parallelCommits": false,
+          "titleTopMargin": 25,
+          "diagramPadding": 8
+        }
+      }
+    },
+    "git-checkout": {
+      "parser": "parseGitGraph",
+      "source": "gitGraph\ncommit\nbranch dev\ncheckout dev\naccDescr: D\n",
+      "output": {
+        "direction": "LR",
+        "branches": [
+          "main",
+          "dev"
+        ],
+        "commits": [
+          {
+            "id": "0-9b915a1",
+            "message": "",
+            "seq": 0,
+            "type": "NORMAL",
+            "tags": [],
+            "parents": [],
+            "branch": "main"
+          }
+        ],
+        "config": {
+          "mainBranchName": "main",
+          "mainBranchOrder": 0,
+          "showCommitLabel": true,
+          "showBranches": true,
+          "rotateCommitLabel": true,
+          "parallelCommits": false,
+          "titleTopMargin": 25,
+          "diagramPadding": 8
+        }
+      }
+    },
+    "git-title": {
+      "parser": "parseGitGraph",
+      "source": "gitGraph\ntitle TT\ncommit\n",
+      "output": {
+        "direction": "LR",
+        "branches": [
+          "main"
+        ],
+        "commits": [
+          {
+            "id": "0-9b915a1",
+            "message": "",
+            "seq": 0,
+            "type": "NORMAL",
+            "tags": [],
+            "parents": [],
+            "branch": "main"
+          }
+        ],
+        "config": {
+          "mainBranchName": "main",
+          "mainBranchOrder": 0,
+          "showCommitLabel": true,
+          "showBranches": true,
+          "rotateCommitLabel": true,
+          "parallelCommits": false,
+          "titleTopMargin": 25,
+          "diagramPadding": 8
+        },
+        "title": "TT"
+      }
+    },
+    "radar": {
+      "parser": "parseRadar",
+      "source": "radar-beta\ntitle Hello\naccTitle: T\naxis A, B[\"Bee\"], C\ncurve c1{1,2,3}\ncurve c2[\"Two\"]{C: 3, A: 1, B: 2}\nshowLegend false\nticks 3\n",
+      "output": {
+        "axes": [
+          {
+            "name": "A",
+            "label": "A"
+          },
+          {
+            "name": "B",
+            "label": "Bee"
+          },
+          {
+            "name": "C",
+            "label": "C"
+          }
+        ],
+        "curves": [
+          {
+            "name": "c1",
+            "label": "c1",
+            "entries": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "name": "c2",
+            "label": "Two",
+            "entries": [
+              1,
+              2,
+              3
+            ]
+          }
+        ],
+        "options": {
+          "showLegend": false,
+          "ticks": 3,
+          "max": null,
+          "min": 0,
+          "graticule": "circle"
+        },
+        "title": "Hello"
+      }
+    },
+    "radar-accdescr": {
+      "parser": "parseRadar",
+      "source": "radar-beta\naccDescr: D\naxis A\ncurve c{1}\n",
+      "output": {
+        "axes": [
+          {
+            "name": "A",
+            "label": "A"
+          }
+        ],
+        "curves": [
+          {
+            "name": "c",
+            "label": "c",
+            "entries": [
+              1
+            ]
+          }
+        ],
+        "options": {
+          "showLegend": true,
+          "ticks": 5,
+          "max": null,
+          "min": 0,
+          "graticule": "circle"
+        }
+      }
+    },
+    "packet": {
+      "parser": "parsePacket",
+      "source": "packet\n    title Packet diagram\n    accTitle: Packet accTitle\n    accDescr: Packet accDescription\n    0-10: \"test\"\n    11-90: \"multiple\"\n",
+      "output": {
+        "blocks": [
+          {
+            "start": 0,
+            "end": 10,
+            "label": "test"
+          },
+          {
+            "start": 11,
+            "end": 90,
+            "label": "multiple"
+          }
+        ],
+        "words": [
+          [
+            {
+              "start": 0,
+              "end": 10,
+              "label": "test"
+            },
+            {
+              "start": 11,
+              "end": 31,
+              "label": "multiple"
+            }
+          ],
+          [
+            {
+              "start": 32,
+              "end": 63,
+              "label": "multiple"
+            }
+          ],
+          [
+            {
+              "start": 64,
+              "end": 90,
+              "label": "multiple"
+            }
+          ]
+        ],
+        "title": "Packet diagram"
+      }
+    },
+    "packet-counts": {
+      "parser": "parsePacket",
+      "source": "packet\n+8: \"byte\"\n8-23: \"word\"\n24: \"bit\"\n",
+      "output": {
+        "blocks": [
+          {
+            "start": 0,
+            "end": 7,
+            "label": "byte"
+          },
+          {
+            "start": 8,
+            "end": 23,
+            "label": "word"
+          },
+          {
+            "start": 24,
+            "end": 24,
+            "label": "bit"
+          }
+        ],
+        "words": [
+          [
+            {
+              "start": 0,
+              "end": 7,
+              "label": "byte"
+            },
+            {
+              "start": 8,
+              "end": 23,
+              "label": "word"
+            },
+            {
+              "start": 24,
+              "end": 24,
+              "label": "bit"
+            }
+          ]
+        ]
+      }
+    },
+    "packet-ranges": {
+      "parser": "parsePacket",
+      "source": "packet\n0-7: \"byte\"\n+16: \"word\"\n+1: \"bit\"\n",
+      "output": {
+        "blocks": [
+          {
+            "start": 0,
+            "end": 7,
+            "label": "byte"
+          },
+          {
+            "start": 8,
+            "end": 23,
+            "label": "word"
+          },
+          {
+            "start": 24,
+            "end": 24,
+            "label": "bit"
+          }
+        ],
+        "words": [
+          [
+            {
+              "start": 0,
+              "end": 7,
+              "label": "byte"
+            },
+            {
+              "start": 8,
+              "end": 23,
+              "label": "word"
+            },
+            {
+              "start": 24,
+              "end": 24,
+              "label": "bit"
+            }
+          ]
+        ]
+      }
+    },
+    "kanban": {
+      "parser": "parseKanban",
+      "source": "kanban\n    root[The root]\n    ::icon(bomb)\n    :::m-4 p-8\n      a[Item A]@{ ticket: MC-1, assigned: knsv, priority: High, icon: star }\n      b\n    col2@{ icon: star, assigned: x }\n",
+      "output": {
+        "columns": [
+          {
+            "id": "root",
+            "text": "The root",
+            "cards": [
+              {
+                "id": "a",
+                "text": "Item A",
+                "icon": "star",
+                "assigned": "knsv",
+                "ticket": "MC-1",
+                "priority": "High"
+              },
+              {
+                "id": "b",
+                "text": "b"
+              }
+            ],
+            "className": "m-4 p-8"
+          },
+          {
+            "id": "col2",
+            "text": "col2",
+            "cards": []
+          }
+        ]
+      }
+    },
+    "kanban-column-metadata": {
+      "parser": "parseKanban",
+      "source": "kanban\n  todo[Todo]@{ ticket: T-1, priority: High }\n    a[A]\n",
+      "output": {
+        "columns": [
+          {
+            "id": "todo",
+            "text": "Todo",
+            "cards": [
+              {
+                "id": "a",
+                "text": "A"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "mindmap": {
+      "parser": "parseMindmap",
+      "source": "mindmap\n    root((the root))\n      child1[c1]\n      ::icon(bomb)\n      :::m-4 large\n        leaf\n      child2\n",
+      "output": {
+        "root": {
+          "id": 0,
+          "text": "the root",
+          "shape": "circle",
+          "level": 0,
+          "children": [
+            {
+              "id": 1,
+              "text": "c1",
+              "shape": "rect",
+              "level": 2,
+              "children": [
+                {
+                  "id": 2,
+                  "text": "leaf",
+                  "shape": "default",
+                  "level": 4,
+                  "children": []
+                }
+              ],
+              "icon": "bomb",
+              "className": "m-4 large"
+            },
+            {
+              "id": 3,
+              "text": "child2",
+              "shape": "default",
+              "level": 2,
+              "children": []
+            }
+          ]
+        }
+      }
+    },
+    "timeline": {
+      "parser": "parseTimeline",
+      "source": "timeline\ntitle T\naccTitle: x\n2002 : LinkedIn\nsection S1\n2004 : Facebook : Google\n2005\n",
+      "output": {
+        "direction": "LR",
+        "sections": [
+          "S1"
+        ],
+        "periods": [
+          {
+            "section": "",
+            "label": "2002",
+            "events": [
+              "LinkedIn"
+            ]
+          },
+          {
+            "section": "S1",
+            "label": "2004",
+            "events": [
+              "Facebook",
+              "Google"
+            ]
+          },
+          {
+            "section": "S1",
+            "label": "2005",
+            "events": []
+          }
+        ],
+        "title": "T"
+      }
+    },
+    "journey": {
+      "parser": "parseJourney",
+      "source": "journey\ntitle Adding journey\naccTitle: T\naccDescr: D\nTask0: 5: Me\nsection Order\nTask1: 3: Me, Cat\nTask2: x\n",
+      "output": {
+        "sections": [
+          "Order"
+        ],
+        "tasks": [
+          {
+            "section": "",
+            "name": "Task0",
+            "score": 5,
+            "actors": [
+              "Me"
+            ]
+          },
+          {
+            "section": "Order",
+            "name": "Task1",
+            "score": 3,
+            "actors": [
+              "Me",
+              "Cat"
+            ]
+          },
+          {
+            "section": "Order",
+            "name": "Task2",
+            "score": "NaN",
+            "actors": []
+          }
+        ],
+        "actors": [
+          "Cat",
+          "Me"
+        ],
+        "title": "Adding journey"
+      }
+    },
+    "gantt": {
+      "parser": "parseGantt",
+      "source": "gantt\ndateFormat YYYY-MM-DD\nweekday friday\naccTitle: T\naccDescr: D\nexcludes Weekends\nexcludes 2024-01-29 Monday\ntitle Hi\nsection Documentation\ntask A: a, 2024-01-27, 2024-01-28\ntask B:crit,milestone, b, after a, 2024-01-30\ntask C: c, 2024-01-20, until a\n",
+      "output": {
+        "dateFormat": "YYYY-MM-DD",
+        "axisFormat": "",
+        "todayMarker": "",
+        "includes": [],
+        "excludes": [
+          "weekends",
+          "2024-01-29",
+          "monday"
+        ],
+        "inclusiveEndDates": false,
+        "topAxis": false,
+        "weekday": "friday",
+        "weekend": "saturday",
+        "displayMode": "",
+        "sections": [
+          "Documentation"
+        ],
+        "tasks": [
+          {
+            "id": "a",
+            "label": "task A",
+            "section": "Documentation",
+            "start": 1706313600000,
+            "end": 1706400000000,
+            "renderEnd": null,
+            "active": false,
+            "done": false,
+            "crit": false,
+            "milestone": false,
+            "vert": false,
+            "order": 0,
+            "classes": []
+          },
+          {
+            "id": "b",
+            "label": "task B",
+            "section": "Documentation",
+            "start": 1706400000000,
+            "end": 1706572800000,
+            "renderEnd": null,
+            "active": false,
+            "done": false,
+            "crit": true,
+            "milestone": true,
+            "vert": false,
+            "order": 1,
+            "classes": []
+          },
+          {
+            "id": "c",
+            "label": "task C",
+            "section": "Documentation",
+            "start": 1705708800000,
+            "end": 1706745600000,
+            "renderEnd": 1706745600000,
+            "active": false,
+            "done": false,
+            "crit": false,
+            "milestone": false,
+            "vert": false,
+            "order": 2,
+            "classes": []
+          }
+        ],
+        "title": "Hi"
+      }
+    },
+    "requirement": {
+      "parser": "parseRequirementDiagram",
+      "source": "requirementDiagram\naccTitle: T\naccDescr: D\ndirection LR\nfunctionalRequirement test_req {\nid: 1\ntext: the test text.\nrisk: high\nverifymethod: analysis\n}\nelement test_entity {\ntype: simulation\ndocref: abc\n}\ntest_entity - satisfies -> test_req\ntest_req <- contains - test_entity\nclassDef red fill:#f00,color:white\nclassDef blue fill:#00f\nstyle test_req stroke:#0f0\nclass test_req red\nclass test_req blue\ntest_entity:::red\n",
+      "output": {
+        "nodes": [
+          {
+            "id": "test_req",
+            "kind": "requirement",
+            "typeLabel": "Functional Requirement",
+            "requirementId": "1",
+            "text": "the test text.",
+            "risk": "High",
+            "verifyMethod": "Analysis",
+            "elementType": "",
+            "docRef": ""
+          },
+          {
+            "id": "test_entity",
+            "kind": "element",
+            "typeLabel": "Element",
+            "requirementId": "",
+            "text": "",
+            "risk": "",
+            "verifyMethod": "",
+            "elementType": "simulation",
+            "docRef": "abc"
+          }
+        ],
+        "relationships": [
+          {
+            "type": "satisfies",
+            "src": "test_entity",
+            "dst": "test_req"
+          },
+          {
+            "type": "contains",
+            "src": "test_entity",
+            "dst": "test_req"
+          }
+        ],
+        "classDefs": {
+          "Map": [
+            [
+              "red",
+              {
+                "fill": "#f00",
+                "color": "white"
+              }
+            ],
+            [
+              "blue",
+              {
+                "fill": "#00f"
+              }
+            ]
+          ]
+        },
+        "classAssignments": {
+          "Map": [
+            [
+              "test_req",
+              "blue"
+            ],
+            [
+              "test_entity",
+              "red"
+            ]
+          ]
+        },
+        "nodeStyles": {
+          "Map": [
+            [
+              "test_req",
+              {
+                "stroke": "#0f0"
+              }
+            ]
+          ]
+        },
+        "nodeClasses": {
+          "Map": [
+            [
+              "test_req",
+              [
+                "red",
+                "blue"
+              ]
+            ],
+            [
+              "test_entity",
+              [
+                "red"
+              ]
+            ]
+          ]
+        },
+        "styleLayers": {
+          "Map": [
+            [
+              "test_req",
+              [
+                {
+                  "stroke": "#0f0"
+                },
+                {
+                  "fill": "#f00",
+                  "color": "white"
+                },
+                {
+                  "fill": "#00f"
+                }
+              ]
+            ],
+            [
+              "test_entity",
+              [
+                {
+                  "fill": "#f00",
+                  "color": "white"
+                }
+              ]
+            ]
+          ]
+        },
+        "direction": "LR"
+      }
+    },
+    "requirement-class-order": {
+      "parser": "parseRequirementDiagram",
+      "source": "requirementDiagram\nstyle r0 fill:#111\nrequirement myReq:::class1 {\n}\nelement e {\n}\nstyle myReq fill:#222\nclassDef class1 fill:#f9f,stroke:#333\nclassDef class1 color:blue\nclass e class1\n",
+      "output": {
+        "nodes": [
+          {
+            "id": "myReq",
+            "kind": "requirement",
+            "typeLabel": "Requirement",
+            "requirementId": "",
+            "text": "",
+            "risk": "",
+            "verifyMethod": "",
+            "elementType": "",
+            "docRef": ""
+          },
+          {
+            "id": "e",
+            "kind": "element",
+            "typeLabel": "Element",
+            "requirementId": "",
+            "text": "",
+            "risk": "",
+            "verifyMethod": "",
+            "elementType": "",
+            "docRef": ""
+          }
+        ],
+        "relationships": [],
+        "classDefs": {
+          "Map": [
+            [
+              "class1",
+              {
+                "color": "blue"
+              }
+            ]
+          ]
+        },
+        "classAssignments": {
+          "Map": [
+            [
+              "myReq",
+              "class1"
+            ],
+            [
+              "e",
+              "class1"
+            ]
+          ]
+        },
+        "nodeStyles": {
+          "Map": [
+            [
+              "r0",
+              {
+                "fill": "#111"
+              }
+            ],
+            [
+              "myReq",
+              {
+                "fill": "#222"
+              }
+            ]
+          ]
+        },
+        "nodeClasses": {
+          "Map": [
+            [
+              "myReq",
+              [
+                "class1"
+              ]
+            ],
+            [
+              "e",
+              [
+                "class1"
+              ]
+            ]
+          ]
+        },
+        "styleLayers": {
+          "Map": [
+            [
+              "r0",
+              [
+                {
+                  "fill": "#111"
+                }
+              ]
+            ],
+            [
+              "myReq",
+              [
+                {
+                  "fill": "#222"
+                },
+                {
+                  "fill": "#f9f",
+                  "stroke": "#333"
+                },
+                {
+                  "color": "blue"
+                }
+              ]
+            ],
+            [
+              "e",
+              [
+                {
+                  "color": "blue"
+                }
+              ]
+            ]
+          ]
+        }
+      }
+    }
+  }
+}
