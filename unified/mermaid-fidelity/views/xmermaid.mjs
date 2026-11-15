@@ -75,9 +75,32 @@ function wardley(raw, hooks) {
   }
 }
 
+// ── Radar ────────────────────────────────────────────────────────────────────────
+// XMermaid keeps axes and curves { id, label (the id when none was written) }, a curve's
+// values, min, ticks and graticule (their defaults 0, 5 and circle merged in) and max, which
+// it sets to the largest curve value when none was written. It rejects showLegend
+// statements, so its model has no such option, and drops accTitle and accDescr. Mermaid's
+// radar database labels an unlabelled axis or curve with its name and stores max null
+// when none was written.
+function radar(raw, hooks) {
+  if (raw.type !== 'radar') return undefined
+  const options = () => record({ ticks: raw.ticks, min: raw.min, graticule: raw.graticule }, 'radar options', ['showLegend', 'ticks', 'max', 'min', 'graticule'], {
+    showLegend: "XMermaid's radar parser rejects showLegend statements; its model has no such option",
+    max: 'XMermaid stores the largest curve value as max when none was written, so a written max cannot be told from that one',
+  }, hooks, ['showLegend', 'max'])
+  return {
+    getDiagramTitle: () => raw.title ?? '',
+    getAxes: () => (raw.axes ?? []).map(axis => ({ name: axis.id, label: axis.label })),
+    getCurves: () => (raw.curves ?? []).map(curve => ({ name: curve.id, label: curve.label, entries: [...curve.values] })),
+    getOptions: options,
+    ...unsupportedGetters({ getAccTitle: "XMermaid's radar model keeps no accessibility title", getAccDescription: "XMermaid's radar model keeps no accessibility description" }, hooks),
+  }
+}
+
 export default {
   schema: {
     cynefin: { [PROJECT]: cynefin },
     wardley: { [PROJECT]: wardley },
+    radar: { [PROJECT]: radar },
   },
 }

@@ -408,3 +408,32 @@ test("vitepress-plugin-mermaid-diagram's subgraph members are its nodeIds; layou
 
 // radar-beta / title Radar diagram / accTitle: Radar accTitle / accDescr: Radar accDescription /
 // ticks 33 / showLegend false / axis A["Axis A"], B["Axis B"], C / curve mycurve["My Curve"]{ C: 3, A: 1, B: 2 } / curve two{4,5,6}
+test("the radar database's axes, curves and options from each model that keeps them", () => {
+  const axes = [{ name: 'A', label: 'Axis A' }, { name: 'B', label: 'Axis B' }, { name: 'C', label: 'C' }]
+  const curves = [{ name: 'mycurve', label: 'My Curve', entries: [1, 2, 3] }, { name: 'two', label: 'two', entries: [4, 5, 6] }]
+  // Pele 1.13.0, Bezel 0.2.26 and Latias94/merman 0.10.0 return Mermaid's resolved radar database.
+  const port = { type: 'radar', title: 'Radar diagram', accTitle: 'Radar accTitle', accDescr: 'Radar accDescription', axes, curves, options: { showLegend: false, ticks: 32, max: null, min: 0, graticule: 'circle' } }
+  for (const project of ['obsidianmd/pele', 'crabtalk/bezel', 'Latias94/merman']) {
+    const { hooks } = verdicts()
+    const view = nativeSchemaView(project, 'radar', port, hooks)
+    expect([view.getAxes(), view.getCurves(), view.getOptions()], project).toEqual([axes, curves, port.options])
+  }
+  // agentic-mermaid 0.5.6 RadarBody: an unwritten max is undefined (auto), Mermaid's null; ticks are not capped.
+  const agentic = { kind: 'radar', title: 'Radar diagram', axes: axes.map(({ name, label }) => ({ id: name, label })), curves: curves.map(({ name, label, entries }) => ({ id: name, label, values: entries })), min: 0, ticks: 33, graticule: 'circle', showLegend: false, accessibilityTitle: 'Radar accTitle', accessibilityDescription: 'Radar accDescription' }
+  const agenticView = nativeSchemaView('adewale/agentic-mermaid', 'radar', agentic, verdicts().hooks)
+  expect([agenticView.getAxes(), agenticView.getCurves(), agenticView.getOptions()]).toEqual([axes, curves, { showLegend: false, ticks: 33, max: null, min: 0, graticule: 'circle' }])
+  // mermaid-rs-renderer folds each curve into a node label and skips titles, axes and options.
+  const mmdr = verdicts()
+  const mmdrView = nativeSchemaView('1jehuang/mermaid-rs-renderer', 'radar', { kind: 'Radar', nodes: {}, edges: [] }, mmdr.hooks)
+  for (const getter of ['getDiagramTitle', 'getAxes', 'getCurves', 'getOptions']) expect(() => mmdrView[getter](), getter).toThrow('unsupported')
+  expect(mmdr.log).toEqual(['unsupported: mermaid-rs-renderer skips radar titles', 'unsupported: mermaid-rs-renderer keeps no radar axes (they only label curve entries)', 'unsupported: mermaid-rs-renderer keeps a radar curve only as a node whose display label folds its name and entries', 'unsupported: mermaid-rs-renderer skips radar options'])
+  // XMermaid 0.4.2 (radar-beta / title T / ticks 10 / graticule polygon / min 1 / max 10 / axis A["Axis A"], B, C / curve c1["C one"]{1,2,3}):
+  // no accessibility fields, no showLegend option, and a max it computes when none was written.
+  const x = verdicts()
+  const xView = nativeSchemaView('evangwt/xmermaid', 'radar', { type: 'radar', title: 'T', axes: [{ id: 'A', label: 'Axis A' }, { id: 'B', label: 'B' }, { id: 'C', label: 'C' }], curves: [{ id: 'c1', label: 'C one', values: [1, 2, 3] }], min: 1, max: 10, graticule: 'polygon', ticks: 10 }, x.hooks)
+  expect([xView.getDiagramTitle(), xView.getAxes(), xView.getCurves()]).toEqual(['T', [{ name: 'A', label: 'Axis A' }, { name: 'B', label: 'B' }, { name: 'C', label: 'C' }], [{ name: 'c1', label: 'C one', entries: [1, 2, 3] }]])
+  expect([xView.getOptions().ticks, xView.getOptions().min, xView.getOptions().graticule]).toEqual([10, 1, 'polygon'])
+  expect(() => xView.getAccTitle()).toThrow('unsupported')
+  // A whole-options comparison reads the options the model cannot answer: unsupported, never a mismatch.
+  expect(() => expect(xView.getOptions()).toEqual({ showLegend: true, ticks: 10, max: 10, min: 1, graticule: 'polygon' })).toThrow('unsupported')
+})

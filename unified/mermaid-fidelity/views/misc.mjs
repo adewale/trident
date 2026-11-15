@@ -1841,6 +1841,36 @@ function xmermaidIshikawa(raw, hooks) {
 }
 const ishikawaSchema = { 'adewale/agentic-mermaid': agenticIshikawa, 'evangwt/xmermaid': xmermaidIshikawa }
 
+// ---------------------------------------------------------------------------------------
+// Radar database (radar/db.ts): getAxes() lists { name, label } with the label defaulted to
+// the name, getCurves() { name, label, entries } with entries in axis order, getOptions()
+// { showLegend, ticks, max, min, graticule } with defaults true, 5, null, 0, 'circle' and
+// ticks capped at 32 by the database. Pele 1.13.0, Bezel 0.2.26 and Latias94/merman 0.10.0
+// return that resolved database itself (axes, curves, options), so its records are read as
+// they come. agentic-mermaid 0.5.6 RadarBody: axes and curves { id, label (the id when no
+// label was written) }, a curve's values one per axis in axis order, min, ticks, graticule
+// and showLegend with their defaults merged, and max only when written (undefined: auto,
+// Mermaid's null); it does not cap ticks. mermaid-rs-renderer 0.3.1 keeps each curve as a
+// node whose label folds its name and entries, and skips title, axis and option lines.
+const portRadar = raw => (Array.isArray(raw.axes) && Array.isArray(raw.curves) && raw.options && typeof raw.options === 'object' ? { getAxes: () => structuredClone(raw.axes), getCurves: () => structuredClone(raw.curves), getOptions: () => structuredClone(raw.options) } : undefined)
+function agenticRadarDb(raw) {
+  if (raw.kind !== 'radar') return undefined
+  return {
+    getAxes: () => raw.axes.map(axis => ({ name: axis.id, label: axis.label })),
+    getCurves: () => raw.curves.map(curve => ({ name: curve.id, label: curve.label, entries: [...curve.values] })),
+    getOptions: () => ({ showLegend: raw.showLegend, ticks: raw.ticks, max: raw.max ?? null, min: raw.min, graticule: raw.graticule }),
+  }
+}
+const mmdrRadar = (raw, hooks) => (raw.kind !== 'Radar' ? undefined : unsupportedGetters({
+  getDiagramTitle: 'mermaid-rs-renderer skips radar titles',
+  getAccTitle: 'mermaid-rs-renderer skips radar accessibility titles',
+  getAccDescription: 'mermaid-rs-renderer skips radar accessibility descriptions',
+  getAxes: 'mermaid-rs-renderer keeps no radar axes (they only label curve entries)',
+  getCurves: 'mermaid-rs-renderer keeps a radar curve only as a node whose display label folds its name and entries',
+  getOptions: 'mermaid-rs-renderer skips radar options',
+}, hooks))
+const radarSchema = { 'obsidianmd/pele': portRadar, 'crabtalk/bezel': portRadar, 'Latias94/merman': portRadar, 'adewale/agentic-mermaid': agenticRadarDb, '1jehuang/mermaid-rs-renderer': mmdrRadar }
+
 export default {
   schema: {
     class: classSchema,
@@ -1859,6 +1889,7 @@ export default {
     er: erSchema,
     ishikawa: ishikawaSchema,
     timeline: timelineSchema,
+    radar: radarSchema,
   },
   ast: {},
 }

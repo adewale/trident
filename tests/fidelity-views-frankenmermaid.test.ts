@@ -566,3 +566,16 @@ test('a 0.5.0 gantt task without flags is untagged: fm-core serializes flags onl
   expect(() => tasks[0].startTime).toThrow('unsupported')
   expect(log).toEqual(["unsupported: Frankenmermaid keeps a task's start specification, not its computed Date"])
 })
+
+test("the radar database from 0.5.0 radar_meta: unwritten labels and options read as Mermaid's defaults; keyed entries keep no values", () => {
+  const { hooks, log } = verdicts()
+  const radar = (meta: unknown) => nativeSchemaView(PROJECT, 'radar', { diagram_type: 'Radar', nodes: [], edges: [], labels: [], meta: { title: 'Radar diagram' }, radar_meta: meta }, hooks)
+  // radar-beta / axis A,B,C / curve mycurve{1,2,3}
+  const plain = radar({ axes: [{ id: 'A' }, { id: 'B' }, { id: 'C' }], curves: [{ id: 'mycurve', values: [1, 2, 3] }], graticule: 'circle', show_legend: true })
+  expect([plain.getDiagramTitle(), plain.getAxes(), plain.getCurves(), plain.getOptions()]).toEqual(['Radar diagram', [{ name: 'A', label: 'A' }, { name: 'B', label: 'B' }, { name: 'C', label: 'C' }], [{ name: 'mycurve', label: 'mycurve', entries: [1, 2, 3] }], { showLegend: true, ticks: 5, max: null, min: 0, graticule: 'circle' }])
+  // ... ticks 10 / showLegend false / graticule polygon / min 1 / max 10 / axis A["Axis A"], B / curve c["C"]{ B: 2, A: 1 }
+  const written = radar({ axes: [{ id: 'A', label: 'Axis A' }, { id: 'B' }], curves: [{ id: 'c', label: 'C', values: [] }], min: 1, max: 10, ticks: 10, graticule: 'polygon', show_legend: false })
+  expect([written.getAxes(), written.getOptions()]).toEqual([[{ name: 'A', label: 'Axis A' }, { name: 'B', label: 'B' }], { showLegend: false, ticks: 10, max: 10, min: 1, graticule: 'polygon' }])
+  expect(() => expect(written.getCurves()).toEqual([{ name: 'c', label: 'C', entries: [1, 2] }])).toThrow('unsupported')
+  expect(log).toEqual(['unsupported: Frankenmermaid keeps no values for a radar curve whose entries name their axes'])
+})
