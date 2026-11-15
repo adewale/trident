@@ -68,3 +68,10 @@ test('an assessment that a field is renderer output or pipeline behaviour scopes
   expect(scope.get(file + '\u00000')).toEqual(['renderer'])
   expect(scope.get(file + '\u00001')).toEqual(['pipeline'])
 })
+
+test('a reviewed reason recorded with numbers as N confirms the verdict that names the number', () => {
+  const reviews = assessmentConfirmations([{ protocol: 'fidelity-model-concept-review-v1', concepts: [{ verdict: 'confirmed', projects: { z: { 'z keeps text wrapping as a renderer setting, not per CN element': 59 } } }] }])
+  expect(reviews.confirmed('z', 'z keeps text wrapping as a renderer setting, not per C4 element')).toBe(true)
+  expect(reviews.confirmed('z', 'z keeps text wrapping as a renderer setting, not per CN element')).toBe(true)
+  expect(reviews.confirmed('y', 'z keeps text wrapping as a renderer setting, not per C4 element')).toBe(false)
+})
