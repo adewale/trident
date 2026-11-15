@@ -367,9 +367,13 @@ Inventory is executed and listed, with its counts, in `fidelity:coverage`, and d
 not enter the scored population.
 
 Three verdicts are known nonpasses: an assertion failure or candidate fault; a
-refusal by the candidate's own code of a source the pinned Mermaid oracle accepts
-(`scripts/verify-fidelity-refusals.ts` checks every refused source the runtime
-recorded; a source the oracle also rejects is not counted against the candidate);
+refusal by the candidate's own code of a source Mermaid recognises as a diagram
+(`scripts/verify-fidelity-refusals.ts` gives every refused source the runtime recorded
+to the pinned oracle's `mermaid.parse` and `mermaid.detectType`: if Mermaid accepts it,
+or its detector classifies it before rejecting the content, the candidate did not
+recognise what Mermaid recognises, and a test expecting Mermaid to reject that content
+cannot be met by a candidate that never reached it; a source Mermaid's detector does not
+recognise either is not counted against the candidate);
 and a capability assessment that a recorded review confirmed, a model concept by
 its exact reason and any other basis by basis and project
 (`unified/mermaid-fidelity/verification.ts`). Every other unsupported verdict, and

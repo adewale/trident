@@ -41,7 +41,7 @@ export function renderBindingCoverage(fidelity: any, label?: (row: { project: st
     heading,
     '',
     v3
-      ? `How each reference-qualified callback ended for each project, over the ${number(scoredPopulation)}-callback scored population and over all ${number(qualifiedPopulation)} qualified callbacks. Passes and native failures are known outcomes; so are native unsupported verdicts the pinned Mermaid oracle verified (the refused source is valid Mermaid) and capability assessments a recorded review confirmed, counted in the last two columns of the scored half. The rest are unassessed.`
+      ? `How each reference-qualified callback ended for each project, over the ${number(scoredPopulation)}-callback scored population and over all ${number(qualifiedPopulation)} qualified callbacks. Passes and native failures are known outcomes; so are native unsupported verdicts whose refused source Mermaid recognises as a diagram (its parse accepts it, or its detector classifies it) and capability assessments a recorded review confirmed, counted in the last two columns of the scored half. The rest are unassessed.`
       : `How each reference-qualified callback ended for each project, over the ${number(scoredPopulation)}-callback scored population and over all ${number(qualifiedPopulation)} qualified callbacks. Only passes and native failures are known outcomes in the score; the other three are unassessed.`,
     '',
     "- **Native failures**: an original assertion failed, or the candidate's own code faulted.",

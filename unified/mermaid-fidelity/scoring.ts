@@ -14,8 +14,9 @@
  *   is reached, whichever candidate runs); one whose file no candidate can load because
  *   it imports a Mermaid internal at setup; and one that exercised no candidate operation
  *   for any candidate. Those callbacks are inventory. Known nonpasses are assertion
- *   failures and candidate faults, native refusals whose refused sources the pinned
- *   Mermaid oracle accepts (a real refusal of valid Mermaid), and capability assessments
+ *   failures and candidate faults, native refusals of sources Mermaid recognises as
+ *   diagrams (the pinned oracle accepts them, or its detector classifies them before it
+ *   rejects the content: the candidate did not recognise what Mermaid recognises), and capability assessments
  *   a recorded review confirmed. Unverified refusals, unconfirmed assessments and missing
  *   Trident bindings stay unassessed.
  * - `fidelity-scored-population-v2`: the scored population is the
@@ -138,7 +139,7 @@ export interface FidelityScore {
   /** Known nonpasses: assertion failures and candidate faults; in v3 also verified refusals
    * and confirmed absences; in legacy results, unsupported operations. */
   nonpasses: number
-  /** v3: native refusals of sources the pinned Mermaid oracle accepts. */
+  /** v3: native refusals of sources Mermaid recognises as diagrams (verification.ts). */
   verifiedRefusals: number
   /** v3: capability assessments a recorded review confirmed. */
   confirmedAbsences: number

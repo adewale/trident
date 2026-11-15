@@ -1,7 +1,7 @@
 /** Check every native refusal in Mermaid Fidelity runs against the pinned Mermaid oracle.
- * No candidate runs. A refusal counts as a known nonpass in scoring v3 only when the
- * oracle accepts every source the candidate refused in that callback
- * (unified/mermaid-fidelity/verification.ts).
+ * No candidate runs. A refusal counts as a known nonpass in scoring v3 only when Mermaid
+ * recognises every source the candidate refused in that callback as a diagram: its parse
+ * accepts it, or its detector classifies it (unified/mermaid-fidelity/verification.ts).
  *
  *   bun scripts/verify-fidelity-refusals.ts --out VERIFIED.json RUN_DIR...
  */
@@ -9,7 +9,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { assertMermaidOracle, MERMAID_ORACLE_PIN, mermaidVerdicts } from '../portable/mermaid-oracle.ts'
 import { outcomeKind } from '../unified/mermaid-fidelity/outcome-kinds.ts'
-import { REFUSAL_VERIFICATION_PROTOCOL, sourceDigest, type OracleVerdict } from '../unified/mermaid-fidelity/verification.ts'
+import { mermaidRecognises, REFUSAL_VERIFICATION_PROTOCOL, sourceDigest, type OracleVerdict } from '../unified/mermaid-fidelity/verification.ts'
 
 /** Every distinct source behind a native refusal in the runs, with the projects that refused it. */
 export function refusedSources(runs: readonly any[]) {
@@ -34,19 +34,20 @@ if (import.meta.main) {
   const verdicts: Record<string, OracleVerdict & { projects: string[]; source: string }> = {}
   digests.forEach((digest, index) => {
     const reply = replies[index]!, entry = sources.get(digest)!
-    verdicts[digest] = { accepted: reply.accepted === true, ...(reply.diagramType ? { diagramType: reply.diagramType } : {}), ...(reply.error ? { error: reply.error } : {}), projects: [...entry.projects].sort(), source: entry.source }
+    verdicts[digest] = { accepted: reply.accepted === true, ...(reply.diagramType ? { diagramType: reply.diagramType } : {}), detectedType: reply.detectedType ?? null, ...(reply.error ? { error: reply.error } : {}), projects: [...entry.projects].sort(), source: entry.source }
   })
   const accepted = Object.values(verdicts).filter(verdict => verdict.accepted).length
+  const recognised = Object.values(verdicts).filter(mermaidRecognises).length
   // One verdict per line: the refused sources stay in the evidence and diffs stay readable.
   const header = JSON.stringify({
     protocol: REFUSAL_VERIFICATION_PROTOCOL,
     oracle: { mermaid: MERMAID_ORACLE_PIN.version, parser: MERMAID_ORACLE_PIN.parser, dom: MERMAID_ORACLE_PIN.dom },
-    method: "Each source a candidate's own code refused (runtime.ts records it beside the refusal) is parsed by the pinned Mermaid oracle's public mermaid.parse. Accepted means the candidate refused valid Mermaid; a source the oracle rejects is not counted against the candidate.",
+    method: "Each source a candidate's own code refused (runtime.ts records it beside the refusal) is given to the pinned Mermaid oracle's public mermaid.parse and mermaid.detectType. If Mermaid accepts it, or its detector classifies it as a diagram before rejecting the content, the candidate failed to recognise a diagram Mermaid recognises. A source Mermaid's detector does not recognise either is not counted against the candidate.",
     checkedAt: new Date().toISOString(),
     runs: runs.map(run => ({ updatedAt: run.updatedAt, controlIdentity: run.controlIdentity })),
-    sources: digests.length, accepted, rejected: digests.length - accepted,
+    sources: digests.length, accepted, recognisedButRejected: recognised - accepted, unrecognised: digests.length - recognised,
   }, null, 2)
   const lines = digests.map(digest => `    ${JSON.stringify(digest)}: ${JSON.stringify(verdicts[digest])}`)
   writeFileSync(out, header.slice(0, -2) + ',\n  "verdicts": {\n' + lines.join(',\n') + '\n  }\n}\n')
-  console.log(JSON.stringify({ sources: digests.length, accepted, rejected: digests.length - accepted }))
+  console.log(JSON.stringify({ sources: digests.length, accepted, recognisedButRejected: recognised - accepted, unrecognised: digests.length - recognised }))
 }

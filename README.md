@@ -84,8 +84,10 @@ renderer or styles, or ask for Mermaid's own detection pipeline. The runtime rec
 which of these a test reaches, whichever implementation runs it, and a test that
 reaches one for any implementation is inventory for all.
 
-A refusal by the implementation's own code counts as a failure when the pinned
-Mermaid oracle accepts the source it refused (<!-- fact:fidelity-verified-refusals -->9,516<!-- /fact -->
+A refusal by the implementation's own code counts as a failure when Mermaid
+recognises the source it refused as a diagram: the pinned Mermaid oracle accepts it, or
+Mermaid's own detector classifies it before rejecting its content, so the
+implementation did not recognise what Mermaid recognises (<!-- fact:fidelity-verified-refusals -->9,516<!-- /fact -->
 across all applicable implementations), and Trident's judgement that a capability is
 absent counts as one when a recorded review confirmed it
 (<!-- fact:fidelity-confirmed-absences -->21,834<!-- /fact -->). Any other unsupported

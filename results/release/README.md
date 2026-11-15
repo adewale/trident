@@ -53,7 +53,8 @@ Fidelity scores the <!-- fact:fidelity-population -->3,327<!-- /fact --> diagram
 parser callbacks that the fresh Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> control
 qualifies and that exercise a parser's public contract;
 <!-- fact:fidelity-internals -->1,517<!-- /fact --> more test Mermaid internals and are inventory.
-Native refusals are failures where the pinned oracle accepts the refused source
+Native refusals are failures where Mermaid recognises the refused source as a diagram
+(its parse accepts it, or its detector classifies it)
 ([verification](../../docs/evidence/fidelity-refusal-verification-2026-11-15.json)),
 and capability assessments where a recorded review confirmed them. It leaves <!-- fact:fidelity-unqualified -->0<!-- /fact --> callbacks
 reference-unqualified and <!-- fact:fidelity-skipped -->18<!-- /fact --> skipped.
