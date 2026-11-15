@@ -37,14 +37,16 @@ if (import.meta.main) {
     verdicts[digest] = { accepted: reply.accepted === true, ...(reply.diagramType ? { diagramType: reply.diagramType } : {}), ...(reply.error ? { error: reply.error } : {}), projects: [...entry.projects].sort(), source: entry.source }
   })
   const accepted = Object.values(verdicts).filter(verdict => verdict.accepted).length
-  writeFileSync(out, JSON.stringify({
+  // One verdict per line: the refused sources stay in the evidence and diffs stay readable.
+  const header = JSON.stringify({
     protocol: REFUSAL_VERIFICATION_PROTOCOL,
     oracle: { mermaid: MERMAID_ORACLE_PIN.version, parser: MERMAID_ORACLE_PIN.parser, dom: MERMAID_ORACLE_PIN.dom },
     method: "Each source a candidate's own code refused (runtime.ts records it beside the refusal) is parsed by the pinned Mermaid oracle's public mermaid.parse. Accepted means the candidate refused valid Mermaid; a source the oracle rejects is not counted against the candidate.",
     checkedAt: new Date().toISOString(),
     runs: runs.map(run => ({ updatedAt: run.updatedAt, controlIdentity: run.controlIdentity })),
     sources: digests.length, accepted, rejected: digests.length - accepted,
-    verdicts,
-  }, null, 2) + '\n')
+  }, null, 2)
+  const lines = digests.map(digest => `    ${JSON.stringify(digest)}: ${JSON.stringify(verdicts[digest])}`)
+  writeFileSync(out, header.slice(0, -2) + ',\n  "verdicts": {\n' + lines.join(',\n') + '\n  }\n}\n')
   console.log(JSON.stringify({ sources: digests.length, accepted, rejected: digests.length - accepted }))
 }

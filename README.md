@@ -69,28 +69,37 @@ renderer component, MermaidText and Loom's renderer component). The catalog
 declares their Fidelity not applicable (`benchmark.notApplicable.fidelity`): they
 are not run, the tables show them as n/a, and they are left out of the Fidelity
 ranking and out of the synthesis's Fidelity component.
-Only tests that the pinned Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> source control passes
-and whose file is under `packages/mermaid/src/diagrams/` or `packages/parser/`
-are scored: <!-- fact:fidelity-population -->4,844<!-- /fact --> tests. The other
-<!-- fact:fidelity-inventory -->2,502<!-- /fact --> tests the control passes cover rendering
-utilities, Mermaid's website and its top-level modules, which no reimplementation's
-parser can reach; they are executed and listed as inventory, not scored. An
-operation the implementation's side reports as unsupported, a missing Trident
-operation binding and a missing model translation all stay unassessed
-(<!-- fact:fidelity-gaps -->66,894<!-- /fact --> tests across all applicable
-implementations), because no per-test review has separated each
-implementation's real limits from Trident's binding gaps. Result files scored
-this way declare `scoring.protocol: 'fidelity-scored-population-v2'`; a result file
-collected before this rule is read under the rules it was published with, which
-score every test the control passes and count an unsupported operation as a
-failure.
+Fidelity measures each implementation's public parse contract: source text in,
+parsed model out. Only tests that the pinned Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> source control passes,
+whose file is under `packages/mermaid/src/diagrams/` or `packages/parser/`, and that
+exercise that contract are scored: <!-- fact:fidelity-population -->3,327<!-- /fact --> tests.
+The other <!-- fact:fidelity-inventory -->4,019<!-- /fact --> tests the control passes are
+executed and listed as inventory, not scored. They cover rendering utilities,
+Mermaid's website and its top-level modules, plus
+<!-- fact:fidelity-internals -->1,517<!-- /fact --> diagram and parser tests that test Mermaid's
+internals rather than its parse contract: they call, spy on or inspect Mermaid's
+database methods directly, rely on its parser → database call protocol, use its
+helper or module exports, set host configuration outside the source, read a
+renderer or styles, or ask for Mermaid's own detection pipeline. The runtime records
+which of these a test reaches, whichever implementation runs it, and a test that
+reaches one for any implementation is inventory for all.
+
+A refusal by the implementation's own code counts as a failure when the pinned
+Mermaid oracle accepts the source it refused (<!-- fact:fidelity-verified-refusals -->9,408<!-- /fact -->
+across all applicable implementations), and Trident's judgement that a capability is
+absent counts as one when a recorded review confirmed it
+(<!-- fact:fidelity-confirmed-absences -->21,032<!-- /fact -->). Any other unsupported
+verdict, missing Trident binding or missing model translation stays unassessed
+(<!-- fact:fidelity-gaps -->2,405<!-- /fact --> tests). Result files scored this way declare
+`scoring.protocol: 'fidelity-scored-population-v3'`; an earlier result file is read
+under the rules it was published with.
 
 Drawing Correctness and Mermaid Fidelity tables show each project's verified rank
 and the range of ranks still possible once its unassessed cases are resolved.
 
 ## Current results
 
-Collected <!-- fact:campaign-collected -->14 November 2026<!-- /fact -->. The
+Collected <!-- fact:campaign-collected -->14 November 2026 to 15 November 2026<!-- /fact -->. The
 leaders are:
 
 - **DaveBench**, examples completed. SVG:
@@ -101,7 +110,7 @@ leaders are:
   <!-- fact:drawing-svg-leader -->Bezel and Pele with 125 each (not yet settled)<!-- /fact -->.
   Terminal text: <!-- fact:drawing-terminal-leader -->Agentic Mermaid with 124<!-- /fact -->.
 - **Mermaid Fidelity**, tests passed:
-  <!-- fact:fidelity-leader -->Pele with 3,388 (not yet settled)<!-- /fact -->.
+  <!-- fact:fidelity-leader -->Bezel with 3,137 (not yet settled)<!-- /fact -->.
 
 Mermaid is ranked alongside the other implementations in DaveBench and Drawing
 Correctness. In Mermaid Fidelity it is the reference, so it passes every counted

@@ -29,13 +29,18 @@ Mermaid's own tests as only 54.6% passed. Those callbacks are reference-adapter
 coverage work, reported beside the table, not shared unknowns.
 
 Of the qualified callbacks, only those in Mermaid's diagram and parser tests
-(`packages/mermaid/src/diagrams/`, `packages/parser/`) are scored. The others test
-rendering utilities, Mermaid's website and its top-level modules, which no
-reimplementation's parser can reach; `fidelity:coverage` lists them as inventory.
-Result files scored this way declare `scoring.protocol:
-'fidelity-scored-population-v2'`. A result file without that declaration, collected
-before this rule, is read under the rules it was published with: every
-qualified callback is scored and an unsupported operation is a known nonpass
+(`packages/mermaid/src/diagrams/`, `packages/parser/`) that exercise a parser's
+public contract (source text in, parsed model out) are scored. Callbacks that test
+Mermaid's internals (its database methods called or spied on directly, the parser →
+database protocol, helper exports, host configuration outside the source, renderers,
+its detection pipeline) and callbacks in other folders are inventory. A native
+refusal of a source the pinned Mermaid oracle accepts, and a capability assessment a
+recorded review confirmed, are known nonpasses; other unsupported verdicts are
+unassessed. Result files scored this way declare `scoring.protocol:
+'fidelity-scored-population-v3'`. Earlier result files are read under the rules
+they were published with: v2 scores every diagram and parser callback and leaves
+every unsupported verdict unassessed; files with no declaration score every
+qualified callback and count an unsupported operation as a known nonpass
 (`fidelityScoring` in [unified/mermaid-fidelity/scoring.ts](../unified/mermaid-fidelity/scoring.ts)).
 
 ## Unknown results are ranges

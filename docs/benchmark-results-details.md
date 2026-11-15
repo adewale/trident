@@ -84,7 +84,7 @@ These gaps mostly describe unfinished Trident implementation, rather than demons
 limitations of the projects being benchmarked.
 
 **Fidelity runs every candidate on the whole selected suite.** All <!-- fact:fidelity-candidates -->23<!-- /fact --> candidates
-plus Mermaid attempted all <!-- fact:fidelity-files -->352<!-- /fact --> selected original test files (<!-- fact:fidelity-collected -->14 November 2026<!-- /fact -->) against one
+plus Mermaid attempted all <!-- fact:fidelity-files -->352<!-- /fact --> selected original test files (<!-- fact:fidelity-collected -->15 November 2026<!-- /fact -->) against one
 shared Mermaid <!-- fact:mermaid-reference -->12.3.0<!-- /fact --> source control run. The three projects the catalog now declares not applicable (no
 public parse interface, below) are not run and are not counted as candidates;
 collections made before that declaration include them. The
@@ -100,9 +100,9 @@ Mermaid Dart 815 → 1,703, Mermaid RS Renderer 212 → 1,226). Where a JavaScri
 candidate's module exposes no parser for a family (ER, class, C4, state or agentflow
 for Zombie Mermaid, XMermaid, OpenCode Merman, VitePress Plugin Diagram, DSH Mermaid
 GB SVG and MermaidTUI), those tests are recorded as unsupported, an operation the
-candidate does not offer; current scoring counts them as unassessed, like
-Trident gaps. Across all applicable candidates, <!-- fact:fidelity-gaps -->66,894<!-- /fact --> tests
-remain unassessed. Some candidates are called in-process through
+candidate does not offer; current scoring counts them as known nonpasses only where
+a recorded review confirmed the absence (below). Across all applicable candidates,
+<!-- fact:fidelity-gaps -->2,405<!-- /fact --> tests remain unassessed. Some candidates are called in-process through
 their JavaScript modules (generic native bindings, native model schema views and
 the Frankenmermaid WASM binding). The others run through parser bridges, one per
 project, registered in `unified/mermaid-fidelity/bridge-registry.ts`: JavaScript
@@ -330,23 +330,54 @@ the tests import. All <!-- fact:fidelity-files -->352<!-- /fact --> selected fil
 <!-- fact:fidelity-unqualified -->0<!-- /fact --> are reference-unqualified,
 <!-- fact:fidelity-skipped -->18<!-- /fact --> are original skips/todos and the control
 passes the rest. Of the callbacks it passes,
-<!-- fact:fidelity-population -->4,844<!-- /fact --> are scored and
-<!-- fact:fidelity-inventory -->2,502<!-- /fact --> are inventory (defined below).
+<!-- fact:fidelity-population -->3,327<!-- /fact --> are scored and
+<!-- fact:fidelity-inventory -->4,019<!-- /fact --> are inventory (defined below).
 The source, generated inputs, runtime dependencies, runner and harness are bound
 in the control identity. Browser/application tests listed outside this runner
 remain outside the assessment.
 
-Mermaid Fidelity measures parser-model fidelity: whether a candidate's parser
-produces Mermaid's model as Mermaid's own tests read it. Only qualified callbacks
-from files under `packages/mermaid/src/diagrams/` and `packages/parser/` are scored
-(`FIDELITY_SCORED_AREAS` in `unified/mermaid-fidelity/scoring.ts`). Callbacks from
-the other selected files (rendering utilities, Mermaid's website and its top-level
-modules) test code that no reimplementation's parser can reach; they are executed
-and listed as inventory, with their counts, in `fidelity:coverage`, and do not
-enter the scored population. Result files scored this way record `scoredPopulation`,
-`inventoryCallbacks` and `scoring.protocol: 'fidelity-scored-population-v2'`. A
-result file without that protocol, collected before this rule, is read under the
-rule it was published with, which scores every qualified callback.
+Mermaid Fidelity measures parser-model fidelity at a candidate's public parse
+contract: given a test's source, does the candidate's parser produce the model
+Mermaid's own tests read? Only qualified callbacks from files under
+`packages/mermaid/src/diagrams/` and `packages/parser/` can be scored
+(`FIDELITY_SCORED_AREAS` in `unified/mermaid-fidelity/scoring.ts`), and of those
+only the ones that exercise that contract. Trident runs the original tests by
+binding the Mermaid modules they import, so a test can reach Mermaid internals as
+well as its parser. The runtime records each of these surfaces where the test
+reaches it, whether or not the running candidate binds it (`touch` in
+`runtime.ts`):
+
+- Mermaid's database methods called, spied on or inspected directly, rather than
+  read as the parse result;
+- the parser → database call protocol (a test supplying its own database or a spy);
+- Mermaid helper and module exports the test imports;
+- host configuration supplied outside the source, which no candidate's source-text
+  interface accepts;
+- renderers and styles;
+- Mermaid's own detection pipeline (`Diagram.fromText` in a shared test).
+
+A callback that reaches any of them for any candidate,
+<!-- fact:fidelity-internals -->1,517<!-- /fact --> in all, is inventory
+(`fidelityScope`): the same test code reaches the same surface, and a candidate that
+stops earlier only records less. So is a callback in a file no candidate can load
+because it imports a Mermaid internal at setup, and one that exercised no candidate
+operation for any candidate. Callbacks from the other selected files (rendering
+utilities, Mermaid's website and its top-level modules) are inventory as before.
+Inventory is executed and listed, with its counts, in `fidelity:coverage`, and does
+not enter the scored population.
+
+Three verdicts are known nonpasses: an assertion failure or candidate fault; a
+refusal by the candidate's own code of a source the pinned Mermaid oracle accepts
+(`scripts/verify-fidelity-refusals.ts` checks every refused source the runtime
+recorded; a source the oracle also rejects is not counted against the candidate);
+and a capability assessment that a recorded review confirmed, a model concept by
+its exact reason and any other basis by basis and project
+(`unified/mermaid-fidelity/verification.ts`). Every other unsupported verdict, and
+every missing Trident binding, is unassessed. Result files scored this way record
+`scoredPopulation`, `inventoryCallbacks`, `scopedOut`, each row's `known` counts, the
+evidence files and digests (`verification`), and
+`scoring.protocol: 'fidelity-scored-population-v3'`. A result file with an earlier
+protocol, or none, is read under the rule it was published with.
 
 Candidates still use their own parsers and reviewed schema views. An unbound
 production import defers until used, so unrelated original callbacks can collect.

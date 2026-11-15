@@ -36,9 +36,12 @@ inventory.
 unassessed counts, plus assessed percentage and score bounds, for the scored
 population, the inventory and each slice. The lower bound credits verified passes
 only. The upper bound additionally allows every unassessed or unsupported callback
-to pass: as in Fidelity scoring, an operation the candidate's side reports as
-unsupported is unassessed, not a known nonpass, and the assessed percentage
-excludes it. An empty slice has no score. `results.json` also lists remaining gaps
+to pass: this diagnostic reads raw dispositions by source path, so an unsupported
+callback is unassessed here even where Fidelity scoring counts it as a known
+nonpass (a verified refusal or a confirmed absence), and the assessed percentage
+excludes it. The scored population it reports is the diagram and parser files;
+Fidelity scoring further leaves out callbacks that test Mermaid internals
+(`fidelityScope` in `unified/mermaid-fidelity/scoring.ts`). An empty slice has no score. `results.json` also lists remaining gaps
 by file, unsupported callbacks included with an `Unsupported:` reason prefix, with
 captured reasons and whether the file failed collection. Projects whose Fidelity
 is not applicable are listed under `notApplicable`.

@@ -120,9 +120,44 @@ change's effect is listed below.
   reference-qualified callbacks. The other 2,502 (rendering utilities, Mermaid's
   website and top-level modules) are inventory; 2,492 of them have no pass from
   any implementation.
-- Count "unsupported" as unassessed for every candidate. A review of one
-  candidate's unsupported verdicts found most were Trident binding gaps, and no
-  other candidate had that review.
+- Count "unsupported" as unassessed for every candidate unless evidence
+  verifies it (below). A review of one candidate's unsupported verdicts found
+  most were Trident binding gaps, and no other candidate had that review.
+- Score the public parse contract, source text in and parsed model out
+  (`fidelity-scored-population-v3`). Trident ran Mermaid's tests by emulating
+  Mermaid's internal modules for every candidate, so tests of those internals
+  became unassessed for everyone, and Trident bindings for some. The runtime now
+  records, per test and for any candidate, the Mermaid surfaces the test reaches
+  besides parse-and-read: database methods called, spied on or inspected
+  directly (256 callbacks), the parser → database protocol (117), helper and
+  module exports (732), host configuration outside the source (68), renderer
+  output (64); and scoring leaves out files no candidate can load because they
+  import an internal at setup (314) and callbacks that exercised no candidate
+  operation (60). Those 1,517 of the 4,844 diagram and parser callbacks join the
+  inventory, leaving 3,327 scored (categories overlap). All 176,736 callback
+  outcomes of Mermaid and the 23 candidates match the previous collection; only
+  the scope changed. Pele loses 258 passes (database methods 105, parser →
+  database protocol 74, helper exports 70, renderer output 9) and Bezel 142
+  (helpers 69, database methods 49, protocol 15, renderer 9), so Bezel (3,137)
+  and Pele (3,130) now overlap at 2nd–3rd.
+- Verify native refusals against the pinned Mermaid oracle: the runtime keeps
+  each source a candidate's own code refused, and `verify-fidelity-refusals.ts`
+  parses it with Mermaid's public `parse`. 2,917 of 3,154 refused sources are
+  valid Mermaid, so 9,408 refusals across all candidates are known nonpasses
+  (Kitlangton Merman's detector rejects `graph TD;`, MermaidTUI parses only
+  flowcharts). The 237 sources Mermaid also rejects (test fragments, deliberately
+  invalid diagrams) leave their refusals unassessed.
+- Count confirmed capability assessments as known nonpasses: a model concept by
+  its exact reason in the model-concept review, any other basis (family table,
+  public library, Ondine's missing model) by basis and project in the capability
+  review, and only for a verdict that is exactly "confirmed". 21,032 assessments
+  are confirmed; unprobed and disproved ones stay unassessed. Ondine's Fidelity
+  is now 9.11–9.26 rather than 6.6–98.3: its public interface exposes no parsed
+  model, so only acceptance and rejection tests can pass.
+- Effect on the Fidelity and overall ranges: Bezel 67.7–98.3 → 94.3–96.7 and
+  Pele 69.9–98.0 → 94.1–96.5 (overall 2nd–3rd, from 2nd–8th); Latias Merman
+  89.5–93.8; Agentic Mermaid 46.8–97.8 → 68.1–76.8 (overall 4th–5th, from
+  2nd–12th). No callback is unassessed for every candidate any more.
 - Remove the renderer binding and error-location translation that only Agentic
   Mermaid had. Agentic loses 2 passes.
 - Apply Fidelity only through public parse interfaces. Grok's renderer
