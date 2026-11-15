@@ -1389,10 +1389,13 @@ export function flowchartLayoutData(view, hooks, project) {
     const subGraphs = view.getSubGraphs ? view.getSubGraphs() : []
     const vertices = view.getVertices(), edges = view.getEdges ? view.getEdges() : []
     const parentOf = new Map(), groups = new Set(), nodes = []
+    // A subgraph record that names no member list (a generic projection of a model that
+    // keeps its members under another field) is unmapped, not a subgraph without members.
+    const members = sg => (Array.isArray(sg?.nodes) ? sg.nodes : hooks.unavailable('Unmapped native flowchart schema: subgraph members'))
     for (let i = subGraphs.length - 1; i >= 0; i--) {
       const sg = subGraphs[i]
-      if (sg.nodes.length) groups.add(sg.id)
-      for (const id of sg.nodes) parentOf.set(id, sg.id)
+      if (members(sg).length) groups.add(sg.id)
+      for (const id of members(sg)) parentOf.set(id, sg.id)
     }
     const node = fields => record(fields, 'layout node', LAYOUT_NODE_FIELDS, LAYOUT_RENDERER_ONLY, hooks)
     const lazy = (fields, getters) => {

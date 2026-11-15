@@ -387,3 +387,24 @@ test("Latias merman's flowchart classDefs read as Mermaid's classDef records", (
   expect(classes.get('first')).toEqual({ id: 'first', styles: ['background:#bbb', 'color:#f00'], textStyles: ['color:#f00'] })
   expect([...classes.keys()]).toEqual(['first', 'second'])
 })
+
+test("vitepress-plugin-mermaid-diagram's subgraph members are its nodeIds; layout data never meets a subgraph without members as a Trident error", async () => {
+  const { projectPublicDatabase } = await import('../unified/upstream-fidelity-projection.mjs')
+  // flowchart LR / subgraph lane1 / a / end / subgraph phase1 / a / end (vitepress-plugin-mermaid-diagram 0.3.2 parseFlowchart)
+  const raw = { direction: 'LR', nodes: new Map([['a', { id: 'a', label: 'a', shape: 'rect' }]]), edges: [], subgraphs: [{ id: 'lane1', title: 'lane1', nodeIds: ['a'] }, { id: 'phase1', title: 'phase1', nodeIds: ['a'] }] }
+  const klang = verdicts()
+  const db: any = projectPublicDatabase('bridge', 'flowchart', raw, klang.hooks.unavailable, klang.hooks.unsupported, 'KlangHaus/vitepress-plugin-diagram')
+  expect(db.getSubGraphs().map((sg: any) => [sg.id, sg.title, sg.nodes])).toEqual([['lane1', 'lane1', ['a']], ['phase1', 'phase1', ['a']]])
+  expect(() => db.getSubGraphs()[0].dir).toThrow('unsupported')
+  // Mermaid's layout group node carries the subgraph's label type, which the model does not record.
+  expect(() => db.getData()).toThrow('unsupported')
+  expect(klang.log.at(-1)).toBe("unsupported: vitepress-plugin-mermaid-diagram keeps a subgraph title's text without recording whether it was written as markdown")
+  // Any other model whose subgraph records name no member list: a gap, not a TypeError.
+  const generic = verdicts()
+  const other: any = projectPublicDatabase('bridge', 'flowchart', raw, generic.hooks.unavailable, generic.hooks.unsupported, 'example/json-bridge')
+  expect(() => other.getData()).toThrow('gap')
+  expect(generic.log).toEqual(['gap: Unmapped native flowchart schema: subgraph members'])
+})
+
+// radar-beta / title Radar diagram / accTitle: Radar accTitle / accDescr: Radar accDescription /
+// ticks 33 / showLegend false / axis A["Axis A"], B["Axis B"], C / curve mycurve["My Curve"]{ C: 3, A: 1, B: 2 } / curve two{4,5,6}

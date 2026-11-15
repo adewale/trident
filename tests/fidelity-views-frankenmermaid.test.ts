@@ -542,3 +542,27 @@ test('gantt weekday from its day index; block composites answer getBlock with no
   expect(block.getBlock('zzz')).toBeUndefined()
   expect(() => block.getBlock('first').colorIndex).toThrow('unsupported')
 })
+
+test('a 0.5.0 gantt task without flags is untagged: fm-core serializes flags only when a tag was written', () => {
+  const { hooks, log } = verdicts()
+  // gantt / dateFormat YYYY-MM-DD / section Documentation / task A: a, 2024-01-27, 2024-01-28 /
+  // task C: active, crit, c, 2024-01-20, until a (Frankenmermaid 0.5.0 parse, trimmed)
+  const ir = {
+    diagram_type: 'Gantt', nodes: [{ id: 'a', label: 0 }, { id: 'c', label: 1 }], edges: [], labels: labels('task A', 'task C'),
+    gantt_meta: {
+      date_format: 'YYYY-MM-DD', sections: [{ name: 'Documentation' }],
+      tasks: [
+        { node: 0, section_idx: 0, meta: 'a, 2024-01-27, 2024-01-28', task_id: 'a', start: { Absolute: '2024-01-27' }, end: { Absolute: '2024-01-28' } },
+        { node: 1, section_idx: 0, meta: 'active, crit, c, 2024-01-20, until a', task_id: 'c', start: { Absolute: '2024-01-20' }, end: { UntilTasks: ['a'] }, flags: { crit: true, done: false, active: true, milestone: false } },
+      ],
+    },
+  }
+  const tasks = nativeSchemaView(PROJECT, 'gantt', ir, hooks).getTasks()
+  expect(tasks.map((task: any) => [task.id, task.task, task.section, task.active, task.done, task.crit, task.milestone])).toEqual([
+    ['a', 'task A', 'Documentation', false, false, false, false],
+    ['c', 'task C', 'Documentation', true, false, true, false],
+  ])
+  // The computed start is Mermaid's, not the model's: reading it is unsupported, never a Trident error.
+  expect(() => tasks[0].startTime).toThrow('unsupported')
+  expect(log).toEqual(["unsupported: Frankenmermaid keeps a task's start specification, not its computed Date"])
+})

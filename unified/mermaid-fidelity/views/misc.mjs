@@ -7,7 +7,7 @@
 // not carry is declared absent with its reason, and nothing is parsed from source text or
 // re-split from a display string. Every mapping was checked against the project's parser
 // source where it is cited, and against probe output (scripts/fidelity-probe.ts).
-import { entriesOf, record, styleList, CLASS_ALWAYS, styleStrings, classView, card, headOf, shapeOf, edgeType, strokeOf, c4View, C4_MACRO, C4_BOUNDARY_MACRO, text, WRAP, flowchartView, VERTEX_ABSENT, erView, identifying } from '../view-core.mjs'
+import { entriesOf, record, styleList, SUBGRAPH_FIELDS, CLASS_ALWAYS, styleStrings, classView, card, headOf, shapeOf, edgeType, strokeOf, c4View, C4_MACRO, C4_BOUNDARY_MACRO, text, WRAP, flowchartView, VERTEX_ABSENT, erView, identifying } from '../view-core.mjs'
 
 // ---------------------------------------------------------------------------------------
 // Class diagrams.
@@ -967,7 +967,14 @@ const FLOW_MODELS = {
   'xai-org/grok-build': (raw, hooks) => ({ getEdges: indexEdges(raw, 'Grok', hooks), absent: { getClasses: "Grok's graph model keeps no classDef styles", ...flowAcc('Grok') }, subgraph: { absent: NO_MARKDOWN_TITLE('Grok') } }),
   'spacedock-dev/mermaidtext': (raw, hooks) => ({ getEdges: indexEdges(raw, 'MermaidText', hooks), absent: { getClasses: "MermaidText's graph model keeps no classDef styles", ...flowAcc('MermaidText') }, subgraph: { absent: NO_MARKDOWN_TITLE('MermaidText') } }),
   // vitepress-plugin-mermaid-diagram keeps no classDefs; acc lines are read as nodes.
-  'KlangHaus/vitepress-plugin-diagram': () => ({ absent: { getClasses: "vitepress-plugin-mermaid-diagram's flowchart model keeps no classDef styles", ...flowAcc('vitepress-plugin-mermaid-diagram') } }),
+  // 0.3.2 src/parse/flowchart.ts (dist/index.js parseFlowchart, index.d.ts Subgraph): a
+  // subgraph keeps its id, its title (the bracketed or trailing text as written, else the
+  // id) and its members as nodeIds, a nested subgraph's id appended when that subgraph
+  // closes; direction, class and style lines are skipped.
+  'KlangHaus/vitepress-plugin-diagram': (raw, hooks) => ({
+    absent: { getClasses: "vitepress-plugin-mermaid-diagram's flowchart model keeps no classDef styles", ...flowAcc('vitepress-plugin-mermaid-diagram') },
+    ...(Array.isArray(raw.subgraphs) ? { getSubGraphs: () => raw.subgraphs.map(group => record({ id: group.id, title: group.title, nodes: [...group.nodeIds] }, 'subgraph', SUBGRAPH_FIELDS, { dir: 'vitepress-plugin-mermaid-diagram skips direction lines', classes: 'vitepress-plugin-mermaid-diagram skips class lines', ...NO_MARKDOWN_TITLE('vitepress-plugin-mermaid-diagram') }, hooks)) } : {}),
+  }),
   // XMermaid drops accTitle/accDescr.
   'evangwt/xmermaid': () => ({ absent: flowAcc('XMermaid'), subgraph: { absent: NO_MARKDOWN_TITLE('XMermaid') } }),
   // zombie-mermaid, beautiful-mermaid and ascii-mermaid keep classDefs as property maps in
@@ -1064,7 +1071,7 @@ const flowchartSchema = Object.fromEntries(Object.entries(FLOW_MODELS).map(([pro
   const more = model(raw, hooks)
   if (!more) return undefined
   const view = refineFlowchart(baseView(project, 'flowchart', raw, hooks), more, hooks)
-  for (const key of ['getClasses', 'getEdges', 'getAccTitle', 'getAccDescription']) if (more[key]) view[key] = more[key]
+  for (const key of ['getClasses', 'getEdges', 'getSubGraphs', 'getAccTitle', 'getAccDescription']) if (more[key]) view[key] = more[key]
   for (const [key, reason] of Object.entries(more.absent ?? {})) if (!view[key]) view[key] = () => hooks.unsupported(reason)
   return view
 }]))

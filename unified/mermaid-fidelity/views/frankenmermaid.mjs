@@ -525,6 +525,7 @@ function mindmap(ir, hooks) {
 // dates, normalised to ISO) and each task's start/end specification; Mermaid's task
 // records carry dates its database computes, which are not mapped here.
 const WEEKDAY = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+const UNTAGGED_TASK = Object.freeze({ crit: false, done: false, active: false, milestone: false })
 function gantt(ir, hooks) {
   if (!isType(ir, 'Gantt')) return undefined
   const meta = ir.gantt_meta ?? {}
@@ -533,14 +534,20 @@ function gantt(ir, hooks) {
     // Captured from the pinned parser: each task binds its IR node, section,
     // written task_id and four independent flags. Absolute/AfterTask and
     // DurationDays are specifications, not the renderer's computed Dates.
-    getTasks: () => (meta.tasks ?? []).map(item => record({
-      id: item.task_id, task: labelOf(ir, ir.nodes[item.node]?.label),
-      section: meta.sections?.[item.section_idx]?.name,
-      active: item.flags.active, done: item.flags.done, crit: item.flags.crit, milestone: item.flags.milestone,
-    }, 'gantt task', ['id', 'task', 'section', 'startTime', 'endTime', 'active', 'done', 'crit', 'milestone'], {
-      startTime: `${NAME} keeps a task's start specification, not its computed Date`,
-      endTime: `${NAME} keeps a task's end specification, not its computed Date`,
-    }, hooks)),
+    // 0.5.0 fm-core IrGanttTask serializes `flags` only when a tag was written
+    // (skip_serializing_if = "is_default_gantt_task_flags"; GanttTaskFlags::default() is
+    // all four false), so a task without flags is untagged, as Mermaid's.
+    getTasks: () => (meta.tasks ?? []).map(item => {
+      const flags = item.flags ?? UNTAGGED_TASK
+      return record({
+        id: item.task_id, task: labelOf(ir, ir.nodes[item.node]?.label),
+        section: meta.sections?.[item.section_idx]?.name,
+        active: flags.active, done: flags.done, crit: flags.crit, milestone: flags.milestone,
+      }, 'gantt task', ['id', 'task', 'section', 'startTime', 'endTime', 'active', 'done', 'crit', 'milestone'], {
+        startTime: `${NAME} keeps a task's start specification, not its computed Date`,
+        endTime: `${NAME} keeps a task's end specification, not its computed Date`,
+      }, hooks)
+    }),
     getDiagramTitle: () => meta.title ?? ir.meta?.title ?? '',
     getDateFormat: () => meta.date_format ?? '',
     // gantt_meta.weekday_start is the weekday statement's day as an index from Sunday (0);
