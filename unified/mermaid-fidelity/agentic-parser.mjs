@@ -1,4 +1,7 @@
 // These public APIs parse the source model consumed by Agentic's renderers.
+// They perform no layout: an ELK, Native or TypeScript solver configuration
+// shares this semantic evidence. Other families reach parseRegisteredMermaid
+// through runtime.ts; no internal parser path is a substitute for a missing API.
 // Older packages expose only the source-preserving editing API; keep that
 // binding when the reviewed source parser is absent, never after it rejects.
 const SOURCE_PARSERS = { class: 'parseClassDiagram', sequence: 'parseSequenceDiagram', er: 'parseErDiagram', usecase: 'parseUsecaseModel', agentflow: 'parseAgentflowModel' }

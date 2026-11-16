@@ -99,6 +99,48 @@ test('Agentic source sequence preserves exact editing-model order where semantic
   expect(view.getMessages().map((m: any) => m.message)).toEqual(['Empty', ''])
 })
 
+test('Agentic typed sequence retains notes, lifecycle declarations and nested fragments at their branch positions', () => {
+  const message = (text: string) => ({ from: 'A', to: 'B', text, arrow: '->>', style: 'solid', wrap: false })
+  const editingModel = {
+    kind: 'sequence', participants: [], messages: [message('after')], statements: [
+      { kind: 'note', position: 'over', actorIds: ['A', 'B'], text: 'before', wrap: true },
+      { kind: 'fragment', fragment: { fragmentKind: 'alt', label: 'outer', wrap: false, branches: [
+        { messages: [message('first'), message('last')], statements: [
+          { before: 0, statement: { kind: 'create', id: 'B', declaration: 'participant', label: 'B' } },
+          { before: 1, statement: { kind: 'fragment', fragment: { fragmentKind: 'loop', label: 'nested', wrap: true, branches: [{ messages: [message('inner')], statements: [
+            { before: 0, statement: { kind: 'note', position: 'right', actorIds: ['B'], text: 'inside', wrap: false } },
+            { before: 1, statement: { kind: 'destroy', actorId: 'B' } },
+          ] }] } } },
+          { before: 2, statement: { kind: 'note', position: 'left', actorIds: ['A'], text: 'tail' } },
+        ] },
+        { label: 'otherwise', wrap: true, messages: [] },
+      ] } },
+      { kind: 'message', ref: 0 },
+    ],
+  }
+  const view = sourceView('sequence', { notes: [], activationEvents: [], editingModel })
+  const entries = view.getMessages()
+  expect(entries.map((m: any) => [m.message, m.type])).toEqual([
+    ['before', 2], ['outer', 12], ['first', 0], ['nested', 10], ['inside', 2],
+    ['inner', 0], ['', 11], ['last', 0], ['tail', 2], ['otherwise', 13], ['', 14], ['after', 0],
+  ])
+  expect(entries.map((m: any) => m.id)).toEqual(Array.from({ length: 12 }, (_, i) => String(i)))
+  expect([entries[0].wrap, entries[1].wrap, entries[3].wrap, entries[4].wrap, entries[9].wrap]).toEqual([true, false, true, false, true])
+  expect(() => entries[8].wrap).toThrow('unsupported:')
+  const direct = nativeSchemaView('adewale/agentic-mermaid', 'sequence', editingModel, hooks)
+  expect(direct.getNotes().map((n: any) => n.actor)).toEqual([['A', 'B'], 'B', 'A'])
+  expect(() => direct.getCreatedActors()).toThrow('unsupported:')
+})
+
+test('Agentic sequence preserves same-slot empty fragments and refuses an unbound native branch index', () => {
+  const fragment = (label: string) => ({ kind: 'fragment', fragment: { fragmentKind: 'loop', label, branches: [{ messages: [] }] } })
+  const branch = { messages: [], statements: [{ before: 0, statement: fragment('one') }, { before: 0, statement: fragment('two') }] }
+  const editingModel = { kind: 'sequence', participants: [], messages: [], statements: [{ kind: 'fragment', fragment: { fragmentKind: 'loop', label: 'outer', branches: [branch] } }] }
+  expect(sourceView('sequence', { editingModel }).getMessages().map((m: any) => m.message)).toEqual(['outer', 'one', '', 'two', '', ''])
+  branch.statements[0]!.before = 1
+  expect(() => sourceView('sequence', { editingModel }).getMessages()).toThrow('gap:')
+})
+
 test('Agentic public ER model exposes typed attributes, cardinalities and class definitions', () => {
   const view = sourceView('er'), entity = view.getEntity('A')
   expect(entity.attributes[0]).toMatchObject({ type: 'string', name: 'id', keys: ['PK'], comment: 'identifier' })

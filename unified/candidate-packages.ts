@@ -4,7 +4,11 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 
 export interface CandidateArchive { tarball: string; sha256: string }
-export interface NpmCandidate extends CandidateArchive { dependencies?: CandidateArchive[] }
+export interface NpmCandidate extends CandidateArchive {
+  /** Caller-declared immutable source commit used to pack this unreleased build. */
+  packedFrom?: string
+  dependencies?: CandidateArchive[]
+}
 const digest = (path: string) => createHash('sha256').update(readFileSync(path)).digest('hex')
 
 /** Check path safety, not registry naming policy: scoped leaves may start with _. */

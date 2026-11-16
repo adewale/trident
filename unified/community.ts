@@ -104,6 +104,7 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
   let version = recorded
   if (candidate) {
     if (node.id === 'mermaid-js/mermaid') throw new Error('Mermaid is the pinned oracle; it takes no candidate')
+    if (candidate.packedFrom !== undefined && !/^[a-f0-9]{40}$/.test(candidate.packedFrom)) throw new Error('Candidate packedFrom must be a full source revision')
     if (artifactDigest(candidate.tarball) !== candidate.sha256) throw new Error('Candidate tarball differs from its supplied SHA-256')
     const pkg = candidatePackage(candidate.tarball)
     if (pkg.name !== name) throw new Error(`Candidate tarball holds ${pkg.name}; ${node.id} benchmarks ${name}`)
@@ -200,11 +201,12 @@ async function npmArtifact(node: CommunityNode, cache: string, pinned = false, c
       adapterCompanions.push({ root: dependencyRoot, name: pkg.name, version: pkg.version, integrity, closureSha256: createHash('sha256').update(JSON.stringify(adapterCompanionIdentity(dependencyRoot))).digest('hex') })
     }
   }
-  const prepared: CommunityArtifact = { kind: 'node', root, module, version, integrity, installedClosureSha256: evidenceDigest(adapterCompanionIdentity(root)), runtime, sha256: moduleSha256, files: wasmFiles, ...(plan.wasmRelativePath ? { wasm: join(root, plan.wasmRelativePath) } : {}), apiBoundary: plan.boundary, ...(adapterCompanions.length ? { adapterCompanions } : {}), ...(plan.overrides ? { dependencyOverrides: plan.overrides } : {}), ...(candidate ? { candidate: { sha256: candidate.sha256, tarball: copy, ...(retainedDependencies.length ? { dependencies: retainedDependencies.map(({ tarball, sha256 }) => ({ tarball, sha256 })) } : {}) } } : {}) }
+  const prepared: CommunityArtifact = { kind: 'node', root, module, version, integrity, installedClosureSha256: evidenceDigest(adapterCompanionIdentity(root)), runtime, sha256: moduleSha256, files: wasmFiles, ...(plan.wasmRelativePath ? { wasm: join(root, plan.wasmRelativePath) } : {}), apiBoundary: plan.boundary, ...(adapterCompanions.length ? { adapterCompanions } : {}), ...(plan.overrides ? { dependencyOverrides: plan.overrides } : {}), ...(candidate ? { ...(candidate.packedFrom ? { revision: candidate.packedFrom } : {}), candidate: { sha256: candidate.sha256, tarball: copy, ...(candidate.packedFrom ? { packedFrom: candidate.packedFrom } : {}), ...(retainedDependencies.length ? { dependencies: retainedDependencies.map(({ tarball, sha256 }) => ({ tarball, sha256 })) } : {}) } } : {}) }
   return extra.prepareExtraPublishedArtifact(prepared, { installedIntegrity: (nativeRoot: string, packageName: string, packageVersion: string) => installedNpmIntegrity(prefix, nativeRoot, packageName, packageVersion) })
 }
 
 export function verifyProvidedCommunityArtifact(artifact: CommunityArtifact): void {
+  if (artifact.candidate && 'tarball' in artifact.candidate && artifact.candidate.packedFrom !== undefined && (!/^[a-f0-9]{40}$/.test(artifact.candidate.packedFrom) || artifact.revision !== artifact.candidate.packedFrom)) throw Error('Candidate source provenance differs from its artifact revision')
   if (artifact.candidate && 'tarball' in artifact.candidate) for (const archive of [artifact.candidate, ...(artifact.candidate.dependencies ?? [])]) verifyCandidateArchive(archive)
   for (const variant of artifact.additionalCli ?? []) if (variant.artifact) verifyProvidedCommunityArtifact(variant.artifact)
   const entry = artifact.kind === 'cli' || artifact.kind === 'jsonl-worker' ? artifact.executable : artifact.kind === 'python' ? (artifact.python ?? artifact.executable) : (artifact.module ?? artifact.executable)
@@ -261,6 +263,7 @@ function validateFrozenCommunityEntry(entry: PreparedCommunity, node: CommunityN
     if (node.benchmark?.adapter === 'source-cli' && artifact.revision !== (revision ?? node.release?.commit ?? node.head)) throw Error('Native artifact revision differs from recorded source pin')
     if (node.benchmark?.adapter === 'franken' && artifact.revision !== node.distribution?.revision) throw Error('WASM artifact revision differs from frozen distribution')
     if (!!artifact.candidate !== !!candidate || (candidate && artifact.candidate && candidateKey(artifact.candidate) !== candidateKey(candidate))) throw Error('Frozen artifact and the requested candidate differ')
+    if (candidate && 'tarball' in candidate && artifact.candidate && 'tarball' in artifact.candidate && candidate.packedFrom !== artifact.candidate.packedFrom) throw Error('Frozen candidate source provenance differs from the requested candidate')
     if (artifact.candidate && 'tarball' in artifact.candidate && (!existsSync(artifact.candidate.tarball) || artifactDigest(artifact.candidate.tarball) !== artifact.candidate.sha256)) throw Error('Frozen candidate tarball differs from its SHA-256')
     if (node.benchmark?.package) {
       if (!artifact.root) throw Error('Frozen npm artifact has no installed package root')

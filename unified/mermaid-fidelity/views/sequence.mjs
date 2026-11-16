@@ -464,10 +464,10 @@ function vitepress(raw, hooks) {
 
 // ---------------------------------------------------------------------------------------
 // agentic-mermaid SequenceBody: statements in order (participant, message, actor-links,
-// fragment, opaque-block). A message keeps its exact arrow operator, an authored wrap flag,
-// centralStart / centralEnd and activate / deactivate. Notes, activate lines, critical,
-// break and rect blocks, title, box, create, destroy and properties lines are kept only as
-// opaque-block source lines, which a view does not read. accTitle and accDescr are fields.
+// fragment, note, create, destroy, opaque-block). A branch's statements carry `before`
+// indexes into its own messages, including nested fragments. Older bodies have only
+// branch.messages. Notes and lifecycle declarations are typed in reviewed 0.5.7;
+// activations, title, box and properties may still be opaque source, never reparsed here.
 const AGENTIC_ARROW = {
   '->>': 'SOLID', '-->>': 'DOTTED', '->': 'SOLID_OPEN', '-->': 'DOTTED_OPEN', '-x': 'SOLID_CROSS', '--x': 'DOTTED_CROSS', '-)': 'SOLID_POINT', '--)': 'DOTTED_POINT', '<<->>': 'BIDIRECTIONAL_SOLID', '<<-->>': 'BIDIRECTIONAL_DOTTED',
   '-|\\': 'SOLID_TOP', '-|/': 'SOLID_BOTTOM', '-\\\\': 'STICK_TOP', '-//': 'STICK_BOTTOM', '/|-': 'SOLID_ARROW_TOP_REVERSE', '\\|-': 'SOLID_ARROW_BOTTOM_REVERSE', '//-': 'STICK_ARROW_TOP_REVERSE', '\\\\-': 'STICK_ARROW_BOTTOM_REVERSE',
@@ -491,22 +491,39 @@ function agentic(raw, hooks) {
       ...(m.centralStart ? [withAbsent(marker(CENTRAL.from, '', m.from), noWrap)] : []),
     ]
   }
-  const entries = () =>
-    raw.statements.flatMap(statement => {
-      if (statement.kind === 'participant' || statement.kind === 'actor-links') return []
-      if (statement.kind === 'message') return message(raw.messages[statement.ref])
-      if (statement.kind === 'opaque-block') return hooks.unsupported(`${name} keeps these statements only as unparsed source lines: ${statement.lines.map(line => JSON.stringify(line)).join(', ').slice(0, 160)}`)
-      if (statement.kind === 'fragment') {
-        const fragment = statement.fragment
-        const block = blockTypes(fragment.fragmentKind, fragment.branches.length > 1, hooks, name)
-        return [
-          withAbsent(marker(block[0], fragment.label ?? ''), noWrap),
-          ...fragment.branches.flatMap((branch, index) => [...(index ? [withAbsent(marker(block[1], branch.label ?? ''), noWrap)] : []), ...branch.messages.flatMap(message)]),
-          withAbsent(marker(block[2]), noWrap),
-        ]
-      }
-      return hooks.unavailable(`${name} sequence statement ${statement.kind}`)
-    })
+  const wrappedMarker = (type, label, item) => typeof item.wrap === 'boolean' ? { ...marker(type, label), wrap: item.wrap } : withAbsent(marker(type, label), noWrap)
+  const branchEntries = branch => {
+    const pending = branch.statements ?? []
+    if (pending.some(item => !Number.isInteger(item.before) || item.before < 0 || item.before > branch.messages.length)) return hooks.unavailable('Agentic sequence branch statement has an invalid message index')
+    return Array.from({ length: branch.messages.length + 1 }, (_, before) => [
+      ...pending.filter(item => item.before === before).flatMap(item => statementEntries(item.statement)),
+      ...(before < branch.messages.length ? message(branch.messages[before]) : []),
+    ]).flat()
+  }
+  const statementEntries = statement => {
+    if (statement.kind === 'participant' || statement.kind === 'actor-links') return []
+    if (statement.kind === 'message') return message(raw.messages[statement.ref])
+    // Mermaid's message list has no lifecycle entry. The source-model view
+    // below reads its actual bound message indexes separately.
+    if (statement.kind === 'create' || statement.kind === 'destroy') return []
+    if (statement.kind === 'note') {
+      const [from, to] = noteEnds(statement.actorIds)
+      const note = { from, to, message: statement.text, type: views.SEQ.NOTE, placement: placementOf(statement.position) }
+      return [typeof statement.wrap === 'boolean' ? { ...note, wrap: statement.wrap } : withAbsent(note, noWrap)]
+    }
+    if (statement.kind === 'opaque-block') return hooks.unsupported(`${name} keeps these statements only as unparsed source lines: ${statement.lines.map(line => JSON.stringify(line)).join(', ').slice(0, 160)}`)
+    if (statement.kind === 'fragment') {
+      const fragment = statement.fragment
+      const block = blockTypes(fragment.fragmentKind, fragment.branches.length > 1, hooks, name)
+      return [
+        wrappedMarker(block[0], fragment.label ?? '', fragment),
+        ...fragment.branches.flatMap((branch, index) => [...(index ? [wrappedMarker(block[1], branch.label ?? '', branch)] : []), ...branchEntries(branch)]),
+        withAbsent(marker(block[2]), noWrap),
+      ]
+    }
+    return hooks.unavailable(`${name} sequence statement ${statement.kind}`)
+  }
+  const entries = () => raw.statements.flatMap(statementEntries)
   const opaque = what => `${name} keeps ${what} only as unparsed source lines`
   return {
     ...messageView(entries, {}, hooks),
@@ -515,7 +532,7 @@ function agentic(raw, hooks) {
     }, hooks),
     getAccTitle: () => raw.accessibilityTitle ?? '',
     getAccDescription: () => raw.accessibilityDescription ?? '',
-    ...unsupported(hooks, { getDiagramTitle: opaque('a title line'), getBoxes: opaque('box blocks'), getCreatedActors: opaque('create statements'), getDestroyedActors: opaque('destroy statements') }),
+    ...unsupported(hooks, { getDiagramTitle: opaque('a title line'), getBoxes: opaque('box blocks'), getCreatedActors: `${name}'s editing body keeps declarations, not their bound render-message indexes`, getDestroyedActors: `${name}'s editing body keeps declarations, not their bound render-message indexes` }),
   }
 }
 

@@ -52,7 +52,16 @@ export const REVIEWED_VIEW_VERSIONS = {
   'wevm/ondine': { '0.0.3': '0.3.0 release' },
   'orestesgaolin/mermaid': { '0.3.2': '0.3.0 release (mermaid_core 0.3.2). 2026-11-14 model-concept review (docs/evidence/fidelity-model-concept-review-2026-11-14.json): an ER entity label that differs from its id is its alias, now read' },
   'pub:mermaid_flutter': { '0.3.2': '0.3.0 release (calls mermaid_core 0.3.2 unchanged). 2026-11-14 model-concept review: as Mermaid Dart' },
-  'adewale/agentic-mermaid': { '0.5.6': '0.3.0 release. 2026-11-14 model-concept review (docs/evidence/fidelity-model-concept-review-2026-11-14.json): meta.accessibility descr (flowchart, ER, gantt, class, radar), class style objects, a written edge animate and subgraph class assignments are now read' },
+  'adewale/agentic-mermaid': {
+    '0.5.6': '0.3.0 release. 2026-11-14 model-concept review (docs/evidence/fidelity-model-concept-review-2026-11-14.json): meta.accessibility descr (flowchart, ER, gantt, class, radar), class style objects, a written edge animate and subgraph class assignments are now read',
+    '0.5.7': {
+      note: '2026-11-16: reviewed public main-entry parseRegisteredMermaid bodies and the five exported source parsers bound in agentic-parser.mjs against their owning types and views. Class/ER/source-order supplements, source UseCase/AgentFlow and existing family views remain public-API projections. Sequence now reads typed notes and recursively interleaves branch.statements at native before indexes, including create/destroy declarations and empty nested fragments; authored fragment/branch wrap is retained. Three nested-sequence sources from both installed packages match the pinned Mermaid 12.3.0 public database message order (six comparisons). Complete public models or refusals of all 1,087 unchanged community-corpus sources are identical across these two installed revisions. Missing fields, opaque source, unsupported internal imports and setup failures remain gaps; this review supplies shared parser evidence, not a layout-solver result. Revision is required because these are local builds under the same package version',
+      revisions: {
+        '2c689fad4e21d284a6e9c5190489754e97300b78': 'installed main build checked through its public main entry; the 2026-11-16 review above',
+        '96cf5cbe6396d243792e529321c1887910ece7fc': 'installed TypeScript-port build checked through its public main entry; every captured public model/refusal matches main in the review above',
+      },
+    },
+  },
   '1jehuang/mermaid-rs-renderer': { '0.3.1': '0.3.0 release' },
   'AlexanderGrooff/mermaid-ascii': { '1.6.1': '0.3.0 release' },
   'crafter-station/mermaid': { '0.0.3': '0.3.0 release. 2026-11-14 model-concept review (docs/evidence/fidelity-model-concept-review-2026-11-14.json): subgraph class assignments are now read' },
