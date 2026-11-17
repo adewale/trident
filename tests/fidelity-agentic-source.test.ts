@@ -93,10 +93,83 @@ test('Agentic source sequence interleaves unambiguous notes and activation marke
   expect(() => view.getNotes()[0].wrap).toThrow('unsupported:')
 })
 
-test('Agentic source sequence preserves exact editing-model order where semantic records exist', () => {
+test('Agentic source sequence uses exact editing order only for fully semantic bodies, otherwise unambiguous render indexes', () => {
   const editingModel = { kind: 'sequence', participants: [], messages: [], statements: [{ kind: 'fragment', fragment: { fragmentKind: 'loop', label: 'Empty', branches: [{ messages: [] }] } }] }
   const view = sourceView('sequence', { notes: [], activationEvents: [], editingModel })
   expect(view.getMessages().map((m: any) => m.message)).toEqual(['Empty', ''])
+
+  // Public main6f models retained for the pinned Mermaid 12.3.0 sequence tests:
+  // special characters in alt/par/loop/opt and no-label alt/par/opt. Shared
+  // records are factored below; unused fragment.rawLines alone are omitted.
+  const actors = ['Alice', 'Bob'].map(id => ({ id, label: id, type: 'participant' }))
+  const first = { from: 'Alice', to: 'Bob', label: 'Hello Bob, how are you?', lineStyle: 'solid', startHead: 'none', endHead: 'none', centralStart: false, centralEnd: false }
+  const reply = { from: 'Bob', to: 'Alice', label: 'I am good thanks!', lineStyle: 'dashed', startHead: 'none', endHead: 'none', centralStart: false, centralEnd: false }
+  const branchMessage = { from: 'Bob', to: 'Alice', text: reply.label, style: 'line-dashed', arrow: '-->' }
+  const opaque = (line: string) => ({ before: 0, statement: { kind: 'opaque-block', lines: [line] } })
+  for (const [kind, labelled, start, section, end] of [
+    ['alt', true, 12, 13, 14], ['par', true, 19, 20, 21],
+    ['alt', false, 12, 13, 14], ['par', false, 19, 20, 21],
+    ['loop', true, 10, undefined, 11], ['opt', true, 15, undefined, 16], ['opt', false, 15, undefined, 16],
+  ] as const) {
+    const sectioned = section !== undefined
+    const label = labelled ? '-:<>,' : '', sectionLabel = labelled ? ',<>:-' : ''
+    const branches = [
+      { messages: [branchMessage], ...(labelled || !sectioned ? { statements: [opaque('# comment')] } : {}) },
+      ...(sectioned ? [{ ...(labelled ? { label: sectionLabel } : {}), messages: [branchMessage], statements: [opaque(labelled ? '#; comment' : '# comment')] }] : []),
+    ]
+    const fragment = { kind: 'fragment', fragment: { fragmentKind: kind, ...(labelled ? { label } : {}), branches } }
+    const body = {
+      kind: 'sequence', participants: actors.map(({ type, ...actor }) => ({ ...actor, kind: type })),
+      messages: [{ from: first.from, to: first.to, text: first.label, style: 'line', arrow: '->' }],
+      statements: [{ kind: 'message', ref: 0 }, fragment],
+    }
+    const model = {
+      actors, messages: [first, reply, ...(sectioned ? [reply] : [])], notes: [], activationEvents: [], boxes: [],
+      blocks: [{ type: kind, label, startIndex: 1, endIndex: sectioned ? 2 : 1, dividers: sectioned ? [{ index: 2, label: sectionLabel }] : [] }],
+      editingModel: body,
+    }
+    const original = structuredClone(model)
+    const publicView = sourceView('sequence', model)
+    if (sectioned) {
+      const entries = publicView.getMessages()
+      // These positions and labels are asserted by the pinned upstream tests.
+      expect(entries.map((m: any) => [m.message, m.type])).toEqual([
+        [first.label, 5], [label, start], [reply.label, 6], [sectionLabel, section], [reply.label, 6], ['', end],
+      ])
+      expect(entries.map((m: any) => m.id)).toEqual(['0', '1', '2', '3', '4', '5'])
+      expect(() => entries[1].wrap).toThrow('unsupported:')
+      const note = { actorIds: ['Alice'], text: 'meaningful', position: 'over', afterIndex: 0 }
+      const ambiguous = sourceView('sequence', { ...model, notes: [note] })
+      expect(ambiguous.getNotes()[0].message).toBe('meaningful')
+      expect(() => ambiguous.getMessages()).toThrow('order of the note and block marker')
+      expect(() => sourceView('sequence', { ...model, messages: model.messages.map(m => ({ ...m, number: 1 })) }).getMessages()).toThrow('autonumber')
+      expect(() => sourceView('sequence', { ...model, messages: model.messages.map(m => ({ ...m, startHead: 'unknown' })) }).getMessages()).toThrow('gap:')
+      if (kind === 'alt' && labelled) {
+        // Actual public main6f parse of the same source with `loop outer` / `end`
+        // around alt; independently checked against pinned Mermaid getMessages.
+        const nested = {
+          ...model, blocks: [...model.blocks, { type: 'loop', label: 'outer', startIndex: 1, endIndex: 2, dividers: [] }],
+          editingModel: { ...body, statements: [body.statements[0], { kind: 'fragment', fragment: {
+            fragmentKind: 'loop', label: 'outer', branches: [{ messages: [], statements: [{ before: 0, statement: fragment }] }],
+          } }] },
+        }
+        const nestedOriginal = structuredClone(nested)
+        const entries = sourceView('sequence', nested).getMessages()
+        expect(entries.map((m: any) => [m.message, m.type])).toEqual([
+          [first.label, 5], ['outer', 10], [label, 12], [reply.label, 6], [sectionLabel, 13], [reply.label, 6], ['', 14], ['', 11],
+        ])
+        expect(() => entries[1].wrap).toThrow('unsupported:')
+        expect(() => sourceView('sequence', { ...nested, notes: [note] }).getMessages()).toThrow('order of the note and block marker')
+        expect(nested).toEqual(nestedOriginal)
+      }
+    } else {
+      // The three existing unknown cases retain their render-index ambiguity.
+      expect(() => publicView.getMessages()).toThrow('empty block and a block holding one message')
+    }
+    // Opaque editing content itself is still unsupported without a render model.
+    expect(() => nativeSchemaView('adewale/agentic-mermaid', 'sequence', body, hooks).getMessages()).toThrow('unparsed source lines')
+    expect(model).toEqual(original)
+  }
 })
 
 test('Agentic typed sequence retains notes, lifecycle declarations and nested fragments at their branch positions', () => {

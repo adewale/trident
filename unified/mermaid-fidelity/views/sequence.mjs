@@ -582,7 +582,11 @@ function agenticSource(raw, hooks) {
       return [a.id, messageAt[a[field]]]
     }))
   }
-  const ordered = raw.editingModel && !raw.editingModel.statements.some(s => s.kind === 'opaque-block') ? agentic(raw.editingModel, hooks) : undefined
+  // An opaque line anywhere in the editing tree prevents that tree from proving
+  // the complete message order. Use the render model's existing index checks;
+  // neither discard nor interpret the opaque source to fill its missing facts.
+  const hasOpaque = statement => statement.kind === 'opaque-block' || (statement.kind === 'fragment' && statement.fragment.branches.some(branch => (branch.statements ?? []).some(item => hasOpaque(item.statement))))
+  const ordered = raw.editingModel && !raw.editingModel.statements.some(hasOpaque) ? agentic(raw.editingModel, hooks) : undefined
   return {
     ...messageView(() => layout().list, noWrap, hooks),
     ...(ordered ? { getMessages: ordered.getMessages } : {}),
