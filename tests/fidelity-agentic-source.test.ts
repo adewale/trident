@@ -132,6 +132,53 @@ test('Agentic typed sequence retains notes, lifecycle declarations and nested fr
   expect(() => direct.getCreatedActors()).toThrow('unsupported:')
 })
 
+test('Agentic typed activations retain top-level and nested statement order without inventing wrapping', () => {
+  // Public agent/core model at 6f11d6d; message order independently read from
+  // Mermaid 12.3.0 getMessages for the same source. Only unused raw lines omitted.
+  const editingModel = {
+    kind: 'sequence', participants: [{ id: 'A', label: 'A', kind: 'participant' }, { id: 'B', label: 'B', kind: 'participant' }],
+    messages: [{ from: 'A', to: 'B', text: 'after', style: 'sync', arrow: '->>' }],
+    statements: [
+      { kind: 'participant', ref: 0 }, { kind: 'participant', ref: 1 },
+      { kind: 'activation', actorId: 'A', activate: true, rawLine: 'activate A' },
+      { kind: 'fragment', fragment: { fragmentKind: 'loop', label: 'outer', branches: [{
+        messages: [{ from: 'A', to: 'B', text: 'first', style: 'sync', arrow: '->>' }],
+        statements: [
+          { before: 0, statement: { kind: 'note', position: 'over', actorIds: ['A'], text: 'before' } },
+          { before: 0, statement: { kind: 'activation', actorId: 'B', activate: true, rawLine: '  activate B' } },
+          { before: 1, statement: { kind: 'fragment', fragment: { fragmentKind: 'opt', label: 'inner', branches: [{
+            messages: [{ from: 'B', to: 'A', text: 'reply', style: 'reply', arrow: '-->>' }],
+            statements: [
+              { before: 0, statement: { kind: 'activation', actorId: 'B', activate: false, rawLine: '    deactivate B' } },
+              { before: 0, statement: { kind: 'activation', actorId: 'B', activate: true, rawLine: '    activate B' } },
+            ],
+          }] } } },
+          { before: 1, statement: { kind: 'activation', actorId: 'B', activate: false, rawLine: '  deactivate B' } },
+        ],
+      }] } },
+      { kind: 'activation', actorId: 'A', activate: false, rawLine: 'deactivate A' },
+      { kind: 'message', ref: 0 },
+    ],
+  }
+  const original = structuredClone(editingModel)
+  for (const view of [sourceView('sequence', { editingModel }), nativeSchemaView('adewale/agentic-mermaid', 'sequence', editingModel, hooks)]) {
+    const entries = view.getMessages()
+    expect(entries.map((m: any) => [m.from, m.to, m.message, m.type])).toEqual([
+      ['A', undefined, '', 17], [undefined, undefined, 'outer', 10], ['A', 'A', 'before', 2],
+      ['B', undefined, '', 17], ['A', 'B', 'first', 0], [undefined, undefined, 'inner', 15],
+      ['B', undefined, '', 18], ['B', undefined, '', 17], ['B', 'A', 'reply', 1],
+      [undefined, undefined, '', 16], ['B', undefined, '', 18], [undefined, undefined, '', 11],
+      ['A', undefined, '', 18], ['A', 'B', 'after', 0],
+    ])
+    expect(entries.map((m: any) => m.id)).toEqual(Array.from({ length: 14 }, (_, i) => String(i)))
+    for (const index of [0, 3, 6, 7, 10, 12]) {
+      expect([entries[index].activate, entries[index].centralConnection]).toEqual([false, 0])
+      expect(() => entries[index].wrap).toThrow('unsupported:')
+    }
+  }
+  expect(editingModel).toEqual(original)
+})
+
 test('Agentic sequence preserves same-slot empty fragments and refuses an unbound native branch index', () => {
   const fragment = (label: string) => ({ kind: 'fragment', fragment: { fragmentKind: 'loop', label, branches: [{ messages: [] }] } })
   const branch = { messages: [], statements: [{ before: 0, statement: fragment('one') }, { before: 0, statement: fragment('two') }] }

@@ -464,10 +464,10 @@ function vitepress(raw, hooks) {
 
 // ---------------------------------------------------------------------------------------
 // agentic-mermaid SequenceBody: statements in order (participant, message, actor-links,
-// fragment, note, create, destroy, opaque-block). A branch's statements carry `before`
+// fragment, note, activation, create, destroy, opaque-block). A branch's statements carry `before`
 // indexes into its own messages, including nested fragments. Older bodies have only
-// branch.messages. Notes and lifecycle declarations are typed in reviewed 0.5.7;
-// activations, title, box and properties may still be opaque source, never reparsed here.
+// branch.messages. Reviewed 0.5.7 bodies carry typed notes, lifecycle declarations
+// and, in later revisions, activations. Opaque source is never reparsed here.
 const AGENTIC_ARROW = {
   '->>': 'SOLID', '-->>': 'DOTTED', '->': 'SOLID_OPEN', '-->': 'DOTTED_OPEN', '-x': 'SOLID_CROSS', '--x': 'DOTTED_CROSS', '-)': 'SOLID_POINT', '--)': 'DOTTED_POINT', '<<->>': 'BIDIRECTIONAL_SOLID', '<<-->>': 'BIDIRECTIONAL_DOTTED',
   '-|\\': 'SOLID_TOP', '-|/': 'SOLID_BOTTOM', '-\\\\': 'STICK_TOP', '-//': 'STICK_BOTTOM', '/|-': 'SOLID_ARROW_TOP_REVERSE', '\\|-': 'SOLID_ARROW_BOTTOM_REVERSE', '//-': 'STICK_ARROW_TOP_REVERSE', '\\\\-': 'STICK_ARROW_BOTTOM_REVERSE',
@@ -503,6 +503,7 @@ function agentic(raw, hooks) {
   const statementEntries = statement => {
     if (statement.kind === 'participant' || statement.kind === 'actor-links') return []
     if (statement.kind === 'message') return message(raw.messages[statement.ref])
+    if (statement.kind === 'activation') return [withAbsent(marker(statement.activate ? views.SEQ.ACTIVE_START : views.SEQ.ACTIVE_END, '', statement.actorId), noWrap)]
     // Mermaid's message list has no lifecycle entry. The source-model view
     // below reads its actual bound message indexes separately.
     if (statement.kind === 'create' || statement.kind === 'destroy') return []
